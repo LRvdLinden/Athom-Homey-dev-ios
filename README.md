@@ -88,7 +88,7 @@ The TV app shows a dashboard that refreshes every 5 minutes, plus My Apps, Organ
 ## Building
 
 1. Open `HomeyDevTools.xcodeproj` in **Xcode 16 or later**.
-2. Select your **Team** under *Signing & Capabilities* for all three targets: **HomeyDevTools**, **HomeyDevToolsWidget** and **HomeyDevToolsTV**. The bundle IDs are `nl.lrvdlinden.homeydevtools` and `nl.lrvdlinden.homeydevtools.widgets`. Xcode registers the App Group automatically.
+2. Select your **Team** under *Signing & Capabilities* for all three targets: **HomeyDevTools**, **HomeyDevToolsWidget** and **HomeyDevToolsTV**. The bundle IDs are `nl.lrvdlinden.homeydevtools` (iPhone, iPad, Mac and Apple TV share it, so it is one App Store app with universal purchase) and `nl.lrvdlinden.homeydevtools.widgets`. Xcode registers the App Group automatically.
 3. Choose an iPhone or simulator and press ▶︎.
 
 There are no third-party dependencies: only SwiftUI, Charts, WebKit and CryptoKit.
