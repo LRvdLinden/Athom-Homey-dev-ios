@@ -57,4 +57,4 @@ De app praat met deze endpoints:
 
 ## Status
 
-Versie 1.0.0 is zonder compiler gebouwd en is nog niet in Xcode gecompileerd. Meld buildfouten graag via een issue.
+Versie 1.1.0: nieuw Apple Developer-stijl icoon (witte Homey-ring), inlogscherm in de vertrouwde blauwe blueprint-stijl en een draaiend Homey-logo op het splashscreen.

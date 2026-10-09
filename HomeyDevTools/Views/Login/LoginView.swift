@@ -1,7 +1,8 @@
 import SwiftUI
 import WebKit
 
-/// Welcome screen (no account yet) — also reused as "Account toevoegen".
+/// Welcome screen (v1 look: blue blueprint background, app icon, white button).
+/// Also reused as "Account toevoegen".
 struct LoginView: View {
     var isAddingAccount = false
     @Environment(AuthManager.self) private var auth
@@ -11,69 +12,75 @@ struct LoginView: View {
     @State private var showPAT = false
 
     var body: some View {
-        ZStack(alignment: .top) {
-            WaveBackdrop(height: 360)
+        ZStack {
+            BlueprintBackground().ignoresSafeArea()
 
-            VStack(spacing: 0) {
+            VStack(spacing: 28) {
                 if isAddingAccount {
                     HStack {
                         Spacer()
                         Button { dismiss() } label: {
-                            Image(systemName: "xmark").font(.headline).padding(10).background(.ultraThinMaterial, in: Circle())
+                            Image(systemName: "xmark").font(.headline).foregroundStyle(.white)
+                                .padding(10).background(.white.opacity(0.18), in: Circle())
                         }
-                        .foregroundStyle(.primary)
                     }
-                    .padding(.horizontal)
-                }
-                Spacer(minLength: 40)
-
-                VStack(spacing: 22) {
-                    HStack(spacing: 12) {
-                        HomeyLogo(size: 40)
-                        Text("Developer Tools").font(.system(size: 26, weight: .bold))
-                    }
-
-                    VStack(spacing: 8) {
-                        Text(isAddingAccount ? "Account toevoegen" : "Develop for Homey")
-                            .font(.system(size: 30, weight: .regular))
-                        Text("Je apps, builds, crashes, organisaties en Homeys – overal bij de hand.")
-                            .font(.subheadline)
-                            .foregroundStyle(Theme.textSecondary)
-                            .multilineTextAlignment(.center)
-                    }
-
-                    VStack(spacing: 12) {
-                        Button { showWebLogin = true } label: {
-                            HStack(spacing: 10) {
-                                HomeyLogo(size: 22)
-                                Text("Inloggen met Homey")
-                            }
-                        }
-                        .buttonStyle(GradientPillButtonStyle())
-
-                        Button { showPAT = true } label: {
-                            Label("Personal Access Token", systemImage: "key.fill")
-                        }
-                        .buttonStyle(OutlinePillButtonStyle())
-                    }
-
-                    Text("Log in met het e-mailadres en wachtwoord van je Homey-account. Je kunt meerdere accounts toevoegen en snel wisselen.")
-                        .font(.caption)
-                        .foregroundStyle(Theme.textSecondary)
-                        .multilineTextAlignment(.center)
-                }
-                .homeyCard(padding: 24)
-                .padding(.horizontal, 20)
-                .frame(maxWidth: 480)
-
-                if !isAddingAccount && !auth.accounts.isEmpty {
-                    Text("\(auth.accounts.count) opgeslagen account(s)").font(.caption).foregroundStyle(.secondary).padding(.top, 12)
                 }
                 Spacer()
+                Image("Logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 132, height: 132)
+                    .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                    .shadow(color: .black.opacity(0.3), radius: 20, y: 10)
+
+                VStack(spacing: 8) {
+                    Text(isAddingAccount ? "Account toevoegen" : "Homey Developer Tools")
+                        .font(.largeTitle.weight(.bold))
+                        .multilineTextAlignment(.center)
+                    Text("Je apps, builds, crashes, organisaties en Homeys – overal bij de hand.")
+                        .font(.callout)
+                        .multilineTextAlignment(.center)
+                        .opacity(0.85)
+                }
+                .foregroundStyle(.white)
+                .padding(.horizontal)
+
+                Spacer()
+
+                VStack(spacing: 12) {
+                    Button { showWebLogin = true } label: {
+                        HStack(spacing: 10) {
+                            HomeyLogo(size: 22)
+                            Text("Inloggen met Homey").font(.headline)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(.white, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .foregroundStyle(.black)
+                    }
+
+                    Button { showPAT = true } label: {
+                        Label("Inloggen met Personal Access Token", systemImage: "key.fill")
+                            .font(.subheadline.weight(.semibold))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(.white.opacity(0.15), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                            .foregroundStyle(.white)
+                    }
+
+                    Text(isAddingAccount
+                         ? "Log in met een ander Homey-account. Je kunt daarna snel wisselen."
+                         : "Gebruik het e-mailadres en wachtwoord van je Homey-account.")
+                        .font(.footnote)
+                        .foregroundStyle(.white.opacity(0.8))
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 4)
+                }
+                .padding(.bottom, 24)
             }
-            .padding(.top, 8)
+            .padding(.horizontal, 24)
+            .frame(maxWidth: 520)
         }
-        .background(Theme.background.ignoresSafeArea())
         .sheet(isPresented: $showWebLogin) {
             WebLoginSheet { if isAddingAccount { dismiss() } }
         }

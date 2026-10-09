@@ -155,43 +155,76 @@ struct WaveShape: Shape {
     }
 }
 
-/// The official Homey logo (asset "HomeyLogo"), optionally spinning.
+/// The Homey logo, optionally spinning. Rotation is driven by TimelineView so it
+/// always animates (also right at app launch, where onAppear animations can be dropped).
 struct HomeyLogo: View {
     var size: CGFloat = 40
     var spinning = false
-    @State private var angle: Double = 0
+    /// "HomeyLogo" = colour logo, "HomeyGlyph" = white Apple-Developer-style version.
+    var asset = "HomeyLogo"
+    var secondsPerTurn: Double = 1.4
 
     var body: some View {
-        Image("HomeyLogo")
+        if spinning {
+            TimelineView(.animation) { ctx in
+                let t = ctx.date.timeIntervalSinceReferenceDate
+                image.rotationEffect(.degrees(t.truncatingRemainder(dividingBy: secondsPerTurn) / secondsPerTurn * 360))
+            }
+        } else {
+            image
+        }
+    }
+
+    private var image: some View {
+        Image(asset)
             .resizable()
             .scaledToFit()
             .frame(width: size, height: size)
-            .rotationEffect(.degrees(angle))
-            .onAppear {
-                guard spinning else { return }
-                withAnimation(.linear(duration: 1.3).repeatForever(autoreverses: false)) { angle = 360 }
-            }
             .accessibilityLabel("Homey")
     }
 }
 
-/// Animated splash that continues seamlessly from the static launch screen
-/// (same background colour and logo position), with the logo spinning.
+/// Splash in the style of the login screen: blueprint background, the white
+/// Homey ring spinning where the launch screen showed it, then the title.
 struct SplashView: View {
     @State private var showTitle = false
 
     var body: some View {
         ZStack {
-            Color("LaunchBackground").ignoresSafeArea()
-            HomeyLogo(size: 110, spinning: true)
+            BlueprintBackground().ignoresSafeArea()
+            HomeyLogo(size: 120, spinning: true, asset: "HomeyGlyph", secondsPerTurn: 1.2)
+                .shadow(color: .black.opacity(0.25), radius: 16, y: 8)
             VStack(spacing: 6) {
-                Text("Developer Tools").font(.system(size: 24, weight: .bold))
-                Text("for Homey").font(.subheadline).foregroundStyle(Theme.textSecondary)
+                Text("Homey Developer Tools").font(.title2.weight(.bold))
+                Text("Laden…").font(.subheadline).opacity(0.8)
             }
-            .offset(y: 110)
+            .foregroundStyle(.white)
+            .offset(y: showTitle ? 120 : 128)
             .opacity(showTitle ? 1 : 0)
-            .offset(y: showTitle ? 0 : 8)
         }
         .onAppear { withAnimation(.easeOut(duration: 0.5).delay(0.15)) { showTitle = true } }
+    }
+}
+
+/// Blue Apple-Developer blueprint background (grid + construction circles).
+struct BlueprintBackground: View {
+    var body: some View {
+        GeometryReader { geo in
+            let w = geo.size.width, h = geo.size.height
+            ZStack {
+                LinearGradient(colors: [Color(red: 0.28, green: 0.67, blue: 1), Color(red: 0.07, green: 0.38, blue: 0.91)],
+                               startPoint: .top, endPoint: .bottom)
+                Path { p in
+                    let step: CGFloat = 44
+                    var x: CGFloat = 0
+                    while x < w { p.move(to: .init(x: x, y: 0)); p.addLine(to: .init(x: x, y: h)); x += step }
+                    var y: CGFloat = 0
+                    while y < h { p.move(to: .init(x: 0, y: y)); p.addLine(to: .init(x: w, y: y)); y += step }
+                }
+                .stroke(.white.opacity(0.08), lineWidth: 1)
+                Circle().stroke(.white.opacity(0.12), lineWidth: 1).frame(width: w * 0.9).position(x: w / 2, y: h * 0.32)
+                Circle().stroke(.white.opacity(0.10), lineWidth: 1).frame(width: w * 1.4).position(x: w / 2, y: h * 0.32)
+            }
+        }
     }
 }
