@@ -74,6 +74,8 @@ struct AccountView: View {
             }
             .cardRows()
 
+            NotificationsSection()
+
             AppleTVSection()
 
             if !store.organizations.isEmpty {
@@ -307,6 +309,81 @@ struct TVLinkView: View {
             sender.send(accounts, to: tv, code: trimmed)
         } catch {
             prepareError = error.localizedDescription
+        }
+    }
+}
+
+
+/// Account → Meldingen: notifications for every status change of your apps.
+struct NotificationsSection: View {
+    @Environment(AuthManager.self) private var auth
+    @Environment(\.openURL) private var openURL
+    @AppStorage(StatusNotifier.enabledKey) private var enabled = false
+    @State private var busy = false
+    @State private var error: String?
+
+    var body: some View {
+        Section {
+            Toggle(isOn: Binding(get: { enabled }, set: { on in Task { await apply(on) } })) {
+                HStack {
+                    Label("Statusmeldingen", systemImage: "bell.badge")
+                    if busy { Spacer(); ProgressView() }
+                }
+            }
+            .disabled(busy)
+
+            if enabled {
+                ForEach(StatusNotifier.Kind.allCases) { (kind: StatusNotifier.Kind) in
+                    KindToggle(kind: kind)
+                }
+                Button { StatusNotifier.sendTest() } label: {
+                    Label("Testmelding sturen", systemImage: "paperplane")
+                }
+            }
+            if let error {
+                Text(error).font(.footnote).foregroundStyle(enabled ? .orange : .red)
+                if !enabled {
+                    Button("Open Instellingen") {
+                        if let url = URL(string: UIApplication.openNotificationSettingsURLString) { openURL(url) }
+                    }
+                    .font(.footnote)
+                }
+            }
+        } header: {
+            Text("Meldingen")
+        } footer: {
+            Text("Je krijgt een melding als een build van een van je apps van status verandert. De app controleert dat bij elke verversing en op de achtergrond; iOS bepaalt hoe vaak (meestal elk kwartier tot een paar uur). Laat Achtergrondvernieuwen aan staan voor deze app.")
+        }
+        .cardRows()
+    }
+
+    private func apply(_ on: Bool) async {
+        error = nil
+        guard on else { StatusNotifier.disable(); enabled = false; return }
+        busy = true
+        defer { busy = false }
+        do {
+            if let warning = try await StatusNotifier.enable(auth: auth) { self.error = warning }
+            enabled = true
+        } catch {
+            enabled = false
+            self.error = error.localizedDescription
+        }
+    }
+}
+
+private struct KindToggle: View {
+    let kind: StatusNotifier.Kind
+    @AppStorage private var isOn: Bool
+
+    init(kind: StatusNotifier.Kind) {
+        self.kind = kind
+        _isOn = AppStorage(wrappedValue: true, kind.key)
+    }
+
+    var body: some View {
+        Toggle(isOn: $isOn) {
+            Label(kind.title, systemImage: kind.icon)
         }
     }
 }

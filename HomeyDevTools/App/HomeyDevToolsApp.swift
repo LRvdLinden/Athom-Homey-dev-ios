@@ -1,10 +1,16 @@
 import SwiftUI
+import UserNotifications
 
 @main
 struct HomeyDevToolsApp: App {
     @State private var auth = AuthManager()
     @State private var portfolio = PortfolioStore()
     @AppStorage("appearance") private var appearance: AppearanceSetting = .system
+    @Environment(\.scenePhase) private var scenePhase
+
+    init() {
+        UNUserNotificationCenter.current().delegate = NotificationPresenter.shared
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -13,6 +19,14 @@ struct HomeyDevToolsApp: App {
                 .environment(portfolio)
                 .preferredColorScheme(appearance.colorScheme)
                 .tint(Theme.accent)
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .background { StatusNotifier.scheduleBackgroundCheck() }
+        }
+        // Background App Refresh: compare app statuses and notify on changes.
+        .backgroundTask(.appRefresh(StatusNotifier.taskID)) {
+            await StatusNotifier.scheduleBackgroundCheck()
+            await StatusNotifier.checkAll()
         }
         .commands {
             SidebarCommands()
@@ -81,6 +95,7 @@ struct RootView: View {
             withAnimation(.easeInOut(duration: 0.45)) { showSplash = false }
         }
         .onChange(of: auth.accounts.map(\.id)) { _, _ in
+            if StatusNotifier.isEnabled { Task { try? await StatusNotifier.storeTokens(auth: auth) } }
             guard AppleTVSharing.isEnabled else { return }
             Task { _ = try? await AppleTVSharing.publish(auth: auth) }
         }
@@ -271,6 +286,10 @@ final class PortfolioStore {
             orgError = error.localizedDescription
         }
         lastLoaded = Date()
+        if let accountID = auth.activeID {
+            StatusNotifier.check(apps: allApps, accountID: accountID, accountName: auth.displayName,
+                                 multipleAccounts: auth.accounts.count > 1)
+        }
         await WidgetSync.update(apps: allApps, accountName: auth.displayName, auth: auth)
     }
 }

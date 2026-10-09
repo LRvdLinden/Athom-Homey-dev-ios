@@ -40,7 +40,7 @@ enum AppleTVSharing {
 
     /// PAT accounts already have one; web accounts ask Athom for theirs
     /// (`GET /user/me/pat/apps`, the "Reveal" button in Developer Tools → My Account).
-    private static func personalAccessToken(for acc: StoredAccount, auth: AuthManager) async throws -> String {
+    static func personalAccessToken(for acc: StoredAccount, auth: AuthManager) async throws -> String {
         switch acc.credential {
         case .pat(let p): return p
         case .web(let session):

@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/latest-1.3.0-0082FA?style=for-the-badge" alt="Latest version 1.3.0">
+  <img src="https://img.shields.io/badge/latest-1.3.1-0082FA?style=for-the-badge" alt="Latest version 1.3.1">
   <img src="https://img.shields.io/badge/iOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iOS 17+">
   <img src="https://img.shields.io/badge/iPadOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iPadOS 17+">
   <img src="https://img.shields.io/badge/tvOS-17%2B-111111?style=for-the-badge&logo=appletv&logoColor=white" alt="tvOS 17+">
@@ -27,7 +27,8 @@
 
 | Version | Highlights | Platforms |
 |:--|:--|:--|
-| [**1.3.0**](#130) | Apple TV pairing over Wi-Fi, Siri Remote scrolling, Mac version removed | 📱 iPhone · 📱 iPad · 📺 Apple TV |
+| [**1.3.1**](#131) | Status notifications for every build change | 📱 iPhone · 📱 iPad |
+| [1.3.0](#130) | Apple TV pairing over Wi-Fi, Siri Remote scrolling, Mac version removed | 📱 iPhone · 📱 iPad · 📺 Apple TV |
 | [1.2.9](#129) | Apple TV sign-in without iCloud, Mac sign-in crash fix | 📱 · 📺 · 💻 |
 | [1.2.8](#128) | Mac app (Mac Catalyst) | 📱 · 📺 · 💻 |
 | [1.2.7](#127) | Apple TV app | 📱 · 📺 |
@@ -44,9 +45,31 @@
 
 ---
 
+## 1.3.1
+
+<img src="https://img.shields.io/badge/build-16-555?style=flat-square" alt="Build 16"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+
+**🔔 Status notifications.** Get a notification whenever a build of one of your apps changes status.
+
+| Notification | When |
+|:--|:--|
+| 📦 **New build (draft)** | A new build was uploaded |
+| 🧪 **In Test** | A build was published to Test |
+| ⏳ **Submitted for certification** | A build is in review |
+| ✅ **Approved** | Athom approved the build |
+| ⛔️ **Rejected** | Athom rejected the build |
+| 📡 **Live** | A build was published to Live |
+
+- ✨ Turn them on under **Account → Notifications**, and choose per status which ones you want. A **Send test notification** button shows what they look like.
+- ✨ Works for all your accounts and organizations; with several accounts the account name is shown in the notification.
+- ✨ Checks run on every refresh and in the background (Background App Refresh). iOS decides how often, usually every 15 minutes to a few hours.
+- ℹ️ These are local notifications: the app checks the status itself, so no server is involved. Background checks use each account's Personal Access Token, stored in the iOS Keychain.
+
+---
+
 ## 1.3.0
 
-<img src="https://img.shields.io/badge/build-15-555?style=flat-square" alt="Build 15"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+<img src="https://img.shields.io/badge/build-15-555?style=flat-square" alt="Build 15">
 
 **iPhone, iPad and Apple TV, focused.** This release brings together all the Apple TV work from 1.2.9 and drops the Mac version.
 
