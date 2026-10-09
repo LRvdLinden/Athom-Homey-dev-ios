@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/latest-1.3.1-0082FA?style=for-the-badge" alt="Latest version 1.3.1">
+  <img src="https://img.shields.io/badge/latest-1.3.2-0082FA?style=for-the-badge" alt="Latest version 1.3.2">
   <img src="https://img.shields.io/badge/iOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iOS 17+">
   <img src="https://img.shields.io/badge/iPadOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iPadOS 17+">
   <img src="https://img.shields.io/badge/tvOS-17%2B-111111?style=for-the-badge&logo=appletv&logoColor=white" alt="tvOS 17+">
@@ -27,7 +27,8 @@
 
 | Version | Highlights | Platforms |
 |:--|:--|:--|
-| [**1.3.1**](#131) | Status notifications for every build change | 📱 iPhone · 📱 iPad |
+| [**1.3.2**](#132) | Direct push notifications through OneSignal | 📱 iPhone · 📱 iPad |
+| [1.3.1](#131) | Status notifications for every build change | 📱 iPhone · 📱 iPad |
 | [1.3.0](#130) | Apple TV pairing over Wi-Fi, Siri Remote scrolling, Mac version removed | 📱 iPhone · 📱 iPad · 📺 Apple TV |
 | [1.2.9](#129) | Apple TV sign-in without iCloud, Mac sign-in crash fix | 📱 · 📺 · 💻 |
 | [1.2.8](#128) | Mac app (Mac Catalyst) | 📱 · 📺 · 💻 |
@@ -45,9 +46,28 @@
 
 ---
 
+## 1.3.2
+
+<img src="https://img.shields.io/badge/build-17-555?style=flat-square" alt="Build 17"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest"> <img src="https://img.shields.io/badge/push-OneSignal-E54B4D?style=flat-square" alt="OneSignal">
+
+**⚡️ Direct push notifications.** Status changes now arrive as real push notifications, also when the app is closed.
+
+```
+GitHub Actions (every 10 min) ──► Athom Apps API ──► status changed? ──► OneSignal ──► 📱
+```
+
+- ✨ New toggle **Account → Notifications → Direct via push (OneSignal)**.
+- ✨ A scheduled GitHub Actions job (`.github/workflows/status-push.yml`) checks all your apps every 10 minutes and sends a push for: 📦 draft · 🧪 Test · ⏳ in review · ✅ approved · ⛔️ rejected · 📡 Live.
+- ✨ Your per-status choices are respected: the device is tagged per status, and the job only targets devices that want that status.
+- ✨ Multiple accounts: each device is tagged per Athom account.
+- 🔄 With push on, the on-device checks from 1.3.1 no longer show their own notifications, so you never get the same one twice.
+- 🔒 The OneSignal REST API key and your Personal Access Tokens live only in GitHub Actions secrets, never in the app or the repository.
+
+---
+
 ## 1.3.1
 
-<img src="https://img.shields.io/badge/build-16-555?style=flat-square" alt="Build 16"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+<img src="https://img.shields.io/badge/build-16-555?style=flat-square" alt="Build 16">
 
 **🔔 Status notifications.** Get a notification whenever a build of one of your apps changes status.
 

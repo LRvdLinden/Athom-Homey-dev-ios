@@ -319,7 +319,9 @@ struct NotificationsSection: View {
     @Environment(AuthManager.self) private var auth
     @Environment(\.openURL) private var openURL
     @AppStorage(StatusNotifier.enabledKey) private var enabled = false
+    @AppStorage(PushNotifications.enabledKey) private var pushEnabled = false
     @State private var busy = false
+    @State private var pushBusy = false
     @State private var error: String?
 
     var body: some View {
@@ -332,7 +334,15 @@ struct NotificationsSection: View {
             }
             .disabled(busy)
 
-            if enabled {
+            Toggle(isOn: Binding(get: { pushEnabled }, set: { on in Task { await applyPush(on) } })) {
+                HStack {
+                    Label("Direct via push (OneSignal)", systemImage: "bolt.badge.clock")
+                    if pushBusy { Spacer(); ProgressView() }
+                }
+            }
+            .disabled(pushBusy)
+
+            if enabled || pushEnabled {
                 ForEach(StatusNotifier.Kind.allCases) { (kind: StatusNotifier.Kind) in
                     KindToggle(kind: kind)
                 }
@@ -352,9 +362,23 @@ struct NotificationsSection: View {
         } header: {
             Text("Meldingen")
         } footer: {
-            Text("Je krijgt een melding als een build van een van je apps van status verandert. De app controleert dat bij elke verversing en op de achtergrond; iOS bepaalt hoe vaak (meestal elk kwartier tot een paar uur). Laat Achtergrondvernieuwen aan staan voor deze app.")
+            Text("Statusmeldingen: de app controleert zelf bij elke verversing en op de achtergrond (iOS bepaalt hoe vaak). Direct via push: een server controleert elke paar minuten en stuurt een pushmelding via OneSignal, ook als de app dicht is. Met push aan stuurt de app zelf geen dubbele meldingen.")
         }
         .cardRows()
+    }
+
+    private func applyPush(_ on: Bool) async {
+        error = nil
+        guard on else { PushNotifications.disable(); pushEnabled = false; return }
+        pushBusy = true
+        defer { pushBusy = false }
+        do {
+            try await PushNotifications.enable(auth: auth)
+            pushEnabled = true
+        } catch {
+            pushEnabled = false
+            self.error = error.localizedDescription
+        }
     }
 
     private func apply(_ on: Bool) async {
@@ -374,6 +398,7 @@ struct NotificationsSection: View {
 
 private struct KindToggle: View {
     let kind: StatusNotifier.Kind
+    @Environment(AuthManager.self) private var auth
     @AppStorage private var isOn: Bool
 
     init(kind: StatusNotifier.Kind) {
@@ -385,5 +410,6 @@ private struct KindToggle: View {
         Toggle(isOn: $isOn) {
             Label(kind.title, systemImage: kind.icon)
         }
+        .onChange(of: isOn) { _, _ in PushNotifications.sync(auth: auth) }
     }
 }

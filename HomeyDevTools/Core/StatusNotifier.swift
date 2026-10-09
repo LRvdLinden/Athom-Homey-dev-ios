@@ -172,7 +172,8 @@ enum StatusNotifier {
     }
 
     private static func post(_ kind: Kind, app: DevApp, version: String, accountName: String?) {
-        guard kind.isOn else { return }
+        // With direct push on, the server sends these; avoid doubles.
+        guard kind.isOn, !PushNotifications.isEnabled else { return }
         let content = UNMutableNotificationContent()
         content.title = app.name
         if let accountName { content.subtitle = accountName }

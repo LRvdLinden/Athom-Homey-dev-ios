@@ -3,6 +3,7 @@ import UserNotifications
 
 @main
 struct HomeyDevToolsApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @State private var auth = AuthManager()
     @State private var portfolio = PortfolioStore()
     @AppStorage("appearance") private var appearance: AppearanceSetting = .system
@@ -96,6 +97,7 @@ struct RootView: View {
         }
         .onChange(of: auth.accounts.map(\.id)) { _, _ in
             if StatusNotifier.isEnabled { Task { try? await StatusNotifier.storeTokens(auth: auth) } }
+            PushNotifications.sync(auth: auth)
             guard AppleTVSharing.isEnabled else { return }
             Task { _ = try? await AppleTVSharing.publish(auth: auth) }
         }

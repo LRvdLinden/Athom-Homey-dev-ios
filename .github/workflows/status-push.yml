@@ -1,0 +1,46 @@
+name: Status push
+
+# Checks the build status of your Homey apps every 10 minutes and sends a push
+# through OneSignal when something changed (draft, Test, in review, approved,
+# rejected, Live). Needs the repository secrets HOMEY_PATS and ONESIGNAL_API_KEY.
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: status-push
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore previous status
+        uses: actions/cache/restore@v4
+        with:
+          path: .notify-state
+          key: notify-state-${{ github.run_id }}
+          restore-keys: notify-state-
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check apps and send pushes
+        run: node notify/notify.mjs
+        env:
+          HOMEY_PATS: ${{ secrets.HOMEY_PATS }}
+          ONESIGNAL_API_KEY: ${{ secrets.ONESIGNAL_API_KEY }}
+          ONESIGNAL_APP_ID: ${{ vars.ONESIGNAL_APP_ID || '23f09f93-060f-4aa4-bde2-d11cf1e49be0' }}
+
+      - name: Save status
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .notify-state
+          key: notify-state-${{ github.run_id }}

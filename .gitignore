@@ -5,3 +5,5 @@ DerivedData/
 build/
 *.ipa
 *.dSYM.zip
+
+.notify-state/

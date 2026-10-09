@@ -69,6 +69,27 @@ For each account the iPhone uses its Personal Access Token (like *Reveal* in Dev
 
 The TV app shows a dashboard that refreshes every 5 minutes, plus My Apps, Organizations and Account. It is read-only, and you scroll through every screen with the Siri Remote.
 
+## Push notifications
+
+There are two ways to get status notifications (**Account → Notifications**):
+
+| | On this device | Direct via push (OneSignal) |
+|:--|:--|:--|
+| How | The app checks when it refreshes and with Background App Refresh | A GitHub Actions job checks every 10 minutes and sends a push |
+| Delay | Minutes to hours (iOS decides) | About 10 minutes |
+| Setup | None | One-time, see below |
+
+**One-time setup for direct push**
+
+1. In OneSignal, add your Apple Push key (*Settings → Platforms → Apple iOS*).
+2. In this repository, go to **Settings → Secrets and variables → Actions** and add two secrets:
+   - `ONESIGNAL_API_KEY`: your OneSignal REST API key (*OneSignal → Settings → Keys & IDs*).
+   - `HOMEY_PATS`: the Personal Access Token of each Homey account to watch (*Developer Tools → My Account*), one per line.
+3. Under **Actions → Status push**, click **Run workflow** once. The first run only records the current status; after that, every change sends a push.
+4. In the app, turn on **Direct via push (OneSignal)** and allow notifications.
+
+The OneSignal App ID is built into the app. The API key and tokens stay in GitHub secrets. GitHub pauses scheduled workflows after 60 days without activity in the repository; re-enable it under **Actions** if that happens.
+
 ## Signing in
 
 **Sign in with Homey.** Use the email address and password of your Homey account, on Athom's own login page through Developer Tools. You don't need to set up an API client or secret.
@@ -110,7 +131,7 @@ Open `Localizable.xcstrings` in Xcode, click **+** to add a language and transla
 
 ## What's new
 
-**1.3.1** adds 🔔 **status notifications**: get notified when a build of one of your apps is uploaded, put in Test, submitted for certification, approved, rejected or published to Live. Turn them on under **Account → Notifications**.
+**1.3.2** adds ⚡️ **direct push notifications** through OneSignal: get notified within minutes when a build is uploaded, put in Test, submitted, approved, rejected or published to Live, even when the app is closed. See [Push notifications](#push-notifications) for the one-time setup.
 
 📜 See the full history in **[CHANGELOG.md](CHANGELOG.md)**.
 
