@@ -5,10 +5,10 @@ import Foundation
 @MainActor
 final class HomeyClient {
     let homey: HomeyRef
-    private let auth: AuthManager
+    private let auth: any TokenProvider
     private var session: String?
 
-    init(homey: HomeyRef, auth: AuthManager) {
+    init(homey: HomeyRef, auth: any TokenProvider) {
         self.homey = homey
         self.auth = auth
     }

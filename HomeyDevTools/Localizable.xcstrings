@@ -265,6 +265,28 @@
         }
       }
     },
+    "%lld account(s) gedeeld met Apple TV": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld Konto/Konten mit Apple TV geteilt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld account(s) shared with Apple TV"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld compte(s) partagé(s) avec l'Apple TV"
+          }
+        }
+      }
+    },
     "%lld apps": {
       "localizations": {
         "de": {
@@ -1084,6 +1106,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Appareils (%lld)"
+          }
+        }
+      }
+    },
+    "Apple TV": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple TV"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple TV"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple TV"
           }
         }
       }
@@ -2034,6 +2078,28 @@
         }
       }
     },
+    "Delen met Apple TV": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit Apple TV teilen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share with Apple TV"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partager avec l'Apple TV"
+          }
+        }
+      }
+    },
     "Details": {
       "localizations": {
         "de": {
@@ -2715,6 +2781,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucun Homey"
+          }
+        }
+      }
+    },
+    "Geen Personal Access Token ontvangen.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kein Personal Access Token erhalten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Personal Access Token received."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun Personal Access Token reçu."
           }
         }
       }
@@ -4039,6 +4127,28 @@
         }
       }
     },
+    "Je accounts gaan via je iCloud-sleutelhanger naar de Apple TV-app. Daarvoor gebruikt de app per account je Personal Access Token (zoals ‘Reveal’ in Developer Tools → My Account). Zet uit om ze van je Apple TV te verwijderen.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Konten gelangen über den iCloud-Schlüsselbund zur Apple-TV-App. Dafür wird pro Konto dein Personal Access Token verwendet (wie ‚Reveal‘ in Developer Tools → My Account). Ausschalten entfernt sie von deinem Apple TV."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your accounts go to the Apple TV app through iCloud Keychain, using each account's Personal Access Token (like ‘Reveal’ in Developer Tools → My Account). Turn off to remove them from your Apple TV."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos comptes sont transmis à l'app Apple TV via le trousseau iCloud, avec le Personal Access Token de chaque compte (comme « Reveal » dans Developer Tools → My Account). Désactivez pour les retirer de l'Apple TV."
+          }
+        }
+      }
+    },
     "Je apps, builds, crashes, organisaties en Homeys – overal bij de hand.": {
       "localizations": {
         "de": {
@@ -5183,6 +5293,28 @@
         }
       }
     },
+    "Niet meer gedeeld met Apple TV": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht mehr mit Apple TV geteilt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No longer shared with Apple TV"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "N'est plus partagé avec l'Apple TV"
+          }
+        }
+      }
+    },
     "Node %lld": {
       "localizations": {
         "de": {
@@ -5443,6 +5575,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pas encore d'avis"
+          }
+        }
+      }
+    },
+    "Nu bijwerken": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jetzt aktualisieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Update now"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettre à jour"
           }
         }
       }

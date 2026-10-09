@@ -35,11 +35,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A40000000000000000000001 /* HomeyDevToolsTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeyDevToolsTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20000000000000000000001 /* HomeyDevToolsWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HomeyDevToolsWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000001 /* HomeyDevTools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeyDevTools.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		A40000000000000000000002 /* HomeyDevToolsTV */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HomeyDevToolsTV;
+			sourceTree = "<group>";
+		};
+		A50000000000000000000002 /* SharedCore */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SharedCore;
+			sourceTree = "<group>";
+		};
 		A20000000000000000000002 /* HomeyDevToolsWidget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = HomeyDevToolsWidget;
@@ -58,6 +69,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A40000000000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A20000000000000000000003 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -81,6 +99,8 @@
 				A10000000000000000000002 /* HomeyDevTools */,
 				A20000000000000000000002 /* HomeyDevToolsWidget */,
 				A30000000000000000000002 /* Shared */,
+				A50000000000000000000002 /* SharedCore */,
+				A40000000000000000000002 /* HomeyDevToolsTV */,
 				A10000000000000000000005 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +110,7 @@
 			children = (
 				A10000000000000000000001 /* HomeyDevTools.app */,
 				A20000000000000000000001 /* HomeyDevToolsWidget.appex */,
+				A40000000000000000000001 /* HomeyDevToolsTV.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,6 +118,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A40000000000000000000006 /* HomeyDevToolsTV */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A4000000000000000000000B /* Build configuration list for PBXNativeTarget "HomeyDevToolsTV" */;
+			buildPhases = (
+				A40000000000000000000007 /* Sources */,
+				A40000000000000000000003 /* Frameworks */,
+				A40000000000000000000008 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A40000000000000000000002 /* HomeyDevToolsTV */,
+				A50000000000000000000002 /* SharedCore */,
+			);
+			name = HomeyDevToolsTV;
+			packageProductDependencies = (
+			);
+			productName = HomeyDevToolsTV;
+			productReference = A40000000000000000000001 /* HomeyDevToolsTV.app */;
+			productType = "com.apple.product-type.application";
+		};
 		A20000000000000000000006 /* HomeyDevToolsWidget */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A2000000000000000000000B /* Build configuration list for PBXNativeTarget "HomeyDevToolsWidget" */;
@@ -137,6 +181,7 @@
 			fileSystemSynchronizedGroups = (
 				A10000000000000000000002 /* HomeyDevTools */,
 				A30000000000000000000002 /* Shared */,
+				A50000000000000000000002 /* SharedCore */,
 			);
 			name = HomeyDevTools;
 			packageProductDependencies = (
@@ -161,6 +206,9 @@
 					A20000000000000000000006 = {
 						CreatedOnToolsVersion = 16.0;
 					};
+					A40000000000000000000006 = {
+						CreatedOnToolsVersion = 16.0;
+					};
 				};
 			};
 			buildConfigurationList = A1000000000000000000000A /* Build configuration list for PBXProject "HomeyDevTools" */;
@@ -182,11 +230,19 @@
 			targets = (
 				A10000000000000000000006 /* HomeyDevTools */,
 				A20000000000000000000006 /* HomeyDevToolsWidget */,
+				A40000000000000000000006 /* HomeyDevToolsTV */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A40000000000000000000008 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A20000000000000000000008 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -204,6 +260,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A40000000000000000000007 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A20000000000000000000007 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -229,6 +292,68 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		A4000000000000000000000C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HomeyDevToolsTV.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 9;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Homey Dev";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.2.7;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools.tv;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 17.0;
+			};
+			name = Debug;
+		};
+		A4000000000000000000000D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HomeyDevToolsTV.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 9;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Homey Dev";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.2.7;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools.tv;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SUPPORTED_PLATFORMS = "appletvos appletvsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 17.0;
+			};
+			name = Release;
+		};
 		A2000000000000000000000C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -236,7 +361,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = HomeyDevToolsWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -249,7 +374,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 1.2.7;
 				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -266,7 +391,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = HomeyDevToolsWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -279,7 +404,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 1.2.7;
 				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -347,7 +472,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = HomeyDevTools.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -362,7 +487,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 1.2.7;
 				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -378,7 +503,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = HomeyDevTools.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -393,7 +518,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 1.2.7;
 				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -428,6 +553,15 @@
 			buildConfigurations = (
 				A2000000000000000000000C /* Debug */,
 				A2000000000000000000000D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A4000000000000000000000B /* Build configuration list for PBXNativeTarget "HomeyDevToolsTV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A4000000000000000000000C /* Debug */,
+				A4000000000000000000000D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

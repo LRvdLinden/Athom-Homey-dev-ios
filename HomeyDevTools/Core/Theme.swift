@@ -1,9 +1,6 @@
 import SwiftUI
 import UIKit
 
-/// Localised string from Localizable.xcstrings (follows the device / per-app language).
-func L(_ value: String.LocalizationValue) -> String { String(localized: value) }
-
 /// Visual language taken from tools.developer.homey.app (dark #121319 surface,
 /// #222329 cards with 10pt radius, #0082FA accent) and homey.app (blue→cyan pill
 /// buttons, rainbow ring). Every colour has a light and a dark variant.

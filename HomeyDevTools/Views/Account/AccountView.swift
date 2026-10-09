@@ -74,6 +74,8 @@ struct AccountView: View {
             }
             .cardRows()
 
+            AppleTVSection()
+
             if !store.organizations.isEmpty {
                 Section("My Organizations") {
                     ForEach(store.organizations) { org in
@@ -164,5 +166,49 @@ struct APIClientsView: View {
             .refreshable { await reload() }
         }
         .navigationTitle("My API Clients")
+    }
+}
+
+
+/// Share saved accounts with the Apple TV app through iCloud Keychain.
+struct AppleTVSection: View {
+    @Environment(AuthManager.self) private var auth
+    @AppStorage(AppleTVSharing.enabledKey) private var enabled = false
+    @State private var busy = false
+    @State private var status: String?
+    @State private var error: String?
+
+    var body: some View {
+        Section {
+            Toggle(isOn: Binding(get: { enabled }, set: { on in enabled = on; Task { await apply(on) } })) {
+                Label("Delen met Apple TV", systemImage: "appletv")
+            }
+            .disabled(busy)
+            if enabled {
+                Button { Task { await apply(true) } } label: {
+                    HStack { Label("Nu bijwerken", systemImage: "arrow.triangle.2.circlepath"); if busy { Spacer(); ProgressView() } }
+                }
+                .disabled(busy)
+            }
+            if let status { Text(status).font(.footnote).foregroundStyle(.green) }
+            if let error { Text(error).font(.footnote).foregroundStyle(.red) }
+        } header: {
+            Text("Apple TV")
+        } footer: {
+            Text("Je accounts gaan via je iCloud-sleutelhanger naar de Apple TV-app. Daarvoor gebruikt de app per account je Personal Access Token (zoals ‘Reveal’ in Developer Tools → My Account). Zet uit om ze van je Apple TV te verwijderen.")
+        }
+        .cardRows()
+    }
+
+    private func apply(_ on: Bool) async {
+        busy = true; error = nil; status = nil
+        defer { busy = false }
+        guard on else { AppleTVSharing.stop(); status = L("Niet meer gedeeld met Apple TV"); return }
+        do {
+            let n = try await AppleTVSharing.publish(auth: auth)
+            status = L("\(n) account(s) gedeeld met Apple TV")
+        } catch {
+            self.error = error.localizedDescription
+        }
     }
 }

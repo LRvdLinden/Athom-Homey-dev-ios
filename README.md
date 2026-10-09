@@ -2,7 +2,7 @@
 
 # Developer Tools for Homey – iOS
 
-A native SwiftUI app for iPhone and iPad (iOS/iPadOS 17+) that brings [Homey Developer Tools](https://tools.developer.homey.app) to your pocket. It supports multiple accounts, light and dark mode, and four languages.
+A native SwiftUI app for iPhone, iPad and Apple TV (iOS/iPadOS/tvOS 17+) that brings [Homey Developer Tools](https://tools.developer.homey.app) to your pocket. It supports multiple accounts, light and dark mode, and four languages.
 
 > Unofficial app. Homey and the Homey logo are trademarks of Athom B.V.
 
@@ -34,6 +34,13 @@ Add them from the home screen (long-press → **+** → *Homey Dev*):
 
 The app shares a snapshot with the widgets through the App Group `group.nl.lrvdlinden.homeydevtools`. The widgets don't need a login, and their data updates each time the app refreshes.
 
+## Apple TV
+
+1. In the iPhone app, go to **Account → Apple TV** and turn on **Share with Apple TV**. For each account, the app fetches its Personal Access Token (like *Reveal* in Developer Tools → My Account) and stores it in your iCloud Keychain.
+2. Open **Homey Dev** on your Apple TV. It must use the same Apple Account. Your accounts appear automatically.
+
+The TV app shows a dashboard that refreshes every 5 minutes, plus My Apps, Organizations, and Homeys with devices and Insights. It is read-only: there is no web view on tvOS, so sign-in and pairing happen on the iPhone.
+
 ## Signing in
 
 **Sign in with Homey.** Use the email address and password of your Homey account, on Athom's own login page through Developer Tools. You don't need to set up an API client or secret.
@@ -46,7 +53,7 @@ The app shares a snapshot with the widgets through the App Group `group.nl.lrvdl
 ## Building
 
 1. Open `HomeyDevTools.xcodeproj` in **Xcode 16 or later**.
-2. Select your **Team** under *Signing & Capabilities* for both targets, **HomeyDevTools** and **HomeyDevToolsWidget**. The bundle IDs are `nl.lrvdlinden.homeydevtools` and `nl.lrvdlinden.homeydevtools.widgets`. Xcode registers the App Group automatically.
+2. Select your **Team** under *Signing & Capabilities* for all three targets: **HomeyDevTools**, **HomeyDevToolsWidget** and **HomeyDevToolsTV**. The bundle IDs are `nl.lrvdlinden.homeydevtools` and `nl.lrvdlinden.homeydevtools.widgets`. Xcode registers the App Group automatically.
 3. Choose an iPhone or simulator and press ▶︎.
 
 There are no third-party dependencies: only SwiftUI, Charts, WebKit and CryptoKit.
@@ -75,6 +82,7 @@ Open `Localizable.xcstrings` in Xcode, click **+** to add a language and transla
 
 ## Changelog
 
+- **1.2.7:** **Apple TV app (tvOS 17+)**: a full-screen dashboard (installs, Cloud/Local, review, crashes, rating, 60-day trend, top apps) that refreshes every 5 minutes, plus read-only My Apps, Organizations, Homeys (devices and Insights) and account switching. Accounts are shared from the iPhone through iCloud Keychain (*Account → Apple TV*), using each account's Personal Access Token. Includes a layered parallax tvOS icon and Top Shelf images.
 - **1.2.6:** The Developer Tools *Tools* now run **natively in the app** through the Homey Web API: **System** (info, memory, storage, rename, reboot, updates, experiments), **Insights** (logs with charts), **Zigbee** (network, devices with LQI, update nodes), **Z-Wave** (controller, stats, nodes: test frame, heal, re-interview, remove failed), **Bluetooth LE** (peripherals with RSSI), **RF** (433/868 MHz record, replay, emulate), **Infrared** (send Pronto hex), **Images** and **Videos**. Only Pairing still opens the website. The tools are also in the iPad sidebar.
 - **1.2.5:** **iPad support**: on iPad (and in wide Split View) the app shows a Developer Tools-style sidebar with all sections and the Homey tools, and grids adapt to the width. Fuller widgets. They now use real install history from Athom install stats (the same data as Developer Tools), drawn as a Homey Insights-style chart. The **Installs** widget can show one app (long-press → *Edit Widget*); the small size shows your top app by default, with name and icon. New stats: 30-day change, paired devices, suggestions, crashes per app and fastest growers. Large sizes added for **Installs** and **Review & crashes**.
 - **1.2.4:** Three home screen widgets: **Installs** (small and medium), **Top apps** (medium and large) and **Review & crashes** (small and medium). The automated review screen was removed.

@@ -4,7 +4,7 @@ import Foundation
 /// Auth: account token → delegation token with `audience=apps` → Bearer.
 @MainActor
 struct AppsAPI {
-    let auth: AuthManager
+    let auth: any TokenProvider
 
     func request(_ path: String, method: String = "GET", json body: JSON? = nil) async throws -> JSON {
         guard let url = URL(string: Config.appsAPI.absoluteString + path) else {

@@ -52,6 +52,10 @@ struct RootView: View {
             if remaining > 0 { try? await Task.sleep(for: .seconds(remaining)) }
             withAnimation(.easeInOut(duration: 0.45)) { showSplash = false }
         }
+        .onChange(of: auth.accounts.map(\.id)) { _, _ in
+            guard AppleTVSharing.isEnabled else { return }
+            Task { _ = try? await AppleTVSharing.publish(auth: auth) }
+        }
         .onChange(of: auth.activeID) { _, _ in
             portfolio.reset()
             Task { await portfolio.load(auth: auth, force: true) }
