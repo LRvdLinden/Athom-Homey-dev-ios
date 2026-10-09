@@ -1,0 +1,179 @@
+<p align="center">
+  <img src="HomeyDevTools/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png" width="120" alt="Homey Dev app icon">
+</p>
+
+<h1 align="center">Changelog</h1>
+
+<p align="center">
+  Everything that changed in <b>Developer Tools for Homey</b>, newest first.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/latest-1.3.0-0082FA?style=for-the-badge" alt="Latest version 1.3.0">
+  <img src="https://img.shields.io/badge/iOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iOS 17+">
+  <img src="https://img.shields.io/badge/iPadOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iPadOS 17+">
+  <img src="https://img.shields.io/badge/tvOS-17%2B-111111?style=for-the-badge&logo=appletv&logoColor=white" alt="tvOS 17+">
+</p>
+
+<p align="center">
+  <a href="README.md">README</a> ·
+  <a href="https://github.com/LRvdLinden/Athom-Homey-dev-ios/releases">Releases</a> ·
+  <a href="https://github.com/LRvdLinden/Athom-Homey-dev-ios/issues">Report an issue</a>
+</p>
+
+---
+
+### At a glance
+
+| Version | Highlights | Platforms |
+|:--|:--|:--|
+| [**1.3.0**](#130) | Apple TV pairing over Wi-Fi, Siri Remote scrolling, Mac version removed | 📱 iPhone · 📱 iPad · 📺 Apple TV |
+| [1.2.9](#129) | Apple TV sign-in without iCloud, Mac sign-in crash fix | 📱 · 📺 · 💻 |
+| [1.2.8](#128) | Mac app (Mac Catalyst) | 📱 · 📺 · 💻 |
+| [1.2.7](#127) | Apple TV app | 📱 · 📺 |
+| [1.2.6](#126) | Native Homey tools in the app | 📱 |
+| [1.2.5](#125) | iPad support, richer widgets | 📱 |
+| [1.2.4](#124) | Home screen widgets | 📱 |
+| [1.2.3](#123) | Developer actions and member management | 📱 |
+| [1.2.1](#121) | Installs-per-app chart redesign | 📱 |
+| [1.2.0](#120) | Dutch, English, German and French | 📱 |
+| [1.1.0](#110) | New icon, blueprint login, spinning splash | 📱 |
+| [1.0.0](#100) | First release | 📱 |
+
+> **Legend:** ✨ New · 🛠 Fixed · 🔄 Changed · 🗑 Removed
+
+---
+
+## 1.3.0
+
+<img src="https://img.shields.io/badge/build-15-555?style=flat-square" alt="Build 15"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+
+**iPhone, iPad and Apple TV, focused.** This release brings together all the Apple TV work from 1.2.9 and drops the Mac version.
+
+#### 📺 Apple TV
+- ✨ **Pair over Wi-Fi.** The Apple TV shows a 4-digit code. On your iPhone, open **Account → Apple TV → Pair over Wi-Fi**, pick the TV and enter the code. Accounts are sent encrypted over your own network, without iCloud.
+- ✨ **Sign in with a Personal Access Token** directly on the TV. Your iPhone offers its keyboard so you can paste it.
+- ✨ Accounts added on the Apple TV can be removed there: press and hold an account under **Account**.
+- 🛠 The dashboard and app detail now scroll with the Siri Remote.
+- 🛠 The **Menu** button goes back from an app to the list.
+- 🛠 Opening an app from an organization no longer jumps straight back.
+- 🔄 iCloud Keychain sharing still works and now shows an error when saving fails. The TV keeps checking for new accounts.
+- 🗑 The **Homeys** tab is gone from the Apple TV.
+
+#### 📱 iPhone & iPad
+- 🛠 Signing in and switching accounts close the login screen first, then switch, so the app never rebuilds behind an open sheet.
+- 🛠 The iPad sidebar keeps one navigation stack.
+- 🔄 iPhone, iPad and Apple TV share one bundle ID: one App Store app with universal purchase.
+
+#### 🗑 Removed
+- The Mac (Mac Catalyst) version, its entitlements and its icon sizes.
+
+---
+
+## 1.2.9
+
+<img src="https://img.shields.io/badge/build-11%E2%80%9314-555?style=flat-square" alt="Builds 11–14">
+
+- ✨ **Apple TV:** pair over Wi-Fi or enter a Personal Access Token, so sign-in no longer depends on iCloud Keychain.
+- 🛠 **Apple TV:** scrolling with the Siri Remote, back navigation and opening apps from organizations.
+- 🗑 **Apple TV:** Homeys tab removed.
+- 🛠 **Mac:** fixed a crash when signing in or adding an account.
+- 🛠 **Build:** fixed several "unable to type-check this expression in reasonable time" errors in the native Homey tools.
+- 🔄 All platforms share one bundle ID.
+
+---
+
+## 1.2.8
+
+- ✨ **Mac app** (Mac Catalyst, macOS 14+): Developer Tools-style sidebar, all features including email/password sign-in, native Homey tools, right-click menus, **⌘R** to refresh, Help menu links, a macOS-style icon and widgets on the desktop.
+- ✨ README with illustrative screenshots of every platform.
+
+---
+
+## 1.2.7
+
+- ✨ **Apple TV app** (tvOS 17+): a full-screen dashboard with installs, Cloud/Local, review, crashes, rating, a 60-day trend and top apps, refreshing every 5 minutes.
+- ✨ Read-only **My Apps**, **Organizations**, **Homeys** (devices and Insights) and account switching on the TV.
+- ✨ Accounts shared from the iPhone through iCloud Keychain, using each account's Personal Access Token.
+- ✨ Layered parallax tvOS icon and Top Shelf images.
+
+---
+
+## 1.2.6
+
+**The Developer Tools *Tools* now run natively in the app** through the Homey Web API:
+
+| Tool | What you can do |
+|:--|:--|
+| 🖥 **System** | Info, memory, storage, rename, reboot, updates, experiments |
+| 📈 **Insights** | Logs with charts |
+| 🕸 **Zigbee** | Network, devices with LQI, update nodes |
+| 📡 **Z-Wave** | Controller, stats, nodes: test frame, heal, re-interview, remove failed |
+| 🔵 **Bluetooth LE** | Peripherals with RSSI |
+| 📻 **RF** | 433/868 MHz record, replay, emulate |
+| 🔴 **Infrared** | Send Pronto hex |
+| 🖼 **Images** · 🎬 **Videos** | Browse and view |
+
+Only Pairing still opens the website. The tools are also in the iPad sidebar.
+
+---
+
+## 1.2.5
+
+- ✨ **iPad support:** a Developer Tools-style sidebar with all sections and the Homey tools; grids adapt to the width.
+- ✨ **Fuller widgets** using real install history from Athom install stats, drawn as a Homey Insights-style chart.
+- ✨ The **Installs** widget can show one app (long-press → *Edit Widget*). The small size shows your top app by default, with name and icon.
+- ✨ New stats: 30-day change, paired devices, suggestions, crashes per app and fastest growers.
+- ✨ Large sizes for **Installs** and **Review & crashes**.
+
+---
+
+## 1.2.4
+
+- ✨ Three home screen widgets: **Installs** (small, medium), **Top apps** (medium, large) and **Review & crashes** (small, medium).
+- 🗑 The automated review screen.
+
+---
+
+## 1.2.3
+
+**Developer actions**, using the same API calls as Developer Tools.
+
+- ✨ **Builds:** *Publish to Test*, *Submit for Certification* (with auto-release), *Retract submission* and *Publish to Live*, plus the reviewer comment thread and the automated review.
+- ✨ **Home:** a one-tap *Retract* button for apps in review.
+- ✨ **Apps:** reply to user reviews, email notification settings, transfer to an organization.
+- ✨ **Organizations:** member profile pictures, invite members, change roles (Admin / Developer / Support), remove members and rename the organization.
+
+---
+
+## 1.2.1
+
+- 🛠 Redesigned **Installs per app** chart on Home: app names and totals sit above each bar, so bars no longer overlap the labels.
+- ✨ Rows are tappable and show the Cloud/Local split.
+
+---
+
+## 1.2.0
+
+- ✨ **Multilingual:** 🇳🇱 Dutch, 🇬🇧 English, 🇩🇪 German and 🇫🇷 French, following the device language.
+- ✨ A language row under **Account → Appearance**.
+
+---
+
+## 1.1.0
+
+- ✨ New Apple Developer-style app icon with a white Homey ring.
+- ✨ Blue blueprint login screen.
+- ✨ Spinning Homey logo on the splash screen.
+
+---
+
+## 1.0.0
+
+- ✨ **First release.** Sign in with Homey or a Personal Access Token, multiple accounts, and the **Home**, **My Apps**, **Organizations**, **Homeys** and **Account** tabs.
+
+---
+
+<p align="center">
+  <sub>Unofficial app. Homey and the Homey logo are trademarks of Athom B.V.</sub>
+</p>

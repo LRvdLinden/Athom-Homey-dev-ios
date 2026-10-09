@@ -108,24 +108,11 @@ The app uses these endpoints:
 
 Open `Localizable.xcstrings` in Xcode, click **+** to add a language and translate the strings. Then add the language code to `knownRegions` in the project.
 
-## Changelog
+## What's new
 
-- **1.3.0:** iPhone, iPad and Apple TV only: the Mac (Mac Catalyst) version was removed. Includes everything from 1.2.9: Apple TV pairing over Wi-Fi or with a Personal Access Token, scrolling with the Siri Remote, working back navigation, no Homeys tab on the TV, and safer account switching.
-- **1.2.9:** Apple TV: the dashboard and app detail can now be scrolled with the Siri Remote, the Menu button goes back to the list, opening an app from an organization no longer jumps back, and the Homeys tab was removed. Apple TV sign-in no longer depends on iCloud Keychain: pair over Wi-Fi with a 4-digit code, or enter a Personal Access Token on the TV. iCloud sharing now reports errors. Also fixes a crash on the Mac when signing in or adding an account. The login screen now closes before the app switches to the new account, and the Mac sidebar no longer rebuilds its navigation stack (which left duplicate items in the window toolbar). Switching accounts from the account sheet works the same way. All platforms share one bundle ID (universal purchase).
-- **1.2.8:** **macOS app** (Mac Catalyst, optimized for Mac, macOS 14 Sonoma+). It has the Developer Tools-style sidebar, all features including sign-in with email and password, native Homey tools, right-click menus, ⌘R to refresh, Help menu links, a macOS-style icon and the widgets on the Mac desktop.
-- **1.2.7:** **Apple TV app (tvOS 17+)**: a full-screen dashboard (installs, Cloud/Local, review, crashes, rating, 60-day trend, top apps) that refreshes every 5 minutes, plus read-only My Apps, Organizations, Homeys (devices and Insights) and account switching. Accounts are shared from the iPhone through iCloud Keychain (*Account → Apple TV*), using each account's Personal Access Token. Includes a layered parallax tvOS icon and Top Shelf images.
-- **1.2.6:** The Developer Tools *Tools* now run **natively in the app** through the Homey Web API: **System** (info, memory, storage, rename, reboot, updates, experiments), **Insights** (logs with charts), **Zigbee** (network, devices with LQI, update nodes), **Z-Wave** (controller, stats, nodes: test frame, heal, re-interview, remove failed), **Bluetooth LE** (peripherals with RSSI), **RF** (433/868 MHz record, replay, emulate), **Infrared** (send Pronto hex), **Images** and **Videos**. Only Pairing still opens the website. The tools are also in the iPad sidebar.
-- **1.2.5:** **iPad support**: on iPad (and in wide Split View) the app shows a Developer Tools-style sidebar with all sections and the Homey tools, and grids adapt to the width. Fuller widgets. They now use real install history from Athom install stats (the same data as Developer Tools), drawn as a Homey Insights-style chart. The **Installs** widget can show one app (long-press → *Edit Widget*); the small size shows your top app by default, with name and icon. New stats: 30-day change, paired devices, suggestions, crashes per app and fastest growers. Large sizes added for **Installs** and **Review & crashes**.
-- **1.2.4:** Three home screen widgets: **Installs** (small and medium), **Top apps** (medium and large) and **Review & crashes** (small and medium). The automated review screen was removed.
-- **1.2.3:** Developer actions, using the same API calls as Developer Tools:
-  - Builds: *Publish to Test*, *Submit for Certification* (with auto-release), *Retract submission* and *Publish to Live*, plus the reviewer comment thread and the automated review.
-  - A one-tap *Retract* button for apps in review on Home.
-  - Apps: reply to user reviews, email notification settings, transfer to an organization.
-  - Organizations: profile pictures for members, invite members, change roles (Admin/Developer/Support), remove members and rename the organization.
-- **1.2.1:** Redesigned *Installs per app* chart on Home: app names and totals sit above each bar, so bars no longer overlap the labels. Rows are tappable and show the Cloud/Local split.
-- **1.2.0:** Multilingual app (Dutch, English, German, French) using a String Catalog, plus a language row under Account → Appearance.
-- **1.1.0:** New Apple Developer-style app icon with a white Homey ring, a blue blueprint login screen and a spinning Homey logo on the splash screen.
-- **1.0.0:** First release: sign in with Homey or a PAT, multiple accounts, Home, My Apps, Organizations, Homeys and Account.
+**1.3.0** focuses on iPhone, iPad and Apple TV. Pair the Apple TV over Wi-Fi with a 4-digit code (no iCloud needed), scroll everything with the Siri Remote, and the Mac version was removed.
+
+📜 See the full history in **[CHANGELOG.md](CHANGELOG.md)**.
 
 ## Feedback
 
