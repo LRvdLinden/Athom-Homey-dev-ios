@@ -1,46 +1,244 @@
 {
   "sourceLanguage": "nl",
   "strings": {
-    "7 d": {
+    "%@ · %lld apps": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "7 T"
+            "value": "%@ · %lld Apps"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "7 d"
+            "value": "%@ · %lld apps"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "7 j"
+            "value": "%@ · %lld apps"
           }
         }
       }
     },
-    "Cloud": {
+    "Alle apps": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cloud"
+            "value": "Alle Apps"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cloud"
+            "value": "All apps"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cloud"
+            "value": "Toutes les apps"
+          }
+        }
+      }
+    },
+    "App": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App"
+          }
+        }
+      }
+    },
+    "Apparaten": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geräte"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devices"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appareils"
+          }
+        }
+      }
+    },
+    "Bijgewerkt": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktualisiert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updated"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mis à jour"
+          }
+        }
+      }
+    },
+    "Certificering, crashes, suggesties en gekoppelde apparaten in één oogopslag.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zertifizierung, Abstürze, Vorschläge und gekoppelte Geräte auf einen Blick."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Certification, crashes, suggestions and paired devices at a glance."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Certification, plantages, suggestions et appareils associés en un coup d'œil."
+          }
+        }
+      }
+    },
+    "Cloud %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud %@"
+          }
+        }
+      }
+    },
+    "Crashes per app": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abstürze pro App"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crashes per app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plantages par app"
+          }
+        }
+      }
+    },
+    "Developer-status": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entwicklerstatus"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Developer status"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statut développeur"
+          }
+        }
+      }
+    },
+    "Geen crashes": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Abstürze"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No crashes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun plantage"
+          }
+        }
+      }
+    },
+    "Homey-app": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homey-App"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homey app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App Homey"
           }
         }
       }
@@ -89,24 +287,68 @@
         }
       }
     },
-    "Je best geïnstalleerde Homey-apps met versie en groei per app.": {
+    "Installaties met de Insights-grafiek van je app of van al je apps. Houd ingedrukt → Wijzig widget om een app te kiezen.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Deine meistinstallierten Homey-Apps mit Version und Wachstum pro App."
+            "value": "Installationen mit dem Insights-Diagramm einer App oder aller Apps. Gedrückt halten → Widget bearbeiten, um eine App zu wählen."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your most installed Homey apps with version and growth per app."
+            "value": "Installs with the Insights chart of one app or all your apps. Press and hold → Edit Widget to choose an app."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vos apps Homey les plus installées avec version et croissance par app."
+            "value": "Installations avec le graphique Insights d'une app ou de toutes vos apps. Maintenez appuyé → Modifier le widget pour choisir une app."
+          }
+        }
+      }
+    },
+    "Je best geïnstalleerde Homey-apps met trend, groei, rating en status.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine meistinstallierten Homey-Apps mit Trend, Wachstum, Bewertung und Status."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your most installed Homey apps with trend, growth, rating and status."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos apps Homey les plus installées avec tendance, croissance, note et statut."
+          }
+        }
+      }
+    },
+    "Kies een app": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App auswählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose an app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir une app"
           }
         }
       }
@@ -133,24 +375,24 @@
         }
       }
     },
-    "Local": {
+    "Local %@": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lokal"
+            "value": "Lokal %@"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Local"
+            "value": "Local %@"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Local"
+            "value": "Local %@"
           }
         }
       }
@@ -173,6 +415,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rien en examen"
+          }
+        }
+      }
+    },
+    "Nog geen geschiedenis": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch kein Verlauf"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No history yet"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas encore d'historique"
           }
         }
       }
@@ -221,6 +485,28 @@
         }
       }
     },
+    "Snelste groeiers (7d)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Am schnellsten wachsend (7T)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fastest growing (7d)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plus forte croissance (7j)"
+          }
+        }
+      }
+    },
     "Status": {
       "localizations": {
         "de": {
@@ -243,6 +529,50 @@
         }
       }
     },
+    "Suggesties": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorschläge"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggestions"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggestions"
+          }
+        }
+      }
+    },
+    "Toon de installaties van één app, of laat leeg voor al je apps.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeige die Installationen einer App oder lasse das Feld leer für alle Apps."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show the installs of one app, or leave empty for all your apps."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Affichez les installations d'une app, ou laissez vide pour toutes vos apps."
+          }
+        }
+      }
+    },
     "Top apps": {
       "localizations": {
         "de": {
@@ -261,50 +591,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Meilleures apps"
-          }
-        }
-      }
-    },
-    "Totaal aantal installaties van je apps, met de groei van de afgelopen 7 dagen.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gesamtinstallationen deiner Apps mit dem Wachstum der letzten 7 Tage."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Total installs of your apps, with growth over the last 7 days."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Total des installations de vos apps, avec la croissance des 7 derniers jours."
-          }
-        }
-      }
-    },
-    "Welke apps op certificering wachten en hoeveel crashes je live builds hebben.": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Welche Apps auf Zertifizierung warten und wie viele Abstürze deine Live-Builds haben."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Which apps are awaiting certification and how many crashes your live builds have."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Les apps en attente de certification et le nombre de plantages de vos builds en production."
           }
         }
       }

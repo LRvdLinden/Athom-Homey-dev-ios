@@ -1770,6 +1770,9 @@
         }
       }
     },
+    "Developer Tools": {
+      "shouldTranslate": false
+    },
     "Developer Tools (volledige website)": {
       "localizations": {
         "de": {

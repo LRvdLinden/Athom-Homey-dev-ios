@@ -27,7 +27,7 @@ struct AppDetailView: View {
                 .listRowInsets(EdgeInsets())
 
             Section {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 160), spacing: 10)], spacing: 10) {
                     StatTile(title: "Installaties", value: Fmt.number(a.installs), systemImage: "arrow.down.circle")
                     StatTile(title: "Rating", value: a.rating.map { String(format: "%.1f ★", $0) } ?? "—", systemImage: "star", tint: .yellow)
                     StatTile(title: "Cloud", value: Fmt.number(a.installsCloud), systemImage: "cloud", tint: .cyan)

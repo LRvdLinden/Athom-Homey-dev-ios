@@ -2,7 +2,7 @@
 
 # Developer Tools for Homey – iOS
 
-A native SwiftUI app for iPhone and iPad (iOS 17+) that brings [Homey Developer Tools](https://tools.developer.homey.app) to your pocket. It supports multiple accounts, light and dark mode, and four languages.
+A native SwiftUI app for iPhone and iPad (iOS/iPadOS 17+) that brings [Homey Developer Tools](https://tools.developer.homey.app) to your pocket. It supports multiple accounts, light and dark mode, and four languages.
 
 > Unofficial app. Homey and the Homey logo are trademarks of Athom B.V.
 
@@ -28,9 +28,9 @@ Add them from the home screen (long-press → **+** → *Homey Dev*):
 
 | Widget | Sizes | Shows |
 |---|---|---|
-| **Installs** | Small, Medium | Total installs, 7-day change, sparkline, Cloud/Local split, average rating |
-| **Top apps** | Medium, Large | Your top 3 or 6 apps with icon, installs, live version, rating and 7-day change |
-| **Review & crashes** | Small, Medium | Apps waiting for certification and the total number of live crashes |
+| **Installs** | Small, Medium, Large | One app (choose via *Edit Widget*) or all apps: installs, 7/30-day change, Homey Insights-style chart, Cloud/Local, rating, devices, suggestions, crashes and fastest growers |
+| **Top apps** | Medium, Large | Your top 3 or 6 apps with icon, 30-day trend line, installs, 7-day change, version, rating, devices and review/crash markers |
+| **Review & crashes** | Small, Medium, Large | Apps in review, crashes per app, suggestions and paired devices |
 
 The app shares a snapshot with the widgets through the App Group `group.nl.lrvdlinden.homeydevtools`. The widgets don't need a login, and their data updates each time the app refreshes.
 
@@ -75,6 +75,7 @@ Open `Localizable.xcstrings` in Xcode, click **+** to add a language and transla
 
 ## Changelog
 
+- **1.2.5:** **iPad support**: on iPad (and in wide Split View) the app shows a Developer Tools-style sidebar with all sections and the Homey tools, and grids adapt to the width. Fuller widgets. They now use real install history from Athom install stats (the same data as Developer Tools), drawn as a Homey Insights-style chart. The **Installs** widget can show one app (long-press → *Edit Widget*); the small size shows your top app by default, with name and icon. New stats: 30-day change, paired devices, suggestions, crashes per app and fastest growers. Large sizes added for **Installs** and **Review & crashes**.
 - **1.2.4:** Three home screen widgets: **Installs** (small and medium), **Top apps** (medium and large) and **Review & crashes** (small and medium). The automated review screen was removed.
 - **1.2.3:** Developer actions, using the same API calls as Developer Tools:
   - Builds: *Publish to Test*, *Submit for Certification* (with auto-release), *Retract submission* and *Publish to Live*, plus the reviewer comment thread and the automated review.

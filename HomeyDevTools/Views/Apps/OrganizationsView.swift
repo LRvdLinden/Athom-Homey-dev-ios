@@ -100,7 +100,7 @@ struct OrganizationDetailView: View {
             .listRowBackground(Color.clear)
 
             Section {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 160), spacing: 10)], spacing: 10) {
                     StatTile(title: "Installaties", value: Fmt.number(totals.installs), systemImage: "arrow.down.circle")
                     StatTile(title: "Apps", value: "\(apps.count)", systemImage: "square.stack.3d.up")
                     StatTile(title: "Cloud", value: Fmt.number(totals.cloud), systemImage: "cloud", tint: .cyan)

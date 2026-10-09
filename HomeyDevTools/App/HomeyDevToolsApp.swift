@@ -59,19 +59,103 @@ struct RootView: View {
     }
 }
 
+/// iPhone: tab bar. iPad (regular width): sidebar like tools.developer.homey.app.
 struct MainTabView: View {
+    @Environment(\.horizontalSizeClass) private var sizeClass
+
     var body: some View {
-        TabView {
-            NavigationStack { DashboardView() }
-                .tabItem { Label("Home", systemImage: "house.fill") }
-            NavigationStack { AppsListView() }
-                .tabItem { Label("My Apps", systemImage: "square.stack.3d.up.fill") }
-            NavigationStack { OrganizationsView() }
-                .tabItem { Label("Organisaties", systemImage: "building.2.fill") }
-            NavigationStack { HomeyListView() }
-                .tabItem { Label("Homeys", systemImage: "circle.circle") }
-            NavigationStack { AccountView() }
-                .tabItem { Label("Account", systemImage: "person.crop.circle.fill") }
+        if sizeClass == .regular {
+            SidebarRootView()
+        } else {
+            TabView {
+                NavigationStack { DashboardView() }
+                    .tabItem { Label("Home", systemImage: "house.fill") }
+                NavigationStack { AppsListView() }
+                    .tabItem { Label("My Apps", systemImage: "square.stack.3d.up.fill") }
+                NavigationStack { OrganizationsView() }
+                    .tabItem { Label("Organisaties", systemImage: "building.2.fill") }
+                NavigationStack { HomeyListView() }
+                    .tabItem { Label("Homeys", systemImage: "circle.circle") }
+                NavigationStack { AccountView() }
+                    .tabItem { Label("Account", systemImage: "person.crop.circle.fill") }
+            }
+        }
+    }
+}
+
+enum SidebarItem: Hashable {
+    case home, apps, organizations, homeys, account, apiClients, webhooks, website
+    case tool(String)
+}
+
+/// iPad layout: Developer Tools-style sidebar with sections and the web tools.
+struct SidebarRootView: View {
+    @Environment(AuthManager.self) private var auth
+    @State private var selection: SidebarItem? = .home
+    @State private var columnVisibility: NavigationSplitViewVisibility = .all
+
+    var body: some View {
+        NavigationSplitView(columnVisibility: $columnVisibility) {
+            List(selection: $selection) {
+                Section {
+                    HStack(spacing: 10) {
+                        Image("HomeyLogo").resizable().scaledToFit().frame(width: 28, height: 28)
+                        Text("Developer Tools").font(.title3.weight(.bold))
+                    }
+                    .padding(.vertical, 4)
+                    .listRowBackground(Color.clear)
+                }
+                Section {
+                    Label("Home", systemImage: "house.fill").tag(SidebarItem.home)
+                    Label("My Apps", systemImage: "square.stack.3d.up.fill").tag(SidebarItem.apps)
+                    Label("My Organizations", systemImage: "building.2.fill").tag(SidebarItem.organizations)
+                    Label("My API Clients", systemImage: "person.badge.key.fill").tag(SidebarItem.apiClients)
+                    Label("My Webhooks", systemImage: "link").tag(SidebarItem.webhooks)
+                }
+                Section("Homey") {
+                    Label("Homeys", systemImage: "circle.circle").tag(SidebarItem.homeys)
+                    ForEach(Config.webTools, id: \.path) { tool in
+                        Label(tool.title, systemImage: tool.icon).tag(SidebarItem.tool(tool.path))
+                    }
+                }
+                Section {
+                    Label("Developer Tools (volledige website)", systemImage: "safari").tag(SidebarItem.website)
+                    Label {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(auth.displayName.isEmpty ? L("Account") : auth.displayName).lineLimit(1)
+                            if !auth.email.isEmpty { Text(auth.email).font(.caption).foregroundStyle(.secondary).lineLimit(1) }
+                        }
+                    } icon: {
+                        AccountAvatar(url: auth.avatarURL, initials: auth.active?.initials ?? "", size: 26)
+                    }
+                    .tag(SidebarItem.account)
+                }
+            }
+            .listStyle(.sidebar)
+            .navigationTitle("Homey")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.hidden, for: .navigationBar)
+        } detail: {
+            NavigationStack {
+                detail(for: selection ?? .home)
+            }
+            .id(selection)
+        }
+        .navigationSplitViewStyle(.balanced)
+    }
+
+    @ViewBuilder
+    private func detail(for item: SidebarItem) -> some View {
+        switch item {
+        case .home: DashboardView()
+        case .apps: AppsListView()
+        case .organizations: OrganizationsView()
+        case .homeys: HomeyListView()
+        case .account: AccountView()
+        case .apiClients: APIClientsView()
+        case .webhooks: WebToolsView(start: Config.webhooksPage)
+        case .website: WebToolsView()
+        case .tool(let path): WebToolsView(start: Config.devTools(path))
         }
     }
 }
@@ -145,6 +229,6 @@ final class PortfolioStore {
             orgError = error.localizedDescription
         }
         lastLoaded = Date()
-        await WidgetSync.update(apps: allApps, accountName: auth.displayName)
+        await WidgetSync.update(apps: allApps, accountName: auth.displayName, auth: auth)
     }
 }

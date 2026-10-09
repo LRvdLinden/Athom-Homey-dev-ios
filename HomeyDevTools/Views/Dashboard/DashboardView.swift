@@ -5,7 +5,7 @@ struct DashboardView: View {
     @Environment(AuthManager.self) private var auth
     @Environment(PortfolioStore.self) private var store
 
-    private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
+    private let columns = [GridItem(.adaptive(minimum: 160), spacing: 12)]
 
     var body: some View {
         let apps = store.allApps
@@ -79,6 +79,8 @@ struct DashboardView: View {
                 }
             }
             .padding()
+            .frame(maxWidth: 960)
+            .frame(maxWidth: .infinity)
         }
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle("Home")
