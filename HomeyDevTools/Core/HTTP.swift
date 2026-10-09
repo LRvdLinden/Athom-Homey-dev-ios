@@ -15,6 +15,7 @@ enum HTTP {
     static let session: URLSession = {
         let cfg = URLSessionConfiguration.default
         cfg.timeoutIntervalForRequest = 20
+        cfg.timeoutIntervalForResource = 600
         cfg.waitsForConnectivity = false
         return URLSession(configuration: cfg)
     }()
@@ -31,9 +32,11 @@ enum HTTP {
         _ url: URL,
         method: String = "GET",
         headers: [String: String] = [:],
-        body: Data? = nil
+        body: Data? = nil,
+        timeout: TimeInterval? = nil
     ) async throws -> Response {
         var req = URLRequest(url: url)
+        if let timeout { req.timeoutInterval = timeout }
         req.httpMethod = method
         req.setValue("application/json", forHTTPHeaderField: "Accept")
         req.setValue("HomeyDevTools-iOS/1.0", forHTTPHeaderField: "User-Agent")

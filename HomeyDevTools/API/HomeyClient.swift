@@ -30,20 +30,35 @@ final class HomeyClient {
     }
 
     /// Raw request against this Homey. `path` like `/api/manager/devices/device/`.
-    func request(_ path: String, method: String = "GET", json body: JSON? = nil) async throws -> JSON {
+    func request(_ path: String, method: String = "GET", json body: JSON? = nil, timeout: TimeInterval? = nil) async throws -> JSON {
         guard let url = URL(string: baseURL.absoluteString.trimmingCharacters(in: CharacterSet(charactersIn: "/")) + path) else {
             throw APIError(status: 0, message: L("Ongeldig pad"), url: path)
         }
         func run() async throws -> HTTP.Response {
             let token = try await login()
             let data = body?.data() ?? ((method == "POST" || method == "PUT") ? Data("{}".utf8) : nil)
-            return try await HTTP.send(url, method: method, headers: ["Authorization": "Bearer \(token)"], body: data)
+            return try await HTTP.send(url, method: method, headers: ["Authorization": "Bearer \(token)"], body: data, timeout: timeout)
         }
         do { return try await run().json } catch let e as APIError where e.isUnauthorized {
             session = nil
             auth.invalidateDelegation("homey")
             return try await run().json
         }
+    }
+
+    /// Authenticated binary download (images / snapshots served by Homey).
+    func data(at urlString: String) async throws -> Data {
+        guard let url = URL(string: urlString, relativeTo: baseURL)?.absoluteURL else {
+            throw APIError(status: 0, message: L("Ongeldig pad"), url: urlString)
+        }
+        let token = try await login()
+        return try await HTTP.send(url, headers: ["Authorization": "Bearer \(token)", "Accept": "*/*"]).data
+    }
+
+    /// `POST /api/manager/<manager>/command` — used by the Zigbee, Z-Wave and BLE tools.
+    func runCommand(_ manager: String, _ command: String, opts: JSON = .object([:]), timeout: TimeInterval = 60) async throws -> JSON {
+        try await request("/api/manager/\(manager)/command", method: "POST",
+                          json: .object(["command": .string(command), "opts": opts]), timeout: timeout)
     }
 
     // MARK: Managers

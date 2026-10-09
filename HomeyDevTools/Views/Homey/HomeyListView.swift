@@ -9,6 +9,16 @@ struct HomeyListView: View {
     @State private var loading = false
     @State private var error: String?
     @AppStorage("activeHomeyId") private var activeHomeyId = ""
+    @State private var clients: [String: HomeyClient] = [:]
+
+    private var toolsHomey: HomeyRef? { homeys.first { $0.id == activeHomeyId } ?? homeys.first }
+
+    private func client(for h: HomeyRef) -> HomeyClient {
+        if let c = clients[h.id] { return c }
+        let c = HomeyClient(homey: h, auth: auth)
+        DispatchQueue.main.async { clients[h.id] = c }
+        return c
+    }
 
     var body: some View {
         List {
@@ -29,18 +39,33 @@ struct HomeyListView: View {
             }
             .cardRows()
 
-            Section {
-                ForEach(Config.webTools, id: \.path) { tool in
-                    NavigationLink { WebToolsView(start: Config.devTools(tool.path)) } label: {
-                        Label(tool.title, systemImage: tool.icon)
+            if let tools = toolsHomey {
+                Section {
+                    if homeys.count > 1 {
+                        Picker(selection: $activeHomeyId) {
+                            ForEach(homeys) { h in Text(h.name).tag(h.id) }
+                        } label: {
+                            Label("Homey", systemImage: "circle.circle")
+                        }
                     }
+                    ForEach(HomeyTool.allCases) { tool in
+                        NavigationLink { tool.destination(client(for: tools)) } label: {
+                            HStack {
+                                Label(tool.title, systemImage: tool.icon)
+                                if tool.isWeb {
+                                    Spacer()
+                                    Image(systemName: "safari").font(.caption).foregroundStyle(Theme.textSecondary)
+                                }
+                            }
+                        }
+                    }
+                } header: {
+                    Text("Tools voor \(tools.name)")
+                } footer: {
+                    Text("Native in de app via de Homey Web API. Alleen Pairing opent de website.")
                 }
-            } header: {
-                Text("Tools & Wireless (Developer Tools)")
-            } footer: {
-                Text("Zigbee, Z-Wave, RF, IR, BLE, Pairing en meer openen de officiële tools voor je actieve Homey.")
+                .cardRows()
             }
-            .cardRows()
         }
         .themedList()
         .overlay {
@@ -135,11 +160,17 @@ struct HomeyDetailView: View {
                     }
                     .cardRows()
 
-                    Section("Developer") {
-                        NavigationLink { SystemView(client: client) } label: { Label("Systeeminformatie", systemImage: "cpu") }
-                        NavigationLink { APIPlaygroundView(target: .homey(client)) } label: { Label("Web API Playground", systemImage: "terminal") }
-                        ForEach(Config.webTools.filter { $0.path != "/tools/system" && $0.path != "/tools/api-playground" }, id: \.path) { tool in
-                            NavigationLink { WebToolsView(start: Config.devTools(tool.path)) } label: { Label(tool.title, systemImage: tool.icon) }
+                    Section("Tools") {
+                        ForEach(HomeyTool.allCases.filter { $0 != .devices }) { tool in
+                            NavigationLink { tool.destination(client) } label: {
+                                HStack {
+                                    Label(tool.title, systemImage: tool.icon)
+                                    if tool.isWeb {
+                                        Spacer()
+                                        Image(systemName: "safari").font(.caption).foregroundStyle(Theme.textSecondary)
+                                    }
+                                }
+                            }
                         }
                     }
                     .cardRows()

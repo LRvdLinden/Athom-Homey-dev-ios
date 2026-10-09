@@ -331,6 +331,28 @@
         }
       }
     },
+    "%lld dBm": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld dBm"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld dBm"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld dBm"
+          }
+        }
+      }
+    },
     "%lld×": {
       "localizations": {
         "de": {
@@ -419,11 +441,121 @@
         }
       }
     },
+    "1u": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 Std."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1h"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1h"
+          }
+        }
+      }
+    },
+    "24u": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "24 Std."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "24h"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "24h"
+          }
+        }
+      }
+    },
     "30d": {
       "shouldTranslate": false
     },
+    "31d": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "31 T"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "31d"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "31j"
+          }
+        }
+      }
+    },
+    "433 MHz": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "433 MHz"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "433 MHz"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "433 MHz"
+          }
+        }
+      }
+    },
     "7d": {
       "shouldTranslate": false
+    },
+    "868 MHz": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "868 MHz"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "868 MHz"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "868 MHz"
+          }
+        }
+      }
     },
     "90d": {
       "shouldTranslate": false
@@ -666,6 +798,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Admin"
+          }
+        }
+      }
+    },
+    "Afgespeeld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abgespielt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replayed"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rejoué"
           }
         }
       }
@@ -1308,6 +1462,28 @@
         }
       }
     },
+    "Bluetooth LE": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth LE"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth LE"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth LE"
+          }
+        }
+      }
+    },
     "Body is geen geldige JSON.": {
       "localizations": {
         "de": {
@@ -1502,6 +1678,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "Compatibilité"
+          }
+        }
+      }
+    },
+    "Controle voltooid": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prüfung abgeschlossen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check completed"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérification terminée"
+          }
+        }
+      }
+    },
+    "Controller": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Controller"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Controller"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contrôleur"
           }
         }
       }
@@ -1748,6 +1968,94 @@
         }
       }
     },
+    "Defecte node verwijderen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Defekten Node entfernen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove failed node"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer le nœud défaillant"
+          }
+        }
+      }
+    },
+    "Defecte node verwijderen?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Defekten Node entfernen?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove failed node?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer le nœud défaillant ?"
+          }
+        }
+      }
+    },
+    "Defecte nodes zoeken": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Defekte Nodes suchen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Find failed nodes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher les nœuds défaillants"
+          }
+        }
+      }
+    },
+    "Details": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Details"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Details"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Détails"
+          }
+        }
+      }
+    },
     "Developer": {
       "localizations": {
         "de": {
@@ -1971,6 +2279,28 @@
         }
       }
     },
+    "Druk op de afstandsbediening terwijl Homey opneemt.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drücke die Fernbedienung, während Homey aufnimmt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press the remote while Homey is recording."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appuyez sur la télécommande pendant l'enregistrement."
+          }
+        }
+      }
+    },
     "E-mail bij bedankjes": {
       "localizations": {
         "de": {
@@ -2081,6 +2411,28 @@
         }
       }
     },
+    "Emuleren": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Emulieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Emulate"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Émuler"
+          }
+        }
+      }
+    },
     "Er is geen Homey aan dit account gekoppeld.": {
       "localizations": {
         "de": {
@@ -2099,6 +2451,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucun Homey n'est associé à ce compte."
+          }
+        }
+      }
+    },
+    "Experimenten": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Experimente"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Experiments"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expériences"
+          }
+        }
+      }
+    },
+    "Extended PAN ID": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erweiterte PAN-ID"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extended PAN ID"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PAN ID étendu"
           }
         }
       }
@@ -2169,6 +2565,28 @@
         }
       }
     },
+    "Frequentie": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frequenz"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frequency"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fréquence"
+          }
+        }
+      }
+    },
     "Geannuleerd": {
       "localizations": {
         "de": {
@@ -2231,6 +2649,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucun client API"
+          }
+        }
+      }
+    },
+    "Geen BLE-apparaten": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine BLE-Geräte"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No BLE devices"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun appareil BLE"
           }
         }
       }
@@ -2301,6 +2741,28 @@
         }
       }
     },
+    "Geen afbeeldingen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Bilder"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No images"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune image"
+          }
+        }
+      }
+    },
     "Geen crashes 🎉": {
       "localizations": {
         "de": {
@@ -2363,6 +2825,94 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucune organisation"
+          }
+        }
+      }
+    },
+    "Geen signaal ontvangen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kein Signal empfangen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No signal received"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun signal reçu"
+          }
+        }
+      }
+    },
+    "Geen video's": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Videos"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No videos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune vidéo"
+          }
+        }
+      }
+    },
+    "Geen video-URL": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Video-URL"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No video URL"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune URL vidéo"
+          }
+        }
+      }
+    },
+    "Geen waarden in deze periode.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Werte in diesem Zeitraum."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No values in this period."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune valeur sur cette période."
           }
         }
       }
@@ -2521,6 +3071,72 @@
         }
       }
     },
+    "Heal (routes herstellen)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heal (Routen reparieren)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heal (repair routes)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réparer (routes)"
+          }
+        }
+      }
+    },
+    "Heal voltooid": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heal abgeschlossen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heal completed"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réparation terminée"
+          }
+        }
+      }
+    },
+    "Herhalingen: %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wiederholungen: %lld"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Repetitions: %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Répétitions : %lld"
+          }
+        }
+      }
+    },
     "Herladen": {
       "localizations": {
         "de": {
@@ -2653,6 +3269,28 @@
         }
       }
     },
+    "Home ID": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home-ID"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home ID"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home ID"
+          }
+        }
+      }
+    },
     "Homey": {
       "localizations": {
         "de": {
@@ -2715,6 +3353,94 @@
           "stringUnit": {
             "state": "translated",
             "value": "Homey Developer Tools"
+          }
+        }
+      }
+    },
+    "Homey herstarten": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homey neu starten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restart Homey"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redémarrer Homey"
+          }
+        }
+      }
+    },
+    "Homey herstarten?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homey neu starten?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restart Homey?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redémarrer Homey ?"
+          }
+        }
+      }
+    },
+    "Homey is een paar minuten niet bereikbaar.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homey ist einige Minuten nicht erreichbar."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homey will be unavailable for a few minutes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homey sera indisponible pendant quelques minutes."
+          }
+        }
+      }
+    },
+    "Homey wordt herstart": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homey wird neu gestartet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homey is restarting"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Homey redémarre"
           }
         }
       }
@@ -2807,6 +3533,50 @@
         }
       }
     },
+    "Houd een node ingedrukt voor test-frame, heal, interview of verwijderen.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halte einen Node gedrückt für Testframe, Heal, Interview oder Entfernen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press and hold a node for test frame, heal, interview or removal."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maintenez un nœud appuyé pour trame de test, réparation, interview ou suppression."
+          }
+        }
+      }
+    },
+    "Huidige opdracht": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktueller Befehl"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current command"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commande en cours"
+          }
+        }
+      }
+    },
     "ID": {
       "localizations": {
         "de": {
@@ -2825,6 +3595,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "ID"
+          }
+        }
+      }
+    },
+    "IEEE-adres": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IEEE-Adresse"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IEEE address"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adresse IEEE"
+          }
+        }
+      }
+    },
+    "Images": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bilder"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Images"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Images"
           }
         }
       }
@@ -2869,6 +3683,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Soumettre"
+          }
+        }
+      }
+    },
+    "Infrared": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Infrarot"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Infrared"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Infrarouge"
           }
         }
       }
@@ -2983,6 +3819,28 @@
         }
       }
     },
+    "Insights": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insights"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insights"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insights"
+          }
+        }
+      }
+    },
     "Installaties": {
       "localizations": {
         "de": {
@@ -3067,6 +3925,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "Réglages"
+          }
+        }
+      }
+    },
+    "Interview aangevraagd": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interview angefordert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interview requested"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interview demandé"
+          }
+        }
+      }
+    },
+    "Interview opnieuw": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erneut interviewen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Re-interview"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refaire l'interview"
           }
         }
       }
@@ -3177,6 +4079,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "Votre réponse"
+          }
+        }
+      }
+    },
+    "Kan video niet afspelen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video kann nicht abgespielt werden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Can't play video"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de lire la vidéo"
+          }
+        }
+      }
+    },
+    "Kanaal": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kanal"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Channel"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Canal"
           }
         }
       }
@@ -3335,6 +4281,28 @@
         }
       }
     },
+    "LQI %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LQI %lld"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LQI %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LQI %lld"
+          }
+        }
+      }
+    },
     "Laatst bijgewerkt": {
       "localizations": {
         "de": {
@@ -3375,6 +4343,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vu pour la dernière fois"
+          }
+        }
+      }
+    },
+    "Laatste waarde": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Letzter Wert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last value"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dernière valeur"
           }
         }
       }
@@ -3753,6 +4743,28 @@
         }
       }
     },
+    "Maximum": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maximum"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maximum"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maximum"
+          }
+        }
+      }
+    },
     "Meldingen": {
       "localizations": {
         "de": {
@@ -3815,6 +4827,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mes apps"
+          }
+        }
+      }
+    },
+    "Minimum": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minimum"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minimum"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minimum"
           }
         }
       }
@@ -3973,6 +5007,72 @@
         }
       }
     },
+    "Naam gewijzigd": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name geändert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name changed"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom modifié"
+          }
+        }
+      }
+    },
+    "Naam wijzigen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Umbenennen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renommer"
+          }
+        }
+      }
+    },
+    "Native in de app via de Homey Web API. Alleen Pairing opent de website.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nativ in der App über die Homey Web API. Nur Pairing öffnet die Website."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Native in the app via the Homey Web API. Only Pairing opens the website."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Natif dans l'app via la Homey Web API. Seul l'appairage ouvre le site web."
+          }
+        }
+      }
+    },
     "Nee": {
       "localizations": {
         "de": {
@@ -3991,6 +5091,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Non"
+          }
+        }
+      }
+    },
+    "Netwerk": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Netzwerk"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Network"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réseau"
           }
         }
       }
@@ -4057,6 +5179,204 @@
           "stringUnit": {
             "state": "translated",
             "value": "Non connecté."
+          }
+        }
+      }
+    },
+    "Node %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Node %lld"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Node %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nœud %lld"
+          }
+        }
+      }
+    },
+    "Node %lld verwijderen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Node %lld entfernen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove node %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer le nœud %lld"
+          }
+        }
+      }
+    },
+    "Node ID": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Node-ID"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Node ID"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ID du nœud"
+          }
+        }
+      }
+    },
+    "Node Information Frame versturen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Node Information Frame senden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send Node Information Frame"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer un Node Information Frame"
+          }
+        }
+      }
+    },
+    "Node Information Frame verstuurd": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Node Information Frame gesendet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Node Information Frame sent"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Node Information Frame envoyé"
+          }
+        }
+      }
+    },
+    "Node verwijderd": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Node entfernt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Node removed"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nœud supprimé"
+          }
+        }
+      }
+    },
+    "Nodes (%lld)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nodes (%lld)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nodes (%lld)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nœuds (%lld)"
+          }
+        }
+      }
+    },
+    "Nodes bijgewerkt": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nodes aktualisiert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nodes updated"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nœuds mis à jour"
+          }
+        }
+      }
+    },
+    "Nodes bijwerken (met LQI)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nodes aktualisieren (mit LQI)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Update nodes (with LQI)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mettre à jour les nœuds (avec LQI)"
           }
         }
       }
@@ -4171,6 +5491,50 @@
         }
       }
     },
+    "Onbekende nodes verwijderd": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unbekannte Nodes entfernt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown nodes removed"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nœuds inconnus supprimés"
+          }
+        }
+      }
+    },
+    "Onbekende nodes verwijderen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unbekannte Nodes entfernen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove unknown nodes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer les nœuds inconnus"
+          }
+        }
+      }
+    },
     "Ongeldig pad": {
       "localizations": {
         "de": {
@@ -4255,6 +5619,160 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ouvrir dans Developer Tools"
+          }
+        }
+      }
+    },
+    "Opname": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrement"
+          }
+        }
+      }
+    },
+    "Opname afspelen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme abspielen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replay recording"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rejouer l'enregistrement"
+          }
+        }
+      }
+    },
+    "Opname bekijken (%lld signalen)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme ansehen (%lld Signale)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View recording (%lld signals)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voir l'enregistrement (%lld signaux)"
+          }
+        }
+      }
+    },
+    "Opname klaar": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme fertig"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording done"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrement terminé"
+          }
+        }
+      }
+    },
+    "Opnemen & afspelen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnehmen & abspielen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record & replay"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer & rejouer"
+          }
+        }
+      }
+    },
+    "Opnemen (5 s)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnehmen (5 s)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record (5 s)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer (5 s)"
+          }
+        }
+      }
+    },
+    "Opnemen…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufnahme…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrement…"
           }
         }
       }
@@ -4501,6 +6019,28 @@
         }
       }
     },
+    "PAN ID": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PAN-ID"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PAN ID"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PAN ID"
+          }
+        }
+      }
+    },
     "Pad": {
       "localizations": {
         "de": {
@@ -4541,6 +6081,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Période"
+          }
+        }
+      }
+    },
+    "Peripherals (%lld)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peripheriegeräte (%lld)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Peripherals (%lld)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Périphériques (%lld)"
           }
         }
       }
@@ -4611,6 +6173,28 @@
         }
       }
     },
+    "Plak een IR-code in Pronto-hexformaat. Homey verstuurt hem via de ingebouwde IR-zender.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Füge einen IR-Code im Pronto-Hex-Format ein. Homey sendet ihn über den eingebauten IR-Sender."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste an IR code in Pronto hex format. Homey sends it via its built-in IR transmitter."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collez un code IR au format Pronto hex. Homey l'envoie via son émetteur IR intégré."
+          }
+        }
+      }
+    },
     "Platform": {
       "localizations": {
         "de": {
@@ -4651,6 +6235,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Plateformes"
+          }
+        }
+      }
+    },
+    "Pronto-hex": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pronto-Hex"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pronto hex"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pronto hex"
           }
         }
       }
@@ -4717,6 +6323,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "Publier en Test"
+          }
+        }
+      }
+    },
+    "Pulsen in µs, gescheiden door komma's": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulse in µs, durch Kommas getrennt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulses in µs, separated by commas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impulsions en µs, séparées par des virgules"
+          }
+        }
+      }
+    },
+    "RF": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RF"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RF"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RF"
           }
         }
       }
@@ -4827,6 +6477,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Répondre"
+          }
+        }
+      }
+    },
+    "Regio": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Region"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Region"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Région"
           }
         }
       }
@@ -5359,6 +7031,28 @@
         }
       }
     },
+    "System": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Système"
+          }
+        }
+      }
+    },
     "Taal": {
       "localizations": {
         "de": {
@@ -5399,6 +7093,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "Test"
+          }
+        }
+      }
+    },
+    "Test-frame versturen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testframe senden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send test frame"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer une trame de test"
+          }
+        }
+      }
+    },
+    "Test-frame verstuurd": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testframe gesendet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test frame sent"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trame de test envoyée"
           }
         }
       }
@@ -5535,6 +7273,28 @@
         }
       }
     },
+    "Tools": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tools"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tools"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outils"
+          }
+        }
+      }
+    },
     "Tools & Wireless (Developer Tools)": {
       "localizations": {
         "de": {
@@ -5553,6 +7313,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Outils & sans fil (Developer Tools)"
+          }
+        }
+      }
+    },
+    "Tools voor %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tools für %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tools for %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outils pour %@"
           }
         }
       }
@@ -5733,6 +7515,28 @@
         }
       }
     },
+    "Updates": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mises à jour"
+          }
+        }
+      }
+    },
     "Verbinden met Homey…": {
       "localizations": {
         "de": {
@@ -5751,6 +7555,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Connexion à Homey…"
+          }
+        }
+      }
+    },
+    "Verbindingen en gevonden apparaten van de Bluetooth LE-manager. Trek omlaag om te verversen.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verbindungen und gefundene Geräte des Bluetooth-LE-Managers. Zum Aktualisieren nach unten ziehen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connections and discovered devices from the Bluetooth LE manager. Pull down to refresh."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connexions et appareils détectés par le gestionnaire Bluetooth LE. Tirez vers le bas pour actualiser."
           }
         }
       }
@@ -5799,6 +7625,28 @@
         }
       }
     },
+    "Versturen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Senden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer"
+          }
+        }
+      }
+    },
     "Verstuur": {
       "localizations": {
         "de": {
@@ -5817,6 +7665,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "Envoyer"
+          }
+        }
+      }
+    },
+    "Verstuur IR-code": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IR-Code senden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send IR code"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer le code IR"
+          }
+        }
+      }
+    },
+    "Verstuurd": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gesendet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sent"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyé"
           }
         }
       }
@@ -5905,6 +7797,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Retirer"
+          }
+        }
+      }
+    },
+    "Videos": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Videos"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Videos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vidéos"
           }
         }
       }
@@ -6063,6 +7977,28 @@
         }
       }
     },
+    "WebRTC-camera's worden alleen in de Homey-app ondersteund.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WebRTC-Kameras werden nur in der Homey-App unterstützt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WebRTC cameras are only supported in the Homey app."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les caméras WebRTC ne sont prises en charge que dans l'app Homey."
+          }
+        }
+      }
+    },
     "Weergave": {
       "localizations": {
         "de": {
@@ -6103,6 +8039,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bienvenue"
+          }
+        }
+      }
+    },
+    "Werkt alleen voor nodes die Homey als defect heeft gemarkeerd.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Funktioniert nur für Nodes, die Homey als defekt markiert hat."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only works for nodes Homey has marked as failed."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ne fonctionne que pour les nœuds marqués défaillants par Homey."
           }
         }
       }
@@ -6151,6 +8109,28 @@
         }
       }
     },
+    "Z-Wave": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Z-Wave"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Z-Wave"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Z-Wave"
+          }
+        }
+      }
+    },
     "Zet aan": {
       "localizations": {
         "de": {
@@ -6191,6 +8171,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Éteindre"
+          }
+        }
+      }
+    },
+    "Zigbee": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zigbee"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zigbee"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zigbee"
           }
         }
       }
@@ -6261,6 +8263,28 @@
         }
       }
     },
+    "Zoek log": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Log suchen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search log"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher un log"
+          }
+        }
+      }
+    },
     "Zoek op naam of app-id": {
       "localizations": {
         "de": {
@@ -6323,6 +8347,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zone"
+          }
+        }
+      }
+    },
+    "defect": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "defekt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "failed"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "défaillant"
           }
         }
       }

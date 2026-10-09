@@ -85,7 +85,7 @@ struct MainTabView: View {
 
 enum SidebarItem: Hashable {
     case home, apps, organizations, homeys, account, apiClients, webhooks, website
-    case tool(String)
+    case tool(HomeyTool)
 }
 
 /// iPad layout: Developer Tools-style sidebar with sections and the web tools.
@@ -114,8 +114,8 @@ struct SidebarRootView: View {
                 }
                 Section("Homey") {
                     Label("Homeys", systemImage: "circle.circle").tag(SidebarItem.homeys)
-                    ForEach(Config.webTools, id: \.path) { tool in
-                        Label(tool.title, systemImage: tool.icon).tag(SidebarItem.tool(tool.path))
+                    ForEach(HomeyTool.allCases) { tool in
+                        Label(tool.title, systemImage: tool.icon).tag(SidebarItem.tool(tool))
                     }
                 }
                 Section {
@@ -155,7 +155,7 @@ struct SidebarRootView: View {
         case .apiClients: APIClientsView()
         case .webhooks: WebToolsView(start: Config.webhooksPage)
         case .website: WebToolsView()
-        case .tool(let path): WebToolsView(start: Config.devTools(path))
+        case .tool(let tool): NativeToolHost(tool: tool)
         }
     }
 }
