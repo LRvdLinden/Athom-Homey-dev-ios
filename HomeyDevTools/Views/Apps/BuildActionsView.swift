@@ -187,32 +187,6 @@ struct SubmissionCommentsSection: View {
     }
 }
 
-struct AgentReviewView: View {
-    let appId: String
-    let buildId: Int
-    @Environment(AuthManager.self) private var auth
-    @State private var feedback: String?
-
-    var body: some View {
-        Loader(load: { () async throws -> JSON in try await AppsAPI(auth: auth).agentReview(appId, buildId: buildId) }) { (j: JSON, reload) in
-            JSONInspectorView(title: L("Automatische review"), json: j)
-                .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        Button {
-                            Task {
-                                do { try await AppsAPI(auth: auth).retryAgentReview(appId, buildId: buildId); feedback = L("Review opnieuw gestart") }
-                                catch { feedback = error.localizedDescription }
-                                try? await Task.sleep(for: .seconds(1))
-                                await reload()
-                            }
-                        } label: { Label("Opnieuw uitvoeren", systemImage: "arrow.clockwise") }
-                    }
-                }
-        }
-        .actionFeedback($feedback)
-    }
-}
-
 /// Build detail with info, actions, reviewer comments and crashes.
 struct BuildDetailView: View {
     let appId: String
@@ -251,7 +225,6 @@ struct BuildDetailView: View {
             .cardRows()
 
             Section {
-                NavigationLink { AgentReviewView(appId: appId, buildId: b.id) } label: { Label("Automatische review", systemImage: "wand.and.stars") }
                 NavigationLink { JSONInspectorView(title: "Build #\(b.id)", json: b.raw) } label: { Label("Ruwe API-data", systemImage: "curlybraces") }
             }
             .cardRows()

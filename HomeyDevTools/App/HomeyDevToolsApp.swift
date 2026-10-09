@@ -145,5 +145,6 @@ final class PortfolioStore {
             orgError = error.localizedDescription
         }
         lastLoaded = Date()
+        await WidgetSync.update(apps: allApps, accountName: auth.displayName)
     }
 }

@@ -142,14 +142,6 @@ struct AppsAPI {
         _ = try await request("/app/\(enc(appId))/build/\(buildId)/submission/comment", method: "POST", json: .object(["text": .string(text)]))
     }
 
-    func agentReview(_ appId: String, buildId: Int) async throws -> JSON {
-        try await request("/app/\(enc(appId))/build/\(buildId)/agent-review")
-    }
-
-    func retryAgentReview(_ appId: String, buildId: Int) async throws {
-        _ = try await request("/app/\(enc(appId))/build/\(buildId)/agent-review/retry", method: "POST")
-    }
-
     func crashStats(_ appId: String, buildId: Int) async throws -> JSON {
         try await request("/app/\(enc(appId))/build/\(buildId)/crash/stats")
     }

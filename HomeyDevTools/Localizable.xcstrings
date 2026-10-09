@@ -1154,28 +1154,6 @@
         }
       }
     },
-    "Automatische review": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Automatische Prüfung"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Automated review"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Examen automatique"
-          }
-        }
-      }
-    },
     "Beheer": {
       "localizations": {
         "de": {
@@ -4322,28 +4300,6 @@
         }
       }
     },
-    "Opnieuw uitvoeren": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Erneut ausführen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Run again"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Relancer"
-          }
-        }
-      }
-    },
     "Organisatie": {
       "localizations": {
         "de": {
@@ -4912,28 +4868,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Réponse"
-          }
-        }
-      }
-    },
-    "Review opnieuw gestart": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Prüfung neu gestartet"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Review restarted"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Examen relancé"
           }
         }
       }

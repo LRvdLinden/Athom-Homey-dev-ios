@@ -11,7 +11,7 @@ A native SwiftUI app for iPhone and iPad (iOS 17+) that brings [Homey Developer 
 | Tab | What you get |
 |---|---|
 | **Home** | Totals across all your apps and organizations: installs, Cloud/Local split, apps in review and average rating. Also an installs-per-app chart, your top apps and apps awaiting certification. |
-| **My Apps** | Your own apps with search and sorting. Per app: statistics, install trend (7d/30d/90d/1y/all), the live build with changelog and permissions, all builds, crashes with stack traces, suggestions, paired devices per driver and the raw API data. Build actions: publish to Test/Live, submit for certification and retract from review. Reply to reviews and manage email notifications. |
+| **My Apps** | Your own apps with search and sorting. Per app: statistics, install trend (7d/30d/90d/1y/all), the live build with changelog and permissions, all builds, crashes with stack traces, suggestions, paired devices per driver and the raw API data. Build actions: publish to Test/Live, submit for certification and retract from review, plus the reviewer comment thread. Reply to reviews and manage email notifications. |
 | **Organizations** | *My Organizations* from Developer Tools: apps, members with profile pictures and roles, and totals for each organization. Owners and admins can invite, re-role and remove members. |
 | **Homeys** | The Homeys linked to your account. Control devices, trigger flows and advanced flows, restart apps and view their settings, and browse Logic variables, the timeline and system info. Includes a Web API Playground and all Developer Tools utilities: Pairing, Zigbee, Z-Wave, RF, IR, BLE, Images and Videos. |
 | **Account** | Switch, add and sign out of accounts, like in the Facebook app. Plus light/dark/automatic appearance, language, My API Clients, Webhooks, Personal Access Tokens, the API playgrounds and the full Developer Tools website. |
@@ -21,6 +21,18 @@ Also included:
 - **Multilingual:** Dutch, English, German and French. The app follows your device language. You can pick a different language for this app only under **Settings → Homey Dev → Language**.
 - **Splash screen** with a spinning Homey logo that continues seamlessly from the launch screen.
 - **Design** inspired by Developer Tools and homey.app, with a blueprint-style app icon. Fully supports light and dark mode.
+
+## Widgets
+
+Add them from the home screen (long-press → **+** → *Homey Dev*):
+
+| Widget | Sizes | Shows |
+|---|---|---|
+| **Installs** | Small, Medium | Total installs, 7-day change, sparkline, Cloud/Local split, average rating |
+| **Top apps** | Medium, Large | Your top 3 or 6 apps with icon, installs, live version, rating and 7-day change |
+| **Review & crashes** | Small, Medium | Apps waiting for certification and the total number of live crashes |
+
+The app shares a snapshot with the widgets through the App Group `group.nl.lrvdlinden.homeydevtools`. The widgets don't need a login, and their data updates each time the app refreshes.
 
 ## Signing in
 
@@ -34,7 +46,7 @@ Also included:
 ## Building
 
 1. Open `HomeyDevTools.xcodeproj` in **Xcode 16 or later**.
-2. Select your **Team** under *Signing & Capabilities*. The bundle ID is `nl.lrvdlinden.homeydevtools`, and you can change it.
+2. Select your **Team** under *Signing & Capabilities* for both targets, **HomeyDevTools** and **HomeyDevToolsWidget**. The bundle IDs are `nl.lrvdlinden.homeydevtools` and `nl.lrvdlinden.homeydevtools.widgets`. Xcode registers the App Group automatically.
 3. Choose an iPhone or simulator and press ▶︎.
 
 There are no third-party dependencies: only SwiftUI, Charts, WebKit and CryptoKit.
@@ -63,6 +75,7 @@ Open `Localizable.xcstrings` in Xcode, click **+** to add a language and transla
 
 ## Changelog
 
+- **1.2.4:** Three home screen widgets: **Installs** (small and medium), **Top apps** (medium and large) and **Review & crashes** (small and medium). The automated review screen was removed.
 - **1.2.3:** Developer actions, using the same API calls as Developer Tools:
   - Builds: *Publish to Test*, *Submit for Certification* (with auto-release), *Retract submission* and *Publish to Live*, plus the reviewer comment thread and the automated review.
   - A one-tap *Retract* button for apps in review on Home.
