@@ -374,7 +374,7 @@ struct NotificationsSection: View {
         } header: {
             Text("Meldingen")
         } footer: {
-            Text("Statusmeldingen: de app controleert zelf bij elke verversing en op de achtergrond (iOS bepaalt hoe vaak). Direct via push: een server controleert elke paar minuten en stuurt een pushmelding via OneSignal, ook als de app dicht is. Met push aan stuurt de app zelf geen dubbele meldingen.")
+            Text("Statusmeldingen: de app controleert zelf bij elke verversing en op de achtergrond (iOS bepaalt hoe vaak). Direct via push: een server controleert elk half uur en stuurt een pushmelding via OneSignal, ook als de app dicht is. Met push aan stuurt de app zelf geen dubbele meldingen.")
         }
         .cardRows()
     }

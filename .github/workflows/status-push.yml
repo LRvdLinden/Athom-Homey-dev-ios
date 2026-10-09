@@ -1,12 +1,13 @@
 name: Status push
 
-# Checks the build status of your Homey apps every 10 minutes and sends a push
+# Checks the build status of your Homey apps every 30 minutes and sends a push
 # through OneSignal when something changed (draft, Test, in review, approved,
 # rejected, Live). Needs the repository secrets HOMEY_PATS and ONESIGNAL_API_KEY.
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    # Every 30 minutes: fits the 2,000 free Actions minutes of a private repo.
+    - cron: "*/30 * * * *"
   workflow_dispatch:
 
 concurrency:

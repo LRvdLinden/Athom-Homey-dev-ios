@@ -75,8 +75,8 @@ There are two ways to get status notifications (**Account → Notifications**):
 
 | | On this device | Direct via push (OneSignal) |
 |:--|:--|:--|
-| How | The app checks when it refreshes and with Background App Refresh | A GitHub Actions job checks every 10 minutes and sends a push |
-| Delay | Minutes to hours (iOS decides) | About 10 minutes |
+| How | The app checks when it refreshes and with Background App Refresh | A GitHub Actions job checks every 30 minutes and sends a push |
+| Delay | Minutes to hours (iOS decides) | Up to about 30 minutes |
 | Setup | None | One-time, see below |
 
 **One-time setup for direct push**
@@ -131,7 +131,7 @@ Open `Localizable.xcstrings` in Xcode, click **+** to add a language and transla
 
 ## What's new
 
-**1.3.2** adds ⚡️ **direct push notifications** through OneSignal: get notified within minutes when a build is uploaded, put in Test, submitted, approved, rejected or published to Live, even when the app is closed. See [Push notifications](#push-notifications) for the one-time setup.
+**1.3.4**: direct push notifications through OneSignal now check every 30 minutes, so the workflow fits the free GitHub Actions minutes of a private repository. Earlier: status notifications (1.3.1–1.3.2) and privacy, disclaimer and about (1.3.3). See [Push notifications](#push-notifications) for the setup.
 
 📜 See the full history in **[CHANGELOG.md](CHANGELOG.md)**.
 
