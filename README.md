@@ -6,6 +6,33 @@ A native SwiftUI app for iPhone, iPad, Mac and Apple TV (iOS/iPadOS 17+, macOS 1
 
 > Unofficial app. Homey and the Homey logo are trademarks of Athom B.V.
 
+## Screenshots
+
+> Illustrative mockups with fictional data. The real app shows your own account, apps and Homeys.
+
+<table>
+  <tr>
+    <th>iPhone (iOS)</th>
+    <th>iPad (iPadOS)</th>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><img src="docs/screenshots/ios.png" width="260" alt="iPhone – Home dashboard"></td>
+    <td align="center" valign="top"><img src="docs/screenshots/ipados.png" width="520" alt="iPad – sidebar and Home dashboard"></td>
+  </tr>
+</table>
+
+**Mac (macOS, Mac Catalyst)**: app detail with build actions (*Retract submission*) and the reviewer comment thread
+
+<p align="center"><img src="docs/screenshots/macos.png" width="820" alt="Mac – app detail"></p>
+
+**Apple TV (tvOS)**: full-screen dashboard that refreshes every 5 minutes
+
+<p align="center"><img src="docs/screenshots/tvos.png" width="820" alt="Apple TV – dashboard"></p>
+
+**Widgets**: Installs (small and medium), Top apps and Review & crashes
+
+<p align="center"><img src="docs/screenshots/widgets.png" width="720" alt="Home screen widgets"></p>
+
 ## Features
 
 | Tab | What you get |
