@@ -12,7 +12,7 @@ enum Config {
 
     static func appStorePage(_ appId: String) -> URL? { URL(string: "https://homey.app/a/\(appId)/") }
     static func devToolsAppPage(_ appId: String) -> URL? { URL(string: "https://tools.developer.homey.app/apps/app/\(appId)") }
-    static func devToolsOrgPage(_ orgId: String) -> URL? { URL(string: "https://tools.developer.homey.app/orgs/\(orgId)") }
+    static func devToolsOrgPage(_ orgId: String) -> URL? { URL(string: "https://tools.developer.homey.app/orgs/org/\(orgId)") }
     static func devTools(_ path: String) -> URL { URL(string: "https://tools.developer.homey.app" + path)! }
 
     /// The Homey tools from the Developer Tools sidebar ("Tools" + "Wireless").

@@ -12,7 +12,7 @@ struct AppsAPI {
         }
         func run() async throws -> JSON {
             let token = try await auth.delegationToken(audience: "apps")
-            return try await HTTP.send(url, method: method, headers: ["Authorization": "Bearer \(token)"], body: body?.data()).json
+            return try await HTTP.send(url, method: method, headers: ["Authorization": "Bearer \(token)"], body: body?.data() ?? ((method == "POST" || method == "PUT") ? Data("{}".utf8) : nil)).json
         }
         do { return try await run() } catch let e as APIError where e.isUnauthorized {
             auth.invalidateDelegation("apps")
@@ -114,6 +114,97 @@ struct AppsAPI {
         d.liveCrashes = take(await crashes, L("Crashes"), [])
         d.errors = errors
         return d
+    }
+
+    // MARK: - Build actions (same calls as Developer Tools → Build page)
+
+    /// `channel`: "test" (Publish to Test) or "live" (Publish to Live).
+    func setBuildChannel(_ appId: String, buildId: Int, channel: String) async throws {
+        _ = try await request("/app/\(enc(appId))/build/\(buildId)/channel", method: "POST", json: .object(["channel": .string(channel)]))
+    }
+
+    /// Submit for certification.
+    func submitForCertification(_ appId: String, buildId: Int, autoRelease: Bool) async throws {
+        _ = try await request("/app/\(enc(appId))/build/\(buildId)/submission", method: "POST", json: .object(["autoRelease": .bool(autoRelease)]))
+    }
+
+    /// Retract a submission that is in review ("uit review halen").
+    func retractSubmission(_ appId: String, buildId: Int) async throws {
+        _ = try await request("/app/\(enc(appId))/build/\(buildId)/submission/retract", method: "POST")
+    }
+
+    func submissionComments(_ appId: String, buildId: Int) async throws -> [JSON] {
+        try await request("/app/\(enc(appId))/build/\(buildId)/submission/comment").items
+            .sorted { ($0["createdAt"].date ?? .distantPast) < ($1["createdAt"].date ?? .distantPast) }
+    }
+
+    func addSubmissionComment(_ appId: String, buildId: Int, text: String) async throws {
+        _ = try await request("/app/\(enc(appId))/build/\(buildId)/submission/comment", method: "POST", json: .object(["text": .string(text)]))
+    }
+
+    func agentReview(_ appId: String, buildId: Int) async throws -> JSON {
+        try await request("/app/\(enc(appId))/build/\(buildId)/agent-review")
+    }
+
+    func retryAgentReview(_ appId: String, buildId: Int) async throws {
+        _ = try await request("/app/\(enc(appId))/build/\(buildId)/agent-review/retry", method: "POST")
+    }
+
+    func crashStats(_ appId: String, buildId: Int) async throws -> JSON {
+        try await request("/app/\(enc(appId))/build/\(buildId)/crash/stats")
+    }
+
+    // MARK: - App actions
+
+    func appSettings(_ appId: String) async throws -> JSON {
+        try await request("/app/\(enc(appId))/settings")
+    }
+
+    func updateAppSettings(_ appId: String, crash: Bool, suggestion: Bool, thanks: Bool) async throws {
+        _ = try await request("/app/\(enc(appId))/settings", method: "PUT", json: .object([
+            "sendEmailCrash": .bool(crash), "sendEmailSuggestion": .bool(suggestion), "sendEmailThanks": .bool(thanks),
+        ]))
+    }
+
+    func reviews(_ appId: String) async throws -> [JSON] {
+        try await request("/app/\(enc(appId))/review").items
+            .sorted { ($0["createdAt"].date ?? $0["updatedAt"].date ?? .distantPast) > ($1["createdAt"].date ?? $1["updatedAt"].date ?? .distantPast) }
+    }
+
+    func respondToReview(_ appId: String, userId: String, response: String) async throws {
+        _ = try await request("/app/\(enc(appId))/review/\(enc(userId))/response", method: "PUT", json: .object(["response": .string(response)]))
+    }
+
+    func deleteReviewResponse(_ appId: String, userId: String) async throws {
+        _ = try await request("/app/\(enc(appId))/review/\(enc(userId))/response", method: "DELETE")
+    }
+
+    func thanks(_ appId: String) async throws -> JSON {
+        try await request("/app/\(enc(appId))/thanks")
+    }
+
+    func transferToOrganization(_ appId: String, orgId: String) async throws {
+        _ = try await request("/app/\(enc(appId))/transfer-to-organization", method: "POST", json: .object(["orgId": .string(orgId)]))
+    }
+
+    // MARK: - Organization actions
+
+    static let organizationRoles = ["admin", "developer", "support"]
+
+    func inviteMember(orgId: String, email: String, role: String) async throws {
+        _ = try await request("/org/\(enc(orgId))/member", method: "POST", json: .object(["email": .string(email), "role": .string(role)]))
+    }
+
+    func updateMemberRole(orgId: String, memberId: String, role: String) async throws {
+        _ = try await request("/org/\(enc(orgId))/member/\(enc(memberId))/role", method: "PUT", json: .object(["role": .string(role)]))
+    }
+
+    func removeMember(orgId: String, memberId: String) async throws {
+        _ = try await request("/org/\(enc(orgId))/member/\(enc(memberId))", method: "DELETE")
+    }
+
+    func renameOrganization(orgId: String, name: String) async throws {
+        _ = try await request("/org/\(enc(orgId))/name", method: "PUT", json: .object(["name": .string(name)]))
     }
 
     private func capture<T>(_ op: () async throws -> T) async -> Result<T, Error> {

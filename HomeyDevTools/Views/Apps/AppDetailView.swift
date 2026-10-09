@@ -110,6 +110,19 @@ struct AppDetailView: View {
                 Section { HStack { Spacer(); ProgressView(); Spacer() } }
             }
 
+            if let tid = a.testBuildId, !a.testState.isEmpty {
+                BuildActionsSection(appId: a.id, buildId: tid, version: a.testVersion, state: a.testState) { await load() }
+            }
+
+            Section("Beheer") {
+                NavigationLink { ReviewsView(appId: a.id) } label: {
+                    LabeledContent { Text(a.rating.map { String(format: "%.1f ★", $0) } ?? "") } label: { Label("Reviews", systemImage: "star.bubble") }
+                }
+                NavigationLink { AppNotificationSettingsView(appId: a.id) } label: { Label("Meldingen", systemImage: "bell.badge") }
+                NavigationLink { TransferAppView(app: a) } label: { Label("Overdragen naar organisatie", systemImage: "arrow.right.arrow.left") }
+            }
+            .cardRows()
+
             Section("Links") {
                 if let url = Config.devToolsAppPage(a.id) {
                     NavigationLink { WebToolsView(start: url).navigationBarTitleDisplayMode(.inline) } label: {
@@ -242,46 +255,6 @@ struct BuildsListView: View {
             NavigationLink { BuildDetailView(appId: app.id, build: b) } label: { BuildRow(build: b, app: app) }
         }
         .navigationTitle("Builds")
-    }
-}
-
-struct BuildDetailView: View {
-    let appId: String
-    let build: DevBuild
-    @Environment(AuthManager.self) private var auth
-
-    var body: some View {
-        Loader(load: { () async throws -> (DevBuild, [DevCrash]) in
-            let api = AppsAPI(auth: auth)
-            async let full = api.build(appId, build.id)
-            async let crashes = api.crashes(appId, buildId: build.id)
-            return ((try? await full) ?? build, (try? await crashes) ?? [])
-        }) { (value: (DevBuild, [DevCrash]), reload) in
-            let b = value.0
-            let crashes = value.1
-            List {
-                Section {
-                    LabeledContent("Versie", value: b.version)
-                    LabeledContent("Build", value: "#\(b.id)")
-                    LabeledContent("Status") { StateBadge(state: b.state) }
-                    LabeledContent("Aangemaakt", value: Fmt.date(b.createdAt))
-                    LabeledContent("Status gewijzigd", value: Fmt.date(b.stateChangedAt))
-                    LabeledContent("Installaties", value: Fmt.number(b.installs))
-                    LabeledContent("Crashes", value: Fmt.number(b.crashes))
-                    if !b.platforms.isEmpty { LabeledContent("Platforms", value: b.platforms.joined(separator: ", ")) }
-                    if !b.sdk.isEmpty { LabeledContent("Compatibiliteit", value: b.sdk) }
-                }
-                if !b.changelog.isEmpty { Section("Changelog") { Text(b.changelog) } }
-                Section("Crashes (\(crashes.count))") {
-                    if crashes.isEmpty { Text("Geen crashes 🎉").foregroundStyle(.secondary) }
-                    ForEach(crashes) { c in NavigationLink { CrashDetailView(crash: c) } label: { CrashRow(crash: c) } }
-                }
-                Section { NavigationLink("Ruwe API-data") { JSONInspectorView(title: "Build #\(b.id)", json: b.raw) } }
-            }
-            .refreshable { await reload() }
-        }
-        .navigationTitle("v\(build.version)")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

@@ -11,8 +11,8 @@ A native SwiftUI app for iPhone and iPad (iOS 17+) that brings [Homey Developer 
 | Tab | What you get |
 |---|---|
 | **Home** | Totals across all your apps and organizations: installs, Cloud/Local split, apps in review and average rating. Also an installs-per-app chart, your top apps and apps awaiting certification. |
-| **My Apps** | Your own apps with search and sorting. Per app: statistics, install trend (7d/30d/90d/1y/all), the live build with changelog and permissions, all builds, crashes with stack traces, suggestions, paired devices per driver and the raw API data. |
-| **Organizations** | *My Organizations* from Developer Tools: apps, members with roles and totals for each organization. |
+| **My Apps** | Your own apps with search and sorting. Per app: statistics, install trend (7d/30d/90d/1y/all), the live build with changelog and permissions, all builds, crashes with stack traces, suggestions, paired devices per driver and the raw API data. Build actions: publish to Test/Live, submit for certification and retract from review. Reply to reviews and manage email notifications. |
+| **Organizations** | *My Organizations* from Developer Tools: apps, members with profile pictures and roles, and totals for each organization. Owners and admins can invite, re-role and remove members. |
 | **Homeys** | The Homeys linked to your account. Control devices, trigger flows and advanced flows, restart apps and view their settings, and browse Logic variables, the timeline and system info. Includes a Web API Playground and all Developer Tools utilities: Pairing, Zigbee, Z-Wave, RF, IR, BLE, Images and Videos. |
 | **Account** | Switch, add and sign out of accounts, like in the Facebook app. Plus light/dark/automatic appearance, language, My API Clients, Webhooks, Personal Access Tokens, the API playgrounds and the full Developer Tools website. |
 
@@ -63,6 +63,11 @@ Open `Localizable.xcstrings` in Xcode, click **+** to add a language and transla
 
 ## Changelog
 
+- **1.2.3:** Developer actions, using the same API calls as Developer Tools:
+  - Builds: *Publish to Test*, *Submit for Certification* (with auto-release), *Retract submission* and *Publish to Live*, plus the reviewer comment thread and the automated review.
+  - A one-tap *Retract* button for apps in review on Home.
+  - Apps: reply to user reviews, email notification settings, transfer to an organization.
+  - Organizations: profile pictures for members, invite members, change roles (Admin/Developer/Support), remove members and rename the organization.
 - **1.2.1:** Redesigned *Installs per app* chart on Home: app names and totals sit above each bar, so bars no longer overlap the labels. Rows are tappable and show the Cloud/Local split.
 - **1.2.0:** Multilingual app (Dutch, English, German, French) using a String Catalog, plus a language row under Account → Appearance.
 - **1.1.0:** New Apple Developer-style app icon with a white Homey ring, a blue blueprint login screen and a spinning Homey logo on the splash screen.

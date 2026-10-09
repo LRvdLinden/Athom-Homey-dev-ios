@@ -53,8 +53,20 @@ struct DashboardView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             Label("Wacht op certificering", systemImage: "hourglass").font(.headline)
                             ForEach(review) { app in
-                                HStack { Text(app.name); Spacer(); Text("v\(app.testVersion)").foregroundStyle(.secondary) }
-                                    .font(.subheadline)
+                                HStack {
+                                    NavigationLink(value: app) {
+                                        HStack { Text(app.name); Spacer(); Text("v\(app.testVersion)").foregroundStyle(.secondary) }
+                                    }
+                                    .buttonStyle(.plain)
+                                    if let bid = app.testBuildId, app.testState == "in_review" {
+                                        Button { retractTarget = (app, bid) } label: {
+                                            Text("Uit review").font(.caption.weight(.semibold))
+                                        }
+                                        .buttonStyle(.bordered)
+                                        .tint(.orange)
+                                    }
+                                }
+                                .font(.subheadline)
                             }
                         }
                         .padding()
@@ -73,7 +85,27 @@ struct DashboardView: View {
         .toolbar { AccountSwitcherButton() }
         .navigationDestination(for: DevApp.self) { AppDetailView(app: $0) }
         .refreshable { await store.load(auth: auth, force: true) }
+        .confirmationDialog("Uit review halen?", isPresented: Binding(get: { retractTarget != nil }, set: { if !$0 { retractTarget = nil } }),
+                            titleVisibility: .visible) {
+            if let t = retractTarget {
+                Button(L("\(t.app.name) v\(t.app.testVersion) uit review halen"), role: .destructive) { Task { await retract(t.app, t.buildId) } }
+            }
+        } message: {
+            Text("De build gaat terug naar Test. Je kunt hem later opnieuw indienen.")
+        }
+        .actionFeedback($feedback)
         .task { await store.load(auth: auth) }
+    }
+
+    @State private var retractTarget: (app: DevApp, buildId: Int)?
+    @State private var feedback: String?
+
+    private func retract(_ app: DevApp, _ buildId: Int) async {
+        do {
+            try await AppsAPI(auth: auth).retractSubmission(app.id, buildId: buildId)
+            feedback = L("Uit review gehaald")
+            await store.load(auth: auth, force: true)
+        } catch { feedback = error.localizedDescription }
     }
 
     private var header: some View {

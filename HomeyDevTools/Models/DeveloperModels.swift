@@ -76,6 +76,9 @@ struct DevOrganization: Identifiable, Hashable, Sendable {
     let members: [JSON]
     let imageURL: URL?
     let descriptionText: String
+    /// Your own role in this organisation: owner / admin / developer / support.
+    let myRole: String
+    let verified: Bool
     let raw: JSON
 
     init?(_ j: JSON) {
@@ -83,11 +86,50 @@ struct DevOrganization: Identifiable, Hashable, Sendable {
         self.id = id
         name = j.firstString("name", "title").isEmpty ? id : j.firstString("name", "title")
         appRefs = j["apps"].array
-        members = j["users"].array.isEmpty ? j["members"].array : j["users"].array
+        members = j["members"].array.isEmpty ? j["users"].array : j["members"].array
         let img = j["image"].isContainer ? j["image"].firstString("small", "medium", "large", "url") : j.firstString("image", "avatar", "logo", "icon")
         imageURL = img.lowercased().hasSuffix(".svg") ? nil : assetURL(img)
         descriptionText = j["description"].localized
+        myRole = j.firstString("role")
+        verified = j["verified"].bool ?? false
         raw = j
+    }
+}
+
+extension DevOrganization {
+    var canManageMembers: Bool { myRole == "owner" || myRole == "admin" }
+    var canChangeRoles: Bool { myRole == "owner" }
+}
+
+/// Organisation member (`org.members[]`: id, userId, name, email, role, avatarUrl).
+struct OrgMember: Identifiable, Hashable, Sendable {
+    let id: String
+    let userId: String
+    let name: String
+    let email: String
+    let role: String
+    let avatarURL: URL?
+
+    init(_ j: JSON, index: Int) {
+        let u = j["user"].isContainer ? j["user"] : j
+        id = j.firstString("id", "_id").isEmpty ? "\(index)" : j.firstString("id", "_id")
+        userId = j.firstString("userId").isEmpty ? u.firstString("_id", "id") : j.firstString("userId")
+        let full = "\(u["firstname"].string ?? "") \(u["lastname"].string ?? "")".trimmingCharacters(in: .whitespaces)
+        let n = j.firstString("name", "fullname").isEmpty ? (full.isEmpty ? u.firstString("fullname", "name") : full) : j.firstString("name", "fullname")
+        email = j.firstString("email").isEmpty ? u.firstString("email") : j.firstString("email")
+        name = n.isEmpty ? email : n
+        role = j.firstString("role", "roleId")
+        var avatar = j.firstString("avatarUrl", "avatarURL")
+        if avatar.isEmpty {
+            let a = u["avatar"]
+            avatar = a.isContainer ? a.firstString("medium", "large", "small", "url") : (a.string ?? "")
+        }
+        avatarURL = assetURL(avatar)
+    }
+
+    var initials: String {
+        let parts = name.split(separator: " ").prefix(2).compactMap(\.first).map(String.init).joined()
+        return parts.isEmpty ? String(email.prefix(1)).uppercased() : parts.uppercased()
     }
 }
 

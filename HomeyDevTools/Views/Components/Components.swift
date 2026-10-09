@@ -95,7 +95,9 @@ struct StateBadge: View {
         case "draft": return L("Draft")
         case "processing": return L("Verwerken")
         case "approved": return L("Goedgekeurd")
-        case "rejected": return L("Afgewezen")
+        case "rejected", "reviewed_rejected": return L("Afgewezen")
+        case "reviewed_approved": return L("Goedgekeurd")
+        case "superseded": return L("Vervangen")
         case "canceled", "cancelled": return L("Geannuleerd")
         default: return state.replacingOccurrences(of: "_", with: " ").capitalized
         }
@@ -103,10 +105,10 @@ struct StateBadge: View {
 
     private var color: Color {
         switch state {
-        case "live", "approved": return .green
+        case "live", "approved", "reviewed_approved": return .green
         case "test": return .blue
         case "in_review", "processing": return .orange
-        case "rejected", "failed": return .red
+        case "rejected", "reviewed_rejected", "failed": return .red
         default: return .secondary
         }
     }

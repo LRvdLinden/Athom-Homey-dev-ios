@@ -118,14 +118,7 @@ struct OrganizationDetailView: View {
             }
             .cardRows()
 
-            if !current.members.isEmpty {
-                Section("Leden (\(current.members.count))") {
-                    ForEach(Array(current.members.enumerated()), id: \.offset) { _, m in
-                        OrgMemberRow(member: m)
-                    }
-                }
-                .cardRows()
-            }
+            OrgMembersSection(org: current)
 
             Section {
                 if let url = Config.devToolsOrgPage(current.id) {
@@ -139,36 +132,200 @@ struct OrganizationDetailView: View {
         .navigationTitle(current.name)
         .navigationBarTitleDisplayMode(.inline)
         .refreshable { await store.load(auth: auth, force: true) }
+        .toolbar {
+            if current.canManageMembers {
+                Menu {
+                    Button { showInvite = true } label: { Label("Lid uitnodigen", systemImage: "person.badge.plus") }
+                    if current.canChangeRoles {
+                        Button { newName = current.name; showRename = true } label: { Label("Organisatie hernoemen", systemImage: "pencil") }
+                    }
+                } label: { Image(systemName: "ellipsis.circle") }
+            }
+        }
+        .sheet(isPresented: $showInvite) { InviteMemberSheet(org: current) }
+        .alert("Organisatie hernoemen", isPresented: $showRename) {
+            TextField("Naam", text: $newName)
+            Button("Annuleer", role: .cancel) {}
+            Button("Bewaar") { Task { await rename(current) } }
+        }
+        .actionFeedback($feedback)
+    }
+
+    @State private var showInvite = false
+    @State private var showRename = false
+    @State private var newName = ""
+    @State private var feedback: String?
+
+    private func rename(_ org: DevOrganization) async {
+        let name = newName.trimmingCharacters(in: .whitespaces)
+        guard !name.isEmpty else { return }
+        do {
+            try await AppsAPI(auth: auth).renameOrganization(orgId: org.id, name: name)
+            feedback = L("Organisatie hernoemd")
+            await store.load(auth: auth, force: true)
+        } catch { feedback = error.localizedDescription }
+    }
+}
+
+/// Members with profile pictures; owners/admins can change roles and remove members.
+struct OrgMembersSection: View {
+    let org: DevOrganization
+    @Environment(AuthManager.self) private var auth
+    @Environment(PortfolioStore.self) private var store
+    @State private var removing: OrgMember?
+    @State private var feedback: String?
+
+    var body: some View {
+        let members = org.members.enumerated().map { OrgMember($1, index: $0) }
+        Section {
+            ForEach(members) { m in
+                OrgMemberRow(member: m)
+                    .contextMenu { menu(m) }
+                    .swipeActions {
+                        if org.canManageMembers && m.role != "owner" {
+                            Button("Verwijderen", role: .destructive) { removing = m }
+                        }
+                    }
+            }
+        } header: {
+            Text("Leden (\(members.count))")
+        } footer: {
+            if org.canManageMembers { Text("Houd een lid ingedrukt om de rol te wijzigen, veeg om te verwijderen.") }
+        }
+        .cardRows()
+        .confirmationDialog("Lid verwijderen?", isPresented: Binding(get: { removing != nil }, set: { if !$0 { removing = nil } }),
+                            titleVisibility: .visible, presenting: removing) { m in
+            Button(L("\(m.name) verwijderen uit \(org.name)"), role: .destructive) { Task { await remove(m) } }
+        }
+        .actionFeedback($feedback)
+    }
+
+    @ViewBuilder
+    private func menu(_ m: OrgMember) -> some View {
+        if org.canChangeRoles && m.role != "owner" {
+            Picker("Rol", selection: Binding(get: { m.role }, set: { r in Task { await setRole(m, r) } })) {
+                ForEach(AppsAPI.organizationRoles, id: \.self) { r in Text(roleLabel(r)).tag(r) }
+            }
+        }
+        if !m.email.isEmpty {
+            Button { UIPasteboard.general.string = m.email } label: { Label("Kopieer e-mail", systemImage: "envelope") }
+        }
+        if !m.userId.isEmpty {
+            Button { UIPasteboard.general.string = m.userId } label: { Label("Kopieer gebruikers-ID", systemImage: "number") }
+        }
+    }
+
+    private func setRole(_ m: OrgMember, _ role: String) async {
+        guard role != m.role else { return }
+        do {
+            try await AppsAPI(auth: auth).updateMemberRole(orgId: org.id, memberId: m.id, role: role)
+            feedback = L("Rol bijgewerkt")
+            await store.load(auth: auth, force: true)
+        } catch { feedback = error.localizedDescription }
+    }
+
+    private func remove(_ m: OrgMember) async {
+        do {
+            try await AppsAPI(auth: auth).removeMember(orgId: org.id, memberId: m.id)
+            feedback = L("Lid verwijderd")
+            await store.load(auth: auth, force: true)
+        } catch { feedback = error.localizedDescription }
+    }
+}
+
+func roleLabel(_ role: String) -> String {
+    switch role {
+    case "owner": L("Owner")
+    case "admin": L("Admin")
+    case "developer": L("Developer")
+    case "support": L("Support")
+    default: role.capitalized
+    }
+}
+
+struct InviteMemberSheet: View {
+    let org: DevOrganization
+    @Environment(AuthManager.self) private var auth
+    @Environment(PortfolioStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    @State private var email = ""
+    @State private var role = "developer"
+    @State private var busy = false
+    @State private var error: String?
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    TextField("E-mailadres", text: $email)
+                        .keyboardType(.emailAddress)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                    Picker("Rol", selection: $role) {
+                        ForEach(AppsAPI.organizationRoles, id: \.self) { r in Text(roleLabel(r)).tag(r) }
+                    }
+                } footer: {
+                    Text("De uitnodiging wordt per e-mail verstuurd naar een bestaand Homey-account.")
+                }
+                .cardRows()
+                if let error { Section { Text(error).foregroundStyle(.red) }.cardRows() }
+            }
+            .themedList()
+            .navigationTitle(org.name)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) { Button("Annuleer") { dismiss() } }
+                ToolbarItem(placement: .confirmationAction) {
+                    if busy { ProgressView() } else {
+                        Button("Uitnodigen") { Task { await invite() } }
+                            .disabled(!email.contains("@"))
+                    }
+                }
+            }
+        }
+    }
+
+    private func invite() async {
+        busy = true; error = nil
+        defer { busy = false }
+        do {
+            try await AppsAPI(auth: auth).inviteMember(orgId: org.id, email: email.trimmingCharacters(in: .whitespaces), role: role)
+            await store.load(auth: auth, force: true)
+            dismiss()
+        } catch { self.error = error.localizedDescription }
     }
 }
 
 struct OrgMemberRow: View {
-    let member: JSON
+    let member: OrgMember
 
     var body: some View {
-        let u = member["user"].isContainer ? member["user"] : member
-        let name: String = {
-            let full = "\(u["firstname"].string ?? "") \(u["lastname"].string ?? "")".trimmingCharacters(in: .whitespaces)
-            return full.isEmpty ? u.firstString("fullname", "name", "email", "id", "_id") : full
-        }()
-        let role = member.firstString("role", "roleId")
-        let roles = member["roles"].array.compactMap(\.string)
-        let avatar = u["avatar"].isContainer ? u["avatar"].firstString("small", "medium", "large", "url") : (u["avatar"].string ?? "")
-
         HStack(spacing: 12) {
-            AsyncImage(url: URL(string: avatar)) { i in i.resizable().scaledToFill() } placeholder: {
-                Image(systemName: "person.crop.circle.fill").resizable().foregroundStyle(.secondary)
-            }
-            .frame(width: 34, height: 34).clipShape(Circle())
+            AccountAvatar(url: member.avatarURL, initials: member.initials, size: 40)
             VStack(alignment: .leading, spacing: 2) {
-                Text(name)
-                if !u.firstString("email").isEmpty && u.firstString("email") != name {
-                    Text(u.firstString("email")).font(.caption).foregroundStyle(Theme.textSecondary)
+                Text(member.name).lineLimit(1)
+                if !member.email.isEmpty && member.email != member.name {
+                    Text(member.email).font(.caption).foregroundStyle(Theme.textSecondary).lineLimit(1)
                 }
             }
             Spacer()
-            let r = role.isEmpty ? roles.joined(separator: ", ") : role
-            if !r.isEmpty { StateBadge(state: r) }
+            if !member.role.isEmpty {
+                Text(roleLabel(member.role))
+                    .font(.caption.weight(.semibold))
+                    .padding(.horizontal, 9).padding(.vertical, 4)
+                    .background(roleColor.opacity(0.15), in: Capsule())
+                    .foregroundStyle(roleColor)
+            }
+        }
+        .padding(.vertical, 2)
+    }
+
+    private var roleColor: Color {
+        switch member.role {
+        case "owner": .orange
+        case "admin": Theme.accent
+        case "developer": .green
+        default: .secondary
         }
     }
 }
