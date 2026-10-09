@@ -79,7 +79,7 @@ There are three ways to get your accounts onto the Apple TV:
 
 For each account the iPhone uses its Personal Access Token (like *Reveal* in Developer Tools → My Account), because web sessions expire.
 
-The TV app shows a dashboard that refreshes every 5 minutes, plus My Apps, Organizations, and Homeys with devices and Insights. It is read-only: there is no web view on tvOS, so sign-in and pairing happen on the iPhone.
+The TV app shows a dashboard that refreshes every 5 minutes, plus My Apps, Organizations and Account. It is read-only, and you scroll through every screen with the Siri Remote.
 
 ## Signing in
 
@@ -122,7 +122,7 @@ Open `Localizable.xcstrings` in Xcode, click **+** to add a language and transla
 
 ## Changelog
 
-- **1.2.9:** Apple TV sign-in no longer depends on iCloud Keychain: pair over Wi-Fi with a 4-digit code, or enter a Personal Access Token on the TV. iCloud sharing now reports errors. Also fixes a crash on the Mac when signing in or adding an account. The login screen now closes before the app switches to the new account, and the Mac sidebar no longer rebuilds its navigation stack (which left duplicate items in the window toolbar). Switching accounts from the account sheet works the same way. All platforms share one bundle ID (universal purchase).
+- **1.2.9:** Apple TV: the dashboard and detail screens can now be scrolled with the Siri Remote, and the Homeys tab was removed. Apple TV sign-in no longer depends on iCloud Keychain: pair over Wi-Fi with a 4-digit code, or enter a Personal Access Token on the TV. iCloud sharing now reports errors. Also fixes a crash on the Mac when signing in or adding an account. The login screen now closes before the app switches to the new account, and the Mac sidebar no longer rebuilds its navigation stack (which left duplicate items in the window toolbar). Switching accounts from the account sheet works the same way. All platforms share one bundle ID (universal purchase).
 - **1.2.8:** **macOS app** (Mac Catalyst, optimized for Mac, macOS 14 Sonoma+). It has the Developer Tools-style sidebar, all features including sign-in with email and password, native Homey tools, right-click menus, ⌘R to refresh, Help menu links, a macOS-style icon and the widgets on the Mac desktop.
 - **1.2.7:** **Apple TV app (tvOS 17+)**: a full-screen dashboard (installs, Cloud/Local, review, crashes, rating, 60-day trend, top apps) that refreshes every 5 minutes, plus read-only My Apps, Organizations, Homeys (devices and Insights) and account switching. Accounts are shared from the iPhone through iCloud Keychain (*Account → Apple TV*), using each account's Personal Access Token. Includes a layered parallax tvOS icon and Top Shelf images.
 - **1.2.6:** The Developer Tools *Tools* now run **natively in the app** through the Homey Web API: **System** (info, memory, storage, rename, reboot, updates, experiments), **Insights** (logs with charts), **Zigbee** (network, devices with LQI, update nodes), **Z-Wave** (controller, stats, nodes: test frame, heal, re-interview, remove failed), **Bluetooth LE** (peripherals with RSSI), **RF** (433/868 MHz record, replay, emulate), **Infrared** (send Pronto hex), **Images** and **Videos**. Only Pairing still opens the website. The tools are also in the iPad sidebar.

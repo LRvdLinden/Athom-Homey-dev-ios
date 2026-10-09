@@ -70,7 +70,27 @@ struct TVTile: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(28)
         .background(TV.card, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .tvFocusCard()
     }
+}
+
+/// Lets a non-interactive card take focus, so the Siri Remote can move down
+/// through the dashboard (tvOS only scrolls by moving focus).
+struct TVFocusCard: ViewModifier {
+    @FocusState private var focused: Bool
+
+    func body(content: Content) -> some View {
+        content
+            .focusable()
+            .focused($focused)
+            .scaleEffect(focused ? 1.03 : 1)
+            .shadow(color: .black.opacity(focused ? 0.5 : 0), radius: 24, y: 12)
+            .animation(.easeOut(duration: 0.15), value: focused)
+    }
+}
+
+extension View {
+    func tvFocusCard() -> some View { modifier(TVFocusCard()) }
 }
 
 struct TVBadge: View {
@@ -144,7 +164,6 @@ struct TVRootView: View {
                     NavigationStack { TVDashboardView() }.tabItem { Label("Dashboard", systemImage: "square.grid.2x2.fill") }
                     NavigationStack { TVAppsView() }.tabItem { Label("My Apps", systemImage: "square.stack.3d.up.fill") }
                     NavigationStack { TVOrganizationsView() }.tabItem { Label("Organisaties", systemImage: "building.2.fill") }
-                    NavigationStack { TVHomeysView() }.tabItem { Label("Homeys", systemImage: "circle.circle") }
                     NavigationStack { TVSettingsView() }.tabItem { Label("Account", systemImage: "person.crop.circle.fill") }
                 }
                 .id(store.activeID)
@@ -350,6 +369,7 @@ struct TVDashboardView: View {
                 }
                 .padding(28)
                 .background(TV.card, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+                .tvFocusCard()
 
                 HStack(alignment: .top, spacing: 24) {
                     VStack(alignment: .leading, spacing: 12) {
@@ -361,7 +381,14 @@ struct TVDashboardView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Wacht op certificering").font(.headline)
-                        if review.isEmpty { Label("Niets in review", systemImage: "checkmark.seal.fill").foregroundStyle(.green) }
+                        if review.isEmpty {
+                            Label("Niets in review", systemImage: "checkmark.seal.fill")
+                                .foregroundStyle(.green)
+                                .padding(16)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(TV.card, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                .tvFocusCard()
+                        }
                         ForEach(review) { app in
                             NavigationLink(value: app) {
                                 HStack { TVAppIcon(app: app, size: 56); Text(app.name); Spacer(); Text("v\(app.testVersion)").foregroundStyle(.orange) }
@@ -376,6 +403,7 @@ struct TVDashboardView: View {
             .padding(.horizontal, 60)
             .padding(.vertical, 30)
         }
+        .scrollClipDisabled()
         .navigationDestination(for: DevApp.self) { TVAppDetailView(app: $0) }
         .task {
             UIApplication.shared.isIdleTimerDisabled = true
@@ -468,6 +496,7 @@ struct TVAppDetailView: View {
                     }
                 }
                 .padding(.vertical, 10)
+                .focusable()
             }
             Section {
                 HStack(spacing: 24) {
@@ -478,7 +507,7 @@ struct TVAppDetailView: View {
                 }
             }
             if let d = detail, !d.installStats.isEmpty {
-                Section("Installatietrend") { TVInstallChart(points: d.installStats, height: 300) }
+                Section("Installatietrend") { TVInstallChart(points: d.installStats, height: 300).focusable() }
             }
             if let d = detail {
                 Section("Builds") {
@@ -491,6 +520,7 @@ struct TVAppDetailView: View {
                             Text(TV.compact(b.installs)).monospacedDigit().frame(width: 120, alignment: .trailing)
                             if b.crashes > 0 { Label("\(b.crashes)", systemImage: "ladybug.fill").foregroundStyle(.red) }
                         }
+                        .focusable()
                     }
                 }
                 if !d.liveCrashes.isEmpty {
@@ -500,6 +530,7 @@ struct TVAppDetailView: View {
                                 Text(c.firstLine).font(.callout.monospaced()).lineLimit(2)
                                 Text("\(c.count)× · Homey \(c.homeyVersion) · \(TV.relative(c.updatedAt ?? c.createdAt))").font(.caption).foregroundStyle(.secondary)
                             }
+                            .focusable()
                         }
                     }
                 }
@@ -510,6 +541,7 @@ struct TVAppDetailView: View {
                                 Text(s.text)
                                 Text(TV.relative(s.createdAt)).font(.caption).foregroundStyle(.secondary)
                             }
+                            .focusable()
                         }
                     }
                 }
@@ -576,150 +608,12 @@ struct TVOrganizationDetailView: View {
                         Spacer()
                         Text(m.role.capitalized).foregroundStyle(.secondary)
                     }
+                    .focusable()
                 }
             }
         }
         .navigationTitle(org.name)
         .navigationDestination(for: DevApp.self) { TVAppDetailView(app: $0) }
-    }
-}
-
-// MARK: - Homeys
-
-struct TVHomeysView: View {
-    @Environment(TVStore.self) private var store
-
-    var body: some View {
-        List {
-            ForEach(store.homeys) { h in
-                NavigationLink { TVHomeyDetailView(client: HomeyClient(homey: h, auth: store)) } label: {
-                    HStack(spacing: 20) {
-                        TVLogo(size: 50)
-                        VStack(alignment: .leading) {
-                            Text(h.name).font(.headline)
-                            Text(h.subtitle).font(.caption).foregroundStyle(.secondary)
-                        }
-                    }
-                }
-            }
-        }
-        .overlay { if store.homeys.isEmpty { ContentUnavailableView("Geen Homeys", systemImage: "circle.circle") } }
-        .task { if store.user.isNull { try? await store.loadUser() } }
-    }
-}
-
-struct TVHomeyDetailView: View {
-    let client: HomeyClient
-    @State private var devices: [HomeyDevice] = []
-    @State private var zones: [String: String] = [:]
-    @State private var system: JSON = .null
-    @State private var error: String?
-
-    private var modelName: String {
-        let name: String = system.firstString("homeyModelName", "modelName")
-        return name.isEmpty ? client.homey.subtitle : name
-    }
-
-    var body: some View {
-        List {
-            if let error { Text(error).foregroundStyle(.orange) }
-            Section("Systeem") {
-                LabeledContent("Model", value: modelName)
-                LabeledContent("Versie", value: system.firstString("homeyVersion", "softwareVersion"))
-                NavigationLink { TVInsightsView(client: client) } label: { Label("Insights", systemImage: "chart.xyaxis.line") }
-            }
-            let grouped = Dictionary(grouping: devices) { zones[$0.zoneId] ?? L("Overig") }
-            ForEach(grouped.keys.sorted(), id: \.self) { zone in
-                Section(zone) {
-                    ForEach(grouped[zone] ?? []) { d in
-                        HStack {
-                            Image(systemName: d.systemImage).foregroundStyle(d.available ? TV.accent : .secondary).frame(width: 50)
-                            Text(d.name)
-                            Spacer()
-                            Text(d.capabilities.filter { !$0.value.isNull }.prefix(3).map(\.formattedValue).joined(separator: " · "))
-                                .foregroundStyle(.secondary).monospacedDigit()
-                        }
-                    }
-                }
-            }
-        }
-        .navigationTitle(client.homey.name)
-        .task {
-            do {
-                async let z = client.zones()
-                async let d = client.devices()
-                let (zs, ds) = try await (z, d)
-                zones = Dictionary(zs.map { ($0.id, $0.name) }, uniquingKeysWith: { a, _ in a })
-                devices = ds
-                error = nil
-            } catch { self.error = error.localizedDescription }
-            system = (try? await client.system()) ?? .null
-        }
-    }
-}
-
-struct TVInsightsView: View {
-    let client: HomeyClient
-    @State private var logs: [JSON] = []
-
-    var body: some View {
-        List {
-            ForEach(Array(logs.enumerated()), id: \.offset) { _, log in
-                NavigationLink { TVInsightsLogView(client: client, log: log) } label: {
-                    HStack {
-                        Text(titleOrID(log))
-                        Spacer()
-                        Text(log.firstString("ownerName", "uri")).foregroundStyle(.secondary)
-                    }
-                }
-            }
-        }
-        .navigationTitle("Insights")
-        .task { logs = (try? await client.request("/api/manager/insights/log"))?.items ?? [] }
-    }
-}
-
-struct TVInsightsLogView: View {
-    let client: HomeyClient
-    let log: JSON
-    @State private var resolution = "last24Hours"
-    @State private var points: [StatPoint] = []
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 30) {
-            Picker("Periode", selection: $resolution) {
-                Text("24u").tag("last24Hours")
-                Text("7d").tag("last7Days")
-                Text("31d").tag("last31Days")
-                Text("1j").tag("last1Year")
-            }
-            .pickerStyle(.segmented)
-            if points.count > 1 {
-                Chart(points) { p in
-                    AreaMark(x: .value("Tijd", p.date), y: .value("Waarde", p.value))
-                        .foregroundStyle(LinearGradient(colors: [TV.accent.opacity(0.4), .clear], startPoint: .top, endPoint: .bottom))
-                        .interpolationMethod(.monotone)
-                    LineMark(x: .value("Tijd", p.date), y: .value("Waarde", p.value))
-                        .lineStyle(StrokeStyle(lineWidth: 4))
-                        .interpolationMethod(.monotone)
-                }
-                .chartYScale(domain: .automatic(includesZero: false))
-            } else {
-                Text("Geen waarden in deze periode.").foregroundStyle(.secondary)
-            }
-        }
-        .padding(60)
-        .navigationTitle(log["title"].localized)
-        .task(id: resolution) {
-            let uri = log.firstString("uri", "ownerUri")
-            let path = "/api/manager/insights/log/\(uri.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? uri)/\(log.firstString("id"))/entry?resolution=\(resolution)"
-            let j = (try? await client.request(path)) ?? .null
-            let values = j["values"].isNull ? j.array : j["values"].array
-            points = values.compactMap { v in
-                guard let t = v["t"].date, let val = v["v"].double else { return nil }
-                return StatPoint(date: t, value: val)
-            }
-        }
     }
 }
 
