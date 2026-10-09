@@ -462,12 +462,19 @@ struct LQIBadge: View {
 
 struct ZNode: Identifiable { let id: Int; let json: JSON }
 
+struct ZWaveStat: Identifiable {
+    let id: String
+    let value: String
+}
+
 struct ZwaveToolView: View {
     let client: HomeyClient
     @State private var state = ToolState()
     @State private var failed: Set<Int> = []
     @State private var working: Set<Int> = []
     @State private var removeNode: Int?
+
+    // MARK: Data
 
     private var zw: JSON {
         let inner: JSON = state.json["zw_state"]
@@ -489,73 +496,149 @@ struct ZwaveToolView: View {
         return raw.displayString
     }
 
-    private var stats: [(key: String, value: String)] {
+    private var nodeIdText: String { zw["nodeId"].displayString }
+    private var regionText: String { zw.firstString("softwareRegion", "hardwareRegion") }
+    private var currentCommand: String { zw.firstString("currentCommand") }
+
+    private var stats: [ZWaveStat] {
         let json: JSON = zw["stats"]
-        return json.object.keys.sorted().map { key in (key: key, value: json[key].displayString) }
+        var out: [ZWaveStat] = []
+        for key in json.object.keys.sorted() {
+            out.append(ZWaveStat(id: key, value: json[key].displayString))
+        }
+        return out
     }
 
+    private var removeBinding: Binding<Bool> {
+        Binding(get: { removeNode != nil }, set: { if !$0 { removeNode = nil } })
+    }
+
+    // MARK: Body
+
     var body: some View {
-        let zw: JSON = self.zw
-        let nodes: [ZNode] = self.nodes
         List {
-            Section { ToolHeader(client: client) }.listRowBackground(Color.clear)
-            if let e = state.error { ErrorBanner(message: e) { Task { await load() } }.listRowBackground(Color.clear) }
-            if let m = state.message { Label(m, systemImage: "checkmark.circle").foregroundStyle(.green).listRowBackground(Color.clear) }
-
-            Section("Controller") {
-                LabeledContent("Home ID", value: homeIdText)
-                LabeledContent("Node ID", value: zw["nodeId"].displayString)
-                LabeledContent("Regio", value: zw.firstString("softwareRegion", "hardwareRegion"))
-                if !zw.firstString("currentCommand").isEmpty { LabeledContent("Huidige opdracht", value: zw.firstString("currentCommand")) }
-                Button { Task { await checkFailed() } } label: { Label("Defecte nodes zoeken", systemImage: "stethoscope") }
-                Button { Task { await state.run(L("Node Information Frame verstuurd")) { _ = try await client.runCommand("zwave", "sendNodeInformationFrame") } } } label: {
-                    Label("Node Information Frame versturen", systemImage: "antenna.radiowaves.left.and.right")
-                }
-                Button(role: .destructive) {
-                    Task { await state.run(L("Onbekende nodes verwijderd")) { _ = try await client.runCommand("zwave", "removeUnknownNodes") }; await load() }
-                } label: { Label("Onbekende nodes verwijderen", systemImage: "trash") }
-            }
-            .cardRows()
-
-            if !stats.isEmpty {
-                Section("Statistieken") {
-                    ForEach(stats, id: \.key) { item in
-                        MonoValueRow(label: item.key, value: item.value)
-                    }
-                }
-                .cardRows()
-            }
-
-            Section("Nodes (\(nodes.count))") {
-                ForEach(nodes) { node in
-                    let id = node.id
-                    let n = node.json
-                    ZWaveNodeRow(id: id, node: n, isFailed: failed.contains(id), isWorking: working.contains(id))
-                    .contextMenu {
-                        Button { Task { await nodeCommand(id, "sendTestFrame", L("Test-frame verstuurd"), 15) } } label: { Label("Test-frame versturen", systemImage: "waveform") }
-                        Button { Task { await nodeCommand(id, "heal", L("Heal voltooid"), 300) } } label: { Label("Heal (routes herstellen)", systemImage: "bandage") }
-                        Button { Task { await nodeCommand(id, "interviewNodeOnRequest", L("Interview aangevraagd"), 60) } } label: { Label("Interview opnieuw", systemImage: "questionmark.bubble") }
-                        Button(role: .destructive) { removeNode = id } label: { Label("Defecte node verwijderen", systemImage: "trash") }
-                        NavigationLink { JSONInspectorView(title: L("Node \(id)"), json: n) } label: { Label("Ruwe data", systemImage: "curlybraces") }
-                    }
-                }
-            } footer: {
-                Text("Houd een node ingedrukt voor test-frame, heal, interview of verwijderen.")
-            }
-            .cardRows()
-
-            Section { NavigationLink("Ruwe data") { JSONInspectorView(title: "Z-Wave", json: state.json) } }.cardRows()
+            headerSection
+            controllerSection
+            statsSection
+            nodesSection
+            rawSection
         }
         .themedList()
-        .overlay { if state.loading && state.json.isNull { ProgressView() } }
+        .overlay { loadingOverlay }
         .navigationTitle("Z-Wave")
         .refreshable { await load() }
         .task { await load() }
-        .confirmationDialog("Defecte node verwijderen?", isPresented: Binding(get: { removeNode != nil }, set: { if !$0 { removeNode = nil } }),
-                            titleVisibility: .visible, presenting: removeNode) { id in
-            Button(L("Node \(id) verwijderen"), role: .destructive) { Task { await nodeCommand(id, "removeFailedNode", L("Node verwijderd"), 60); await load() } }
-        } message: { _ in Text("Werkt alleen voor nodes die Homey als defect heeft gemarkeerd.") }
+        .confirmationDialog("Defecte node verwijderen?", isPresented: removeBinding, titleVisibility: .visible, presenting: removeNode) { (id: Int) in
+            Button(L("Node \(id) verwijderen"), role: .destructive) {
+                Task { await removeFailed(id) }
+            }
+        } message: { (_: Int) in
+            Text("Werkt alleen voor nodes die Homey als defect heeft gemarkeerd.")
+        }
     }
+
+    @ViewBuilder
+    private var loadingOverlay: some View {
+        if state.loading && state.json.isNull { ProgressView() }
+    }
+
+    @ViewBuilder
+    private var headerSection: some View {
+        Section { ToolHeader(client: client) }
+            .listRowBackground(Color.clear)
+        if let e = state.error {
+            ErrorBanner(message: e) { Task { await load() } }
+                .listRowBackground(Color.clear)
+        }
+        if let m = state.message {
+            Label(m, systemImage: "checkmark.circle")
+                .foregroundStyle(.green)
+                .listRowBackground(Color.clear)
+        }
+    }
+
+    private var controllerSection: some View {
+        Section("Controller") {
+            LabeledContent("Home ID", value: homeIdText)
+            LabeledContent("Node ID", value: nodeIdText)
+            LabeledContent("Regio", value: regionText)
+            if !currentCommand.isEmpty {
+                LabeledContent("Huidige opdracht", value: currentCommand)
+            }
+            Button { Task { await checkFailed() } } label: {
+                Label("Defecte nodes zoeken", systemImage: "stethoscope")
+            }
+            Button { Task { await sendNIF() } } label: {
+                Label("Node Information Frame versturen", systemImage: "antenna.radiowaves.left.and.right")
+            }
+            Button(role: .destructive) { Task { await removeUnknown() } } label: {
+                Label("Onbekende nodes verwijderen", systemImage: "trash")
+            }
+        }
+        .cardRows()
+    }
+
+    @ViewBuilder
+    private var statsSection: some View {
+        let items: [ZWaveStat] = stats
+        if !items.isEmpty {
+            Section("Statistieken") {
+                ForEach(items) { (item: ZWaveStat) in
+                    MonoValueRow(label: item.id, value: item.value)
+                }
+            }
+            .cardRows()
+        }
+    }
+
+    private var nodesSection: some View {
+        let list: [ZNode] = nodes
+        return Section {
+            ForEach(list) { (node: ZNode) in
+                nodeRow(node)
+            }
+        } header: {
+            Text("Nodes (\(list.count))")
+        } footer: {
+            Text("Houd een node ingedrukt voor test-frame, heal, interview of verwijderen.")
+        }
+        .cardRows()
+    }
+
+    private func nodeRow(_ node: ZNode) -> some View {
+        let id: Int = node.id
+        return ZWaveNodeRow(id: id, node: node.json, isFailed: failed.contains(id), isWorking: working.contains(id))
+            .contextMenu { nodeMenu(node) }
+    }
+
+    @ViewBuilder
+    private func nodeMenu(_ node: ZNode) -> some View {
+        let id: Int = node.id
+        Button { Task { await nodeCommand(id, "sendTestFrame", L("Test-frame verstuurd"), 15) } } label: {
+            Label("Test-frame versturen", systemImage: "waveform")
+        }
+        Button { Task { await nodeCommand(id, "heal", L("Heal voltooid"), 300) } } label: {
+            Label("Heal (routes herstellen)", systemImage: "bandage")
+        }
+        Button { Task { await nodeCommand(id, "interviewNodeOnRequest", L("Interview aangevraagd"), 60) } } label: {
+            Label("Interview opnieuw", systemImage: "questionmark.bubble")
+        }
+        Button(role: .destructive) { removeNode = id } label: {
+            Label("Defecte node verwijderen", systemImage: "trash")
+        }
+        NavigationLink { JSONInspectorView(title: L("Node \(id)"), json: node.json) } label: {
+            Label("Ruwe data", systemImage: "curlybraces")
+        }
+    }
+
+    private var rawSection: some View {
+        Section {
+            NavigationLink("Ruwe data") { JSONInspectorView(title: "Z-Wave", json: state.json) }
+        }
+        .cardRows()
+    }
+
+    // MARK: Actions
 
     private func load() async { await state.load { try await client.request("/api/manager/zwave/state") } }
 
@@ -566,9 +649,28 @@ struct ZwaveToolView: View {
         }
     }
 
+    private func sendNIF() async {
+        await state.run(L("Node Information Frame verstuurd")) {
+            _ = try await client.runCommand("zwave", "sendNodeInformationFrame")
+        }
+    }
+
+    private func removeUnknown() async {
+        await state.run(L("Onbekende nodes verwijderd")) {
+            _ = try await client.runCommand("zwave", "removeUnknownNodes")
+        }
+        await load()
+    }
+
+    private func removeFailed(_ id: Int) async {
+        await nodeCommand(id, "removeFailedNode", L("Node verwijderd"), 60)
+        await load()
+    }
+
     private func nodeCommand(_ id: Int, _ command: String, _ success: String, _ timeout: TimeInterval) async {
         working.insert(id); defer { working.remove(id) }
-        await state.run(success) { _ = try await client.runCommand("zwave", command, opts: .object(["nodeId": .number(Double(id))]), timeout: timeout) }
+        let opts: JSON = .object(["nodeId": .number(Double(id))])
+        await state.run(success) { _ = try await client.runCommand("zwave", command, opts: opts, timeout: timeout) }
     }
 }
 
