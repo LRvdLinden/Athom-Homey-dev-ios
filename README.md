@@ -2,7 +2,7 @@
 
 # Developer Tools for Homey – iOS
 
-A native SwiftUI app for iPhone, iPad and Apple TV (iOS/iPadOS/tvOS 17+) that brings [Homey Developer Tools](https://tools.developer.homey.app) to your pocket. It supports multiple accounts, light and dark mode, and four languages.
+A native SwiftUI app for iPhone, iPad, Mac and Apple TV (iOS/iPadOS 17+, macOS 14+, tvOS 17+) that brings [Homey Developer Tools](https://tools.developer.homey.app) to your pocket. It supports multiple accounts, light and dark mode, and four languages.
 
 > Unofficial app. Homey and the Homey logo are trademarks of Athom B.V.
 
@@ -33,6 +33,14 @@ Add them from the home screen (long-press → **+** → *Homey Dev*):
 | **Review & crashes** | Small, Medium, Large | Apps in review, crashes per app, suggestions and paired devices |
 
 The app shares a snapshot with the widgets through the App Group `group.nl.lrvdlinden.homeydevtools`. The widgets don't need a login, and their data updates each time the app refreshes.
+
+## Mac
+
+The Mac app is built from the same code as the iPhone/iPad app (Mac Catalyst, *Optimize for Mac*):
+
+- Choose **My Mac** as the run destination for the **HomeyDevTools** target.
+- On the Mac the app uses its own sandbox entitlements (`HomeyDevTools-macOS.entitlements`) with network access, the App Group for the widgets and the shared keychain group.
+- **⌘R** refreshes the data. The **Help** menu links to Developer Tools and the documentation. The widgets can be added to the Mac desktop (macOS 14+).
 
 ## Apple TV
 
@@ -82,6 +90,7 @@ Open `Localizable.xcstrings` in Xcode, click **+** to add a language and transla
 
 ## Changelog
 
+- **1.2.8:** **macOS app** (Mac Catalyst, optimized for Mac, macOS 14 Sonoma+). It has the Developer Tools-style sidebar, all features including sign-in with email and password, native Homey tools, right-click menus, ⌘R to refresh, Help menu links, a macOS-style icon and the widgets on the Mac desktop.
 - **1.2.7:** **Apple TV app (tvOS 17+)**: a full-screen dashboard (installs, Cloud/Local, review, crashes, rating, 60-day trend, top apps) that refreshes every 5 minutes, plus read-only My Apps, Organizations, Homeys (devices and Insights) and account switching. Accounts are shared from the iPhone through iCloud Keychain (*Account → Apple TV*), using each account's Personal Access Token. Includes a layered parallax tvOS icon and Top Shelf images.
 - **1.2.6:** The Developer Tools *Tools* now run **natively in the app** through the Homey Web API: **System** (info, memory, storage, rename, reboot, updates, experiments), **Insights** (logs with charts), **Zigbee** (network, devices with LQI, update nodes), **Z-Wave** (controller, stats, nodes: test frame, heal, re-interview, remove failed), **Bluetooth LE** (peripherals with RSSI), **RF** (433/868 MHz record, replay, emulate), **Infrared** (send Pronto hex), **Images** and **Videos**. Only Pairing still opens the website. The tools are also in the iPad sidebar.
 - **1.2.5:** **iPad support**: on iPad (and in wide Split View) the app shows a Developer Tools-style sidebar with all sections and the Homey tools, and grids adapt to the width. Fuller widgets. They now use real install history from Athom install stats (the same data as Developer Tools), drawn as a Homey Insights-style chart. The **Installs** widget can show one app (long-press → *Edit Widget*); the small size shows your top app by default, with name and icon. New stats: 30-day change, paired devices, suggestions, crashes per app and fastest growers. Large sizes added for **Installs** and **Review & crashes**.

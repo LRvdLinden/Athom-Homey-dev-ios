@@ -13,6 +13,32 @@ struct HomeyDevToolsApp: App {
                 .environment(portfolio)
                 .preferredColorScheme(appearance.colorScheme)
                 .tint(Theme.accent)
+                #if targetEnvironment(macCatalyst)
+                .onAppear {
+                    // Comfortable minimum window size on the Mac.
+                    for scene in UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }) {
+                        scene.sizeRestrictions?.minimumSize = CGSize(width: 960, height: 640)
+                        scene.titlebar?.titleVisibility = .visible
+                    }
+                }
+                #endif
+        }
+        .commands {
+            SidebarCommands()
+            CommandGroup(after: .toolbar) {
+                Button("Gegevens verversen") {
+                    Task {
+                        try? await auth.loadUser()
+                        await portfolio.load(auth: auth, force: true)
+                    }
+                }
+                .keyboardShortcut("r", modifiers: .command)
+            }
+            CommandGroup(replacing: .help) {
+                Link("Homey Developer Tools", destination: Config.developerToolsWeb)
+                Link("Apps SDK-documentatie", destination: URL(string: "https://apps.developer.homey.app")!)
+                Link("Web API-documentatie", destination: URL(string: "https://api.developer.homey.app")!)
+            }
         }
     }
 }

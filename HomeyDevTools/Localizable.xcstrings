@@ -1220,6 +1220,28 @@
         }
       }
     },
+    "Apps SDK-documentatie": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps-SDK-Dokumentation"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps SDK documentation"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documentation Apps SDK"
+          }
+        }
+      }
+    },
     "Apps laden…": {
       "localizations": {
         "de": {
@@ -3001,6 +3023,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucune valeur sur cette période."
+          }
+        }
+      }
+    },
+    "Gegevens verversen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daten aktualisieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refresh data"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actualiser les données"
           }
         }
       }
@@ -8127,6 +8171,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Web API Playground"
+          }
+        }
+      }
+    },
+    "Web API-documentatie": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Web-API-Dokumentation"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Web API documentation"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documentation Web API"
           }
         }
       }
