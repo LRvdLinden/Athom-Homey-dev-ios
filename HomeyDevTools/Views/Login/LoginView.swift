@@ -5,6 +5,9 @@ import WebKit
 /// Also reused as "Account toevoegen".
 struct LoginView: View {
     var isAddingAccount = false
+    /// Called right after a new account was verified, so the screen that presented
+    /// this one can close too before the app switches account.
+    var onAdded: () -> Void = {}
     @Environment(AuthManager.self) private var auth
     @Environment(\.dismiss) private var dismiss
 
@@ -82,10 +85,10 @@ struct LoginView: View {
             .frame(maxWidth: 520)
         }
         .sheet(isPresented: $showWebLogin) {
-            WebLoginSheet { if isAddingAccount { dismiss() } }
+            WebLoginSheet { if isAddingAccount { dismiss(); onAdded() } }
         }
         .sheet(isPresented: $showPAT) {
-            PATLoginSheet { if isAddingAccount { dismiss() } }
+            PATLoginSheet { if isAddingAccount { dismiss(); onAdded() } }
         }
     }
 }
@@ -139,13 +142,19 @@ struct WebLoginSheet: View {
     private func finish(_ session: WebSession) async {
         guard !saving else { return }
         saving = true
-        defer { saving = false }
+        let pending: AuthManager.PendingAccount
         do {
-            try await auth.addWebAccount(session)
+            pending = try await auth.verifyWebAccount(session)
+        } catch {
+            saving = false
+            self.error = error.localizedDescription
+            return
+        }
+        // Close the login sheet (and the "add account" screen) first, then
+        // switch to the account once the presentations are gone.
+        await auth.commitAfterDismiss(pending) {
             dismiss()
             onDone()
-        } catch {
-            self.error = error.localizedDescription
         }
     }
 }
@@ -280,7 +289,15 @@ struct PATLoginSheet: View {
         busy = true; error = nil
         Task {
             defer { busy = false }
-            do { try await auth.addPATAccount(token); dismiss(); onDone() } catch { self.error = error.localizedDescription }
+            do {
+                let pending = try await auth.verifyPATAccount(token)
+                await auth.commitAfterDismiss(pending) {
+                    dismiss()
+                    onDone()
+                }
+            } catch {
+                self.error = error.localizedDescription
+            }
         }
     }
 }

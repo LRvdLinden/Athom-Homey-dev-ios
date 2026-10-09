@@ -57,8 +57,13 @@ struct AccountSwitcherSheet: View {
                 Section {
                     ForEach(auth.accounts.sorted { $0.lastUsed > $1.lastUsed }) { acc in
                         Button {
-                            auth.switchTo(acc.id)
+                            // Close the sheet first; switching rebuilds the view tree under it.
+                            let id = acc.id
                             dismiss()
+                            Task {
+                                try? await Task.sleep(for: .milliseconds(450))
+                                auth.switchTo(id)
+                            }
                         } label: {
                             AccountRow(account: acc, isActive: acc.id == auth.activeID)
                         }
@@ -81,7 +86,7 @@ struct AccountSwitcherSheet: View {
             .navigationTitle("Accounts")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Klaar") { dismiss() } } }
-            .fullScreenCover(isPresented: $addAccount) { LoginView(isAddingAccount: true) }
+            .fullScreenCover(isPresented: $addAccount) { LoginView(isAddingAccount: true) { dismiss() } }
         }
     }
 }

@@ -74,17 +74,52 @@ final class AuthManager {
 
     // MARK: Adding accounts
 
+    /// A verified account that is not yet saved. Login screens first verify,
+    /// then close themselves, and only then `commit` — so the view tree under
+    /// a sheet is never swapped while that sheet is still on screen (this
+    /// crashed the Mac app on sign-in).
+    struct PendingAccount: Sendable {
+        let account: StoredAccount
+        let me: JSON
+    }
+
+    func verifyWebAccount(_ session: WebSession) async throws -> PendingAccount {
+        try await verify(credential: .web(session))
+    }
+
+    func verifyPATAccount(_ raw: String) async throws -> PendingAccount {
+        let pat = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !pat.isEmpty else { throw APIError(status: 0, message: L("Vul een Personal Access Token in."), url: "") }
+        return try await verify(credential: .pat(pat))
+    }
+
     func addWebAccount(_ session: WebSession) async throws {
-        try await add(credential: .web(session))
+        commit(try await verifyWebAccount(session))
     }
 
     func addPATAccount(_ raw: String) async throws {
-        let pat = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !pat.isEmpty else { throw APIError(status: 0, message: L("Vul een Personal Access Token in."), url: "") }
-        try await add(credential: .pat(pat))
+        commit(try await verifyPATAccount(raw))
     }
 
-    private func add(credential: Credential) async throws {
+    /// Saves a verified account and makes it the active one.
+    func commit(_ pending: PendingAccount) {
+        let account = pending.account
+        if let i = accounts.firstIndex(where: { $0.id == account.id }) { accounts[i] = account } else { accounts.append(account) }
+        activate(account.id)
+        user = pending.me
+        userError = nil
+        save()
+    }
+
+    /// Runs `dismissAll` (closes sheets), waits for the dismiss animation,
+    /// then saves and activates the account.
+    func commitAfterDismiss(_ pending: PendingAccount, _ dismissAll: () -> Void) async {
+        dismissAll()
+        try? await Task.sleep(for: .milliseconds(650))
+        commit(pending)
+    }
+
+    private func verify(credential: Credential) async throws -> PendingAccount {
         let me = try await HTTP.send(
             Config.athomAPI.appendingPathComponent("user/me"),
             headers: ["Authorization": "Bearer \(credential.accessToken)"]
@@ -99,11 +134,7 @@ final class AuthManager {
             credential: credential,
             lastUsed: Date()
         )
-        if let i = accounts.firstIndex(where: { $0.id == id }) { accounts[i] = account } else { accounts.append(account) }
-        activate(id)
-        user = me
-        userError = nil
-        save()
+        return PendingAccount(account: account, me: me)
     }
 
     // MARK: Switching / signing out

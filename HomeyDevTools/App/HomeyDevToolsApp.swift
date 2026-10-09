@@ -47,13 +47,24 @@ struct RootView: View {
     @Environment(AuthManager.self) private var auth
     @Environment(PortfolioStore.self) private var portfolio
     @State private var showSplash = true
+    /// The account whose view tree is on screen. When the active account changes,
+    /// the old tree is removed first (one short loading frame) before the new one
+    /// is built. Swapping both in one step made the Mac app crash on sign-in,
+    /// because the window toolbar still held items of the old tree.
+    @State private var shownID: String?
 
     var body: some View {
         ZStack {
             Group {
-                if auth.isLoggedIn {
-                    MainTabView()
-                        .id(auth.activeID)          // fresh view tree per account
+                if let id = auth.activeID, auth.isLoggedIn {
+                    if shownID == id {
+                        MainTabView()
+                            .id(id)                 // fresh view tree per account
+                    } else {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .background(Theme.background.ignoresSafeArea())
+                    }
                 } else {
                     LoginView()
                 }
@@ -82,9 +93,15 @@ struct RootView: View {
             guard AppleTVSharing.isEnabled else { return }
             Task { _ = try? await AppleTVSharing.publish(auth: auth) }
         }
-        .onChange(of: auth.activeID) { _, _ in
+        .onAppear { shownID = auth.activeID }
+        .onChange(of: auth.activeID) { _, newID in
+            shownID = nil
             portfolio.reset()
-            Task { await portfolio.load(auth: auth, force: true) }
+            Task {
+                try? await Task.sleep(for: .milliseconds(250))
+                if auth.activeID == newID { shownID = newID }
+                await portfolio.load(auth: auth, force: true)
+            }
         }
     }
 }
@@ -123,6 +140,7 @@ struct SidebarRootView: View {
     @Environment(AuthManager.self) private var auth
     @State private var selection: SidebarItem? = .home
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
+    @State private var path = NavigationPath()
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -166,11 +184,14 @@ struct SidebarRootView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(.hidden, for: .navigationBar)
         } detail: {
-            NavigationStack {
+            // One stack for the whole app; it is reset when another section is
+            // chosen instead of being rebuilt with `.id`, which on the Mac left
+            // duplicate items in the window toolbar.
+            NavigationStack(path: $path) {
                 detail(for: selection ?? .home)
             }
-            .id(selection)
         }
+        .onChange(of: selection) { _, _ in path = NavigationPath() }
         .navigationSplitViewStyle(.balanced)
     }
 
