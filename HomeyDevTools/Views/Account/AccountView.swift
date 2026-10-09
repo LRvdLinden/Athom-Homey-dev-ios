@@ -116,8 +116,20 @@ struct AccountView: View {
                 if let active = auth.active {
                     Button("Afmelden bij \(active.name.isEmpty ? active.email : active.name)", role: .destructive) { confirmSignOut = active }
                 }
+            }
+            .cardRows()
+
+            Section {
+                NavigationLink { LegalDocumentView(document: .privacy) } label: {
+                    IconTileLabel(title: L("Privacy & voorwaarden"), icon: "lock.shield.fill", color: .green)
+                }
+                NavigationLink { LegalDocumentView(document: .disclaimer) } label: {
+                    IconTileLabel(title: L("Disclaimer"), icon: "hand.raised.fill", color: Theme.accent)
+                }
             } footer: {
-                Text("Developer Tools voor Homey · v\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0")")
+                AppFooter()
+                    .padding(.top, 28)
+                    .padding(.bottom, 12)
             }
             .cardRows()
         }
@@ -411,5 +423,101 @@ private struct KindToggle: View {
             Label(kind.title, systemImage: kind.icon)
         }
         .onChange(of: isOn) { _, _ in PushNotifications.sync(auth: auth) }
+    }
+}
+
+
+/// A settings row with a coloured, rounded icon tile (like the iOS Settings app).
+struct IconTileLabel: View {
+    let title: String
+    let icon: String
+    let color: Color
+
+    var body: some View {
+        HStack(spacing: 14) {
+            Image(systemName: icon)
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 32, height: 32)
+                .background(color.gradient, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+            Text(title)
+        }
+        .padding(.vertical, 2)
+    }
+}
+
+/// Version, build and copyright at the bottom of the Account page.
+struct AppFooter: View {
+    var body: some View {
+        VStack(spacing: 6) {
+            HomeyLogo(size: 30)
+                .opacity(0.9)
+            Text(AppInfo.versionLine)
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(.primary)
+            Text(AppInfo.copyright)
+                .font(.footnote)
+                .foregroundStyle(Theme.textSecondary)
+        }
+        .frame(maxWidth: .infinity)
+        .multilineTextAlignment(.center)
+    }
+}
+
+/// Privacy / disclaimer page in the app's card style.
+struct LegalDocumentView: View {
+    let document: LegalDocument
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                VStack(spacing: 14) {
+                    Image(systemName: document.icon)
+                        .font(.system(size: 34, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .frame(width: 72, height: 72)
+                        .background(Theme.buttonGradient, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                        .shadow(color: Theme.accent.opacity(0.35), radius: 12, y: 6)
+                    Text(document.title).font(.title2.weight(.bold))
+                    Text(document.intro)
+                        .font(.callout)
+                        .foregroundStyle(Theme.textSecondary)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
+
+                ForEach(document.parts) { (part: LegalDocument.Part) in
+                    HStack(alignment: .top, spacing: 14) {
+                        Image(systemName: part.icon)
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundStyle(Theme.accent)
+                            .frame(width: 34, height: 34)
+                            .background(Theme.accent.opacity(0.12), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(part.title).font(.headline)
+                            Text(part.text)
+                                .font(.subheadline)
+                                .foregroundStyle(Theme.textSecondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        Spacer(minLength: 0)
+                    }
+                    .homeyCard()
+                }
+
+                Text(document.updated)
+                    .font(.caption)
+                    .foregroundStyle(Theme.textSecondary)
+                    .frame(maxWidth: .infinity)
+                AppFooter().padding(.vertical, 20)
+            }
+            .padding()
+            .frame(maxWidth: 720)
+            .frame(maxWidth: .infinity)
+        }
+        .background(Theme.background.ignoresSafeArea())
+        .navigationTitle(document.title)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }

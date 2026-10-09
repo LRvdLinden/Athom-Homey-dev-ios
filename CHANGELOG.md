@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/latest-1.3.2-0082FA?style=for-the-badge" alt="Latest version 1.3.2">
+  <img src="https://img.shields.io/badge/latest-1.3.3-0082FA?style=for-the-badge" alt="Latest version 1.3.3">
   <img src="https://img.shields.io/badge/iOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iOS 17+">
   <img src="https://img.shields.io/badge/iPadOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iPadOS 17+">
   <img src="https://img.shields.io/badge/tvOS-17%2B-111111?style=for-the-badge&logo=appletv&logoColor=white" alt="tvOS 17+">
@@ -27,7 +27,8 @@
 
 | Version | Highlights | Platforms |
 |:--|:--|:--|
-| [**1.3.2**](#132) | Direct push notifications through OneSignal | 📱 iPhone · 📱 iPad |
+| [**1.3.3**](#133) | Privacy, disclaimer, version and copyright on the Account page | 📱 iPhone · 📱 iPad · 📺 Apple TV |
+| [1.3.2](#132) | Direct push notifications through OneSignal | 📱 iPhone · 📱 iPad |
 | [1.3.1](#131) | Status notifications for every build change | 📱 iPhone · 📱 iPad |
 | [1.3.0](#130) | Apple TV pairing over Wi-Fi, Siri Remote scrolling, Mac version removed | 📱 iPhone · 📱 iPad · 📺 Apple TV |
 | [1.2.9](#129) | Apple TV sign-in without iCloud, Mac sign-in crash fix | 📱 · 📺 · 💻 |
@@ -46,9 +47,22 @@
 
 ---
 
+## 1.3.3
+
+<img src="https://img.shields.io/badge/build-18-555?style=flat-square" alt="Build 18"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+
+**About the app**, at the bottom of the Account page on iPhone, iPad and Apple TV.
+
+- ✨ **Privacy & terms**: what the app stores (only on your device), who it talks to (Athom only), no tracking, how notifications, OneSignal, Apple TV pairing and widgets work, and how to remove your data.
+- ✨ **Disclaimer**: unofficial app, not affiliated with Athom; actions in the app are real; data without warranty.
+- ✨ Footer with the version and build number and **© HomeyDev - PixelForges**.
+- 🎨 Settings-style icon tiles and card layout, matching the rest of the app. On the Apple TV the pages scroll with the Siri Remote.
+
+---
+
 ## 1.3.2
 
-<img src="https://img.shields.io/badge/build-17-555?style=flat-square" alt="Build 17"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest"> <img src="https://img.shields.io/badge/push-OneSignal-E54B4D?style=flat-square" alt="OneSignal">
+<img src="https://img.shields.io/badge/build-17-555?style=flat-square" alt="Build 17"> <img src="https://img.shields.io/badge/push-OneSignal-E54B4D?style=flat-square" alt="OneSignal">
 
 **⚡️ Direct push notifications.** Status changes now arrive as real push notifications, also when the app is closed.
 

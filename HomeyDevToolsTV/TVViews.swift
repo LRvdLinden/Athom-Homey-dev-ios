@@ -682,6 +682,92 @@ struct TVSettingsView: View {
             } footer: {
                 Text("Houd een account ingedrukt om het van deze Apple TV te verwijderen. Accounts uit je iCloud-sleutelhanger beheer je in de iPhone-app onder Account → Apple TV.")
             }
+            Section {
+                NavigationLink { TVLegalView(document: .privacy) } label: {
+                    TVIconTileLabel(title: L("Privacy & voorwaarden"), icon: "lock.shield.fill", color: .green)
+                }
+                NavigationLink { TVLegalView(document: .disclaimer) } label: {
+                    TVIconTileLabel(title: L("Disclaimer"), icon: "hand.raised.fill", color: TV.accent)
+                }
+            } footer: {
+                VStack(spacing: 10) {
+                    TVLogo(size: 56)
+                    Text(AppInfo.versionLine).font(.headline)
+                    Text(AppInfo.copyright).font(.callout).foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.top, 40)
+            }
         }
+    }
+}
+
+struct TVIconTileLabel: View {
+    let title: String
+    let icon: String
+    let color: Color
+
+    var body: some View {
+        HStack(spacing: 24) {
+            Image(systemName: icon)
+                .font(.system(size: 30, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 60, height: 60)
+                .background(color.gradient, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+            Text(title)
+        }
+    }
+}
+
+/// Privacy / disclaimer on the Apple TV: focusable cards so the remote can scroll.
+struct TVLegalView: View {
+    let document: LegalDocument
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 30) {
+                HStack(spacing: 30) {
+                    Image(systemName: document.icon)
+                        .font(.system(size: 54, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .frame(width: 120, height: 120)
+                        .background(TV.accent.gradient, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(document.title).font(.largeTitle.bold())
+                        Text(document.intro).font(.title3).foregroundStyle(.secondary)
+                    }
+                }
+                LazyVGrid(columns: [GridItem(.flexible(), spacing: 30), GridItem(.flexible(), spacing: 30)], spacing: 30) {
+                    ForEach(document.parts) { (part: LegalDocument.Part) in
+                        HStack(alignment: .top, spacing: 24) {
+                            Image(systemName: part.icon)
+                                .font(.system(size: 30, weight: .semibold))
+                                .foregroundStyle(TV.accent)
+                                .frame(width: 60, height: 60)
+                                .background(TV.accent.opacity(0.15), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text(part.title).font(.headline)
+                                Text(part.text).font(.callout).foregroundStyle(.secondary)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            Spacer(minLength: 0)
+                        }
+                        .padding(30)
+                        .frame(maxWidth: .infinity, minHeight: 260, alignment: .topLeading)
+                        .background(TV.card, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+                        .tvFocusCard()
+                    }
+                }
+                VStack(spacing: 8) {
+                    Text(document.updated).font(.caption).foregroundStyle(.secondary)
+                    Text(AppInfo.versionLine).font(.callout)
+                    Text(AppInfo.copyright).font(.caption).foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .padding(.horizontal, 80)
+            .padding(.vertical, 40)
+        }
+        .scrollClipDisabled()
     }
 }
