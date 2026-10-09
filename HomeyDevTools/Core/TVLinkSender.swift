@@ -2,7 +2,7 @@ import Foundation
 import MultipeerConnectivity
 import Observation
 
-/// iPhone/iPad/Mac side of the local-network pairing: finds Apple TVs running
+/// iPhone/iPad side of the local-network pairing: finds Apple TVs running
 /// the app, sends the code shown on the TV and then the accounts.
 @MainActor
 @Observable

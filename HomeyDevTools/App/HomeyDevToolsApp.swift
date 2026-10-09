@@ -13,15 +13,6 @@ struct HomeyDevToolsApp: App {
                 .environment(portfolio)
                 .preferredColorScheme(appearance.colorScheme)
                 .tint(Theme.accent)
-                #if targetEnvironment(macCatalyst)
-                .onAppear {
-                    // Comfortable minimum window size on the Mac.
-                    for scene in UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }) {
-                        scene.sizeRestrictions?.minimumSize = CGSize(width: 960, height: 640)
-                        scene.titlebar?.titleVisibility = .visible
-                    }
-                }
-                #endif
         }
         .commands {
             SidebarCommands()
