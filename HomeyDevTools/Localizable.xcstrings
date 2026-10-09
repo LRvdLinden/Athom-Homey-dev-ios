@@ -1220,6 +1220,28 @@
         }
       }
     },
+    "Cloud %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud %@"
+          }
+        }
+      }
+    },
     "Compatibiliteit": {
       "localizations": {
         "de": {
@@ -2932,6 +2954,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Local"
+          }
+        }
+      }
+    },
+    "Local %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lokal %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local %@"
           }
         }
       }

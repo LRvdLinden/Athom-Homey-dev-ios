@@ -31,14 +31,7 @@ struct DashboardView: View {
                 if !apps.isEmpty {
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Installaties per app").font(.headline)
-                        Chart(apps.prefix(8)) { app in
-                            BarMark(x: .value("Installaties", app.installsCloud), y: .value("App", app.name))
-                                .foregroundStyle(by: .value("Type", "Cloud"))
-                            BarMark(x: .value("Installaties", app.installsLocal), y: .value("App", app.name))
-                                .foregroundStyle(by: .value("Type", "Local"))
-                        }
-                        .chartForegroundStyleScale(["Cloud": Color.cyan, "Local": Color.indigo])
-                        .frame(height: CGFloat(min(apps.count, 8)) * 34 + 40)
+                        InstallsBarChart(apps: Array(apps.prefix(8)))
                     }
                     .padding()
                     .background(Theme.card, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
@@ -128,5 +121,78 @@ struct AppRow: View {
             }
         }
         .contentShape(Rectangle())
+    }
+}
+
+
+/// Horizontal stacked bars (Cloud + Local) with the app name and total on their
+/// own line above each bar, so labels never overlap the bars.
+struct InstallsBarChart: View {
+    let apps: [DevApp]
+    private let cloud = Color.cyan
+    private let local = Color.indigo
+
+    var body: some View {
+        let maxValue = max(apps.map { $0.installsCloud + $0.installsLocal }.max() ?? 1, 1)
+        VStack(alignment: .leading, spacing: 14) {
+            ForEach(apps) { app in
+                NavigationLink(value: app) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack(alignment: .firstTextBaseline) {
+                            Text(app.name)
+                                .font(.subheadline.weight(.medium))
+                                .foregroundStyle(.primary)
+                                .lineLimit(1)
+                            Spacer(minLength: 8)
+                            Text(Fmt.number(app.installsCloud + app.installsLocal))
+                                .font(.subheadline.monospacedDigit().weight(.semibold))
+                                .foregroundStyle(.primary)
+                        }
+                        GeometryReader { geo in
+                            let w = geo.size.width
+                            let cw = w * CGFloat(app.installsCloud) / CGFloat(maxValue)
+                            let lw = w * CGFloat(app.installsLocal) / CGFloat(maxValue)
+                            ZStack(alignment: .leading) {
+                                Capsule().fill(Color.primary.opacity(0.07))
+                                HStack(spacing: 2) {
+                                    if app.installsCloud > 0 {
+                                        Rectangle().fill(cloud).frame(width: max(cw, 3))
+                                    }
+                                    if app.installsLocal > 0 {
+                                        Rectangle().fill(local).frame(width: max(lw, 3))
+                                    }
+                                }
+                                .clipShape(Capsule())
+                            }
+                        }
+                        .frame(height: 10)
+                        HStack(spacing: 12) {
+                            Text("Cloud \(Fmt.number(app.installsCloud))")
+                            Text("Local \(Fmt.number(app.installsLocal))")
+                        }
+                        .font(.caption2.monospacedDigit())
+                        .foregroundStyle(Theme.textSecondary)
+                    }
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityElement(children: .combine)
+            }
+
+            HStack(spacing: 16) {
+                legend(cloud, "Cloud")
+                legend(local, "Local")
+            }
+            .font(.caption)
+            .foregroundStyle(Theme.textSecondary)
+            .padding(.top, 2)
+        }
+    }
+
+    private func legend(_ color: Color, _ title: LocalizedStringKey) -> some View {
+        HStack(spacing: 6) {
+            Circle().fill(color).frame(width: 9, height: 9)
+            Text(title)
+        }
     }
 }

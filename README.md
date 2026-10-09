@@ -63,6 +63,7 @@ Open `Localizable.xcstrings` in Xcode, click **+** to add a language and transla
 
 ## Changelog
 
+- **1.2.1:** Redesigned *Installs per app* chart on Home: app names and totals sit above each bar, so bars no longer overlap the labels. Rows are tappable and show the Cloud/Local split.
 - **1.2.0:** Multilingual app (Dutch, English, German, French) using a String Catalog, plus a language row under Account → Appearance.
 - **1.1.0:** New Apple Developer-style app icon with a white Homey ring, a blue blueprint login screen and a spinning Homey logo on the splash screen.
 - **1.0.0:** First release: sign in with Homey or a PAT, multiple accounts, Home, My Apps, Organizations, Homeys and Account.
