@@ -375,7 +375,7 @@ struct TVDashboardView: View {
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Top apps").font(.headline)
                         ForEach(apps.prefix(6)) { app in
-                            NavigationLink(value: app) { TVAppRow(app: app) }.buttonStyle(.card)
+                            NavigationLink { TVAppDetailView(app: app) } label: { TVAppRow(app: app) }.buttonStyle(.card)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -390,7 +390,9 @@ struct TVDashboardView: View {
                                 .tvFocusCard()
                         }
                         ForEach(review) { app in
-                            NavigationLink(value: app) {
+                            NavigationLink {
+                                TVAppDetailView(app: app)
+                            } label: {
                                 HStack { TVAppIcon(app: app, size: 56); Text(app.name); Spacer(); Text("v\(app.testVersion)").foregroundStyle(.orange) }
                                     .padding(16)
                             }
@@ -404,7 +406,6 @@ struct TVDashboardView: View {
             .padding(.vertical, 30)
         }
         .scrollClipDisabled()
-        .navigationDestination(for: DevApp.self) { TVAppDetailView(app: $0) }
         .task {
             UIApplication.shared.isIdleTimerDisabled = true
             await portfolio.load(store)
@@ -445,7 +446,9 @@ struct TVAppsView: View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 400), spacing: 40)], spacing: 40) {
                 ForEach(portfolio.allApps) { app in
-                    NavigationLink(value: app) {
+                    NavigationLink {
+                        TVAppDetailView(app: app)
+                    } label: {
                         VStack(alignment: .leading, spacing: 14) {
                             HStack(spacing: 18) {
                                 TVAppIcon(app: app, size: 90)
@@ -469,7 +472,6 @@ struct TVAppsView: View {
             .padding(60)
         }
         .overlay { if portfolio.allApps.isEmpty && portfolio.loading { ProgressView() } }
-        .navigationDestination(for: DevApp.self) { TVAppDetailView(app: $0) }
         .task { await portfolio.load(store) }
     }
 }
@@ -481,75 +483,96 @@ struct TVAppDetailView: View {
 
     var body: some View {
         let a = detail?.app ?? app
-        List {
-            Section {
-                HStack(spacing: 30) {
-                    TVAppIcon(app: a, size: 140)
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(a.name).font(.largeTitle.bold())
-                        Text(a.id).font(.callout).foregroundStyle(.secondary)
-                        HStack(spacing: 16) {
-                            if !a.liveVersion.isEmpty { Text("Live \(a.liveVersion)").foregroundStyle(.green) }
-                            if !a.testVersion.isEmpty { Text("Test \(a.testVersion)").foregroundStyle(.blue) }
-                            if a.inReview { TVBadge(state: "in_review") }
-                        }
-                    }
-                }
-                .padding(.vertical, 10)
-                .focusable()
-            }
-            Section {
+        // A plain scroll view with focusable cards: tvOS scrolls by moving focus,
+        // and the Menu button on the remote goes back to the list.
+        ScrollView {
+            VStack(alignment: .leading, spacing: 36) {
+                header(a)
                 HStack(spacing: 24) {
                     TVTile(title: "Installaties", value: TV.number(a.installs), icon: "arrow.down.circle.fill")
                     TVTile(title: "Cloud / Local", value: "\(TV.compact(a.installsCloud)) / \(TV.compact(a.installsLocal))", icon: "cloud.fill", tint: .cyan)
                     TVTile(title: "Apparaten", value: detail.map { TV.compact($0.deviceCount) } ?? "…", icon: "sensor.fill", tint: .teal)
                     TVTile(title: "Rating", value: a.rating.map { String(format: "%.1f ★", $0) } ?? "—", icon: "star.fill", tint: .yellow)
                 }
+                if let d = detail {
+                    content(d)
+                } else {
+                    ProgressView().frame(maxWidth: .infinity)
+                }
             }
-            if let d = detail, !d.installStats.isEmpty {
-                Section("Installatietrend") { TVInstallChart(points: d.installStats, height: 300).focusable() }
+            .padding(.horizontal, 60)
+            .padding(.vertical, 30)
+        }
+        .scrollClipDisabled()
+        .task { detail = await AppsAPI(auth: store).detail(for: app) }
+    }
+
+    private func header(_ a: DevApp) -> some View {
+        HStack(spacing: 30) {
+            TVAppIcon(app: a, size: 140)
+            VStack(alignment: .leading, spacing: 8) {
+                Text(a.name).font(.largeTitle.bold())
+                Text(a.id).font(.callout).foregroundStyle(.secondary)
+                HStack(spacing: 16) {
+                    if !a.liveVersion.isEmpty { Text("Live \(a.liveVersion)").foregroundStyle(.green) }
+                    if !a.testVersion.isEmpty { Text("Test \(a.testVersion)").foregroundStyle(.blue) }
+                    if a.inReview { TVBadge(state: "in_review") }
+                }
             }
-            if let d = detail {
-                Section("Builds") {
-                    ForEach(d.builds.prefix(8)) { b in
-                        HStack {
-                            Text("v\(b.version)").font(.headline.monospacedDigit())
-                            TVBadge(state: b.state)
-                            Spacer()
-                            Text(TV.relative(b.createdAt)).foregroundStyle(.secondary)
-                            Text(TV.compact(b.installs)).monospacedDigit().frame(width: 120, alignment: .trailing)
-                            if b.crashes > 0 { Label("\(b.crashes)", systemImage: "ladybug.fill").foregroundStyle(.red) }
-                        }
-                        .focusable()
+            Spacer()
+        }
+    }
+
+    @ViewBuilder
+    private func content(_ d: AppDetail) -> some View {
+        if !d.installStats.isEmpty {
+            card("Installatietrend") { TVInstallChart(points: d.installStats, height: 300) }
+        }
+        if !d.builds.isEmpty {
+            card("Builds") {
+                ForEach(d.builds.prefix(8)) { b in
+                    HStack {
+                        Text("v\(b.version)").font(.headline.monospacedDigit())
+                        TVBadge(state: b.state)
+                        Spacer()
+                        Text(TV.relative(b.createdAt)).foregroundStyle(.secondary)
+                        Text(TV.compact(b.installs)).monospacedDigit().frame(width: 120, alignment: .trailing)
+                        if b.crashes > 0 { Label("\(b.crashes)", systemImage: "ladybug.fill").foregroundStyle(.red) }
                     }
                 }
-                if !d.liveCrashes.isEmpty {
-                    Section("Crashes in live build") {
-                        ForEach(d.liveCrashes.prefix(8)) { c in
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(c.firstLine).font(.callout.monospaced()).lineLimit(2)
-                                Text("\(c.count)× · Homey \(c.homeyVersion) · \(TV.relative(c.updatedAt ?? c.createdAt))").font(.caption).foregroundStyle(.secondary)
-                            }
-                            .focusable()
-                        }
-                    }
-                }
-                if !d.suggestions.isEmpty {
-                    Section("Suggesties") {
-                        ForEach(d.suggestions.prefix(10)) { s in
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(s.text)
-                                Text(TV.relative(s.createdAt)).font(.caption).foregroundStyle(.secondary)
-                            }
-                            .focusable()
-                        }
-                    }
-                }
-            } else {
-                Section { ProgressView() }
             }
         }
-        .task { detail = await AppsAPI(auth: store).detail(for: app) }
+        if !d.liveCrashes.isEmpty {
+            card("Crashes in live build") {
+                ForEach(d.liveCrashes.prefix(8)) { c in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(c.firstLine).font(.callout.monospaced()).lineLimit(2)
+                        Text("\(c.count)× · Homey \(c.homeyVersion) · \(TV.relative(c.updatedAt ?? c.createdAt))").font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+            }
+        }
+        if !d.suggestions.isEmpty {
+            card("Suggesties") {
+                ForEach(d.suggestions.prefix(10)) { s in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(s.text)
+                        Text(TV.relative(s.createdAt)).font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+            }
+        }
+    }
+
+    private func card<Content: View>(_ title: LocalizedStringKey, @ViewBuilder _ content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(title).font(.headline)
+            content()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(28)
+        .background(TV.card, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .tvFocusCard()
     }
 }
 
@@ -592,7 +615,7 @@ struct TVOrganizationDetailView: View {
         let members = org.members.enumerated().map { OrgMember($1, index: $0) }
         List {
             Section("Apps (\(apps.count))") {
-                ForEach(apps) { app in NavigationLink(value: app) { TVAppRow(app: app) } }
+                ForEach(apps) { app in NavigationLink { TVAppDetailView(app: app) } label: { TVAppRow(app: app) } }
             }
             Section("Leden (\(members.count))") {
                 ForEach(members) { m in
@@ -613,7 +636,6 @@ struct TVOrganizationDetailView: View {
             }
         }
         .navigationTitle(org.name)
-        .navigationDestination(for: DevApp.self) { TVAppDetailView(app: $0) }
     }
 }
 
