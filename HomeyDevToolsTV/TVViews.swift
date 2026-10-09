@@ -684,10 +684,10 @@ struct TVSettingsView: View {
             }
             Section {
                 NavigationLink { TVLegalView(document: .privacy) } label: {
-                    TVIconTileLabel(title: L("Privacy & voorwaarden"), icon: "lock.shield.fill", color: .green)
+                    Label("Privacy & voorwaarden", systemImage: "lock.shield")
                 }
                 NavigationLink { TVLegalView(document: .disclaimer) } label: {
-                    TVIconTileLabel(title: L("Disclaimer"), icon: "hand.raised.fill", color: TV.accent)
+                    Label("Disclaimer", systemImage: "hand.raised")
                 }
             } footer: {
                 VStack(spacing: 10) {
@@ -698,23 +698,6 @@ struct TVSettingsView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.top, 40)
             }
-        }
-    }
-}
-
-struct TVIconTileLabel: View {
-    let title: String
-    let icon: String
-    let color: Color
-
-    var body: some View {
-        HStack(spacing: 24) {
-            Image(systemName: icon)
-                .font(.system(size: 30, weight: .semibold))
-                .foregroundStyle(.white)
-                .frame(width: 60, height: 60)
-                .background(color.gradient, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-            Text(title)
         }
     }
 }

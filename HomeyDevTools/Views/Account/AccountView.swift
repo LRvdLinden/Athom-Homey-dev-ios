@@ -121,10 +121,10 @@ struct AccountView: View {
 
             Section {
                 NavigationLink { LegalDocumentView(document: .privacy) } label: {
-                    IconTileLabel(title: L("Privacy & voorwaarden"), icon: "lock.shield.fill", color: .green)
+                    Label("Privacy & voorwaarden", systemImage: "lock.shield")
                 }
                 NavigationLink { LegalDocumentView(document: .disclaimer) } label: {
-                    IconTileLabel(title: L("Disclaimer"), icon: "hand.raised.fill", color: Theme.accent)
+                    Label("Disclaimer", systemImage: "hand.raised")
                 }
             } footer: {
                 AppFooter()
@@ -426,25 +426,6 @@ private struct KindToggle: View {
     }
 }
 
-
-/// A settings row with a coloured, rounded icon tile (like the iOS Settings app).
-struct IconTileLabel: View {
-    let title: String
-    let icon: String
-    let color: Color
-
-    var body: some View {
-        HStack(spacing: 14) {
-            Image(systemName: icon)
-                .font(.system(size: 17, weight: .semibold))
-                .foregroundStyle(.white)
-                .frame(width: 32, height: 32)
-                .background(color.gradient, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-            Text(title)
-        }
-        .padding(.vertical, 2)
-    }
-}
 
 /// Version, build and copyright at the bottom of the Account page.
 struct AppFooter: View {

@@ -54,6 +54,7 @@
 
 - 🔄 **Direct push:** the GitHub Actions job now checks every **30 minutes** instead of every 10. That keeps it within the 2,000 free Actions minutes per month of a private repository (about 1,450 minutes).
 - 🔄 The notification settings and the README say "every half hour".
+- 🎨 The Privacy & terms and Disclaimer rows on the Account page now use the same plain blue icons as the other rows (iPhone, iPad and Apple TV).
 - 📦 iPhone, iPad and Apple TV are all on 1.3.4 (19).
 
 ---
