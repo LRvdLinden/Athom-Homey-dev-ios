@@ -171,24 +171,132 @@ struct TVWelcomeView: View {
     @Environment(TVStore.self) private var store
 
     var body: some View {
-        HStack(spacing: 80) {
-            TVLogo(size: 280)
-            VStack(alignment: .leading, spacing: 28) {
-                Text("Homey Developer Tools").font(.largeTitle.bold())
-                Text("Deel je account vanaf je iPhone:").font(.title3)
-                VStack(alignment: .leading, spacing: 14) {
-                    Label("Open Developer Tools op je iPhone", systemImage: "1.circle.fill")
-                    Label("Ga naar Account → Apple TV", systemImage: "2.circle.fill")
-                    Label("Zet ‘Delen met Apple TV’ aan", systemImage: "3.circle.fill")
+        NavigationStack {
+            HStack(alignment: .top, spacing: 70) {
+                VStack(spacing: 30) {
+                    TVLogo(size: 220)
+                    Text("Homey Developer Tools").font(.title2.bold()).multilineTextAlignment(.center)
                 }
-                .font(.title3)
-                Text("Je accounts komen via je iCloud-sleutelhanger binnen. Zorg dat iPhone en Apple TV met hetzelfde Apple-account zijn ingelogd.")
-                    .font(.callout).foregroundStyle(.secondary)
-                Button { store.reloadAccounts() } label: { Label("Opnieuw zoeken", systemImage: "arrow.clockwise") }
+                .frame(width: 420)
+                .padding(.top, 40)
+                TVAddAccountPanel()
             }
-            .frame(maxWidth: 900, alignment: .leading)
+            .padding(70)
+        }
+        .task {
+            // Accounts shared through iCloud Keychain can arrive later; keep looking.
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(5))
+                store.reloadAccounts()
+            }
+        }
+    }
+}
+
+/// The three ways to get an account onto the Apple TV.
+struct TVAddAccountPanel: View {
+    @Environment(TVStore.self) private var store
+    @State private var receiver = TVLinkReceiver()
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 34) {
+            VStack(alignment: .leading, spacing: 18) {
+                Label("Koppelen met je iPhone", systemImage: "iphone.radiowaves.left.and.right").font(.title3.bold())
+                Text("Open de app op je iPhone → Account → Apple TV → Koppel via wifi, kies deze Apple TV en voer deze code in:")
+                    .font(.callout).foregroundStyle(.secondary)
+                HStack(spacing: 18) {
+                    ForEach(0..<4, id: \.self) { (i: Int) in
+                        Text(digit(at: i))
+                            .font(.system(size: 76, weight: .bold, design: .rounded).monospacedDigit())
+                            .frame(width: 104, height: 128)
+                            .background(TV.card, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                    }
+                }
+                statusView
+            }
+
+            VStack(alignment: .leading, spacing: 14) {
+                Label("Of voer een Personal Access Token in", systemImage: "key.fill").font(.title3.bold())
+                NavigationLink { TVPATLoginView() } label: {
+                    Label("Token invoeren", systemImage: "keyboard")
+                }
+                Text("Tip: je iPhone toont een melding om met het toetsenbord van je iPhone te typen of te plakken.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+
+            Text("Je kunt accounts ook delen via de iCloud-sleutelhanger (iPhone-app → Account → Apple TV → Delen met Apple TV). Dat kan een paar minuten duren.")
+                .font(.caption).foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: 1000, alignment: .leading)
+        .onAppear {
+            receiver.onAccounts = { accounts in store.addLinked(accounts) }
+            receiver.start()
+        }
+        .onDisappear { receiver.stop() }
+    }
+
+    private func digit(at index: Int) -> String {
+        let chars: [Character] = Array(receiver.code)
+        return index < chars.count ? String(chars[index]) : ""
+    }
+
+    @ViewBuilder
+    private var statusView: some View {
+        switch receiver.status {
+        case .idle:
+            EmptyView()
+        case .waiting:
+            Label("Wacht op je iPhone…", systemImage: "wifi").font(.callout).foregroundStyle(.secondary)
+        case .connecting:
+            HStack(spacing: 14) { ProgressView(); Text("Verbinden…").font(.callout) }
+        case .received(let n):
+            Label(L("\(n) account(s) toegevoegd"), systemImage: "checkmark.circle.fill").font(.callout).foregroundStyle(.green)
+        case .failed(let message):
+            Label(message, systemImage: "exclamationmark.triangle.fill").font(.callout).foregroundStyle(.orange)
+        }
+    }
+}
+
+/// Log in on the Apple TV with a Personal Access Token.
+struct TVPATLoginView: View {
+    @Environment(TVStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    @State private var token = ""
+    @State private var busy = false
+    @State private var error: String?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 30) {
+            Text("Personal Access Token").font(.title2.bold())
+            Text("Maak of toon je token in Developer Tools onder My Account → Personal Access Tokens (Reveal). Plak het via je iPhone-toetsenbord.")
+                .font(.callout).foregroundStyle(.secondary)
+            SecureField("Personal Access Token", text: $token)
+                .textContentType(.password)
+                .frame(maxWidth: 1000)
+            HStack(spacing: 24) {
+                Button { Task { await submit() } } label: {
+                    if busy { ProgressView() } else { Label("Toevoegen", systemImage: "checkmark") }
+                }
+                .disabled(busy || token.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                Button("Annuleer") { dismiss() }
+            }
+            if let error {
+                Label(error, systemImage: "exclamationmark.triangle.fill").foregroundStyle(.orange)
+            }
         }
         .padding(80)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    }
+
+    private func submit() async {
+        busy = true; error = nil
+        defer { busy = false }
+        do {
+            try await store.addPAT(token)
+            dismiss()
+        } catch {
+            self.error = error.localizedDescription
+        }
     }
 }
 
@@ -639,6 +747,16 @@ struct TVSettingsView: View {
                             if acc.id == store.activeID { Image(systemName: "checkmark.circle.fill").foregroundStyle(TV.accent) }
                         }
                     }
+                    .contextMenu {
+                        if store.isLinkedHere(acc.id) {
+                            Button("Verwijder van deze Apple TV", role: .destructive) { store.removeLinked(acc.id) }
+                        }
+                    }
+                }
+                NavigationLink {
+                    ScrollView { TVAddAccountPanel().padding(80) }
+                } label: {
+                    Label("Account toevoegen", systemImage: "plus.circle.fill")
                 }
             }
             Section {
@@ -646,7 +764,7 @@ struct TVSettingsView: View {
                     Label("Gegevens verversen", systemImage: "arrow.clockwise")
                 }
             } footer: {
-                Text("Accounts beheer je in de iPhone-app onder Account → Apple TV. Ze komen via je iCloud-sleutelhanger binnen.")
+                Text("Houd een account ingedrukt om het van deze Apple TV te verwijderen. Accounts uit je iCloud-sleutelhanger beheer je in de iPhone-app onder Account → Apple TV.")
             }
         }
     }

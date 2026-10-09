@@ -40,12 +40,13 @@ enum SharedAccountsStore {
         return (try? d.decode([SharedAccount].self, from: data)) ?? []
     }
 
+    /// Returns the keychain status, so the iPhone can tell the user why sharing failed.
     @discardableResult
-    static func save(_ accounts: [SharedAccount]) -> Bool {
+    static func save(_ accounts: [SharedAccount]) -> OSStatus {
         let e = JSONEncoder(); e.dateEncodingStrategy = .iso8601
-        guard let data = try? e.encode(accounts) else { return false }
+        guard let data = try? e.encode(accounts) else { return errSecParam }
         clear()
-        if accounts.isEmpty { return true }
+        if accounts.isEmpty { return errSecSuccess }
         let item: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
@@ -55,7 +56,7 @@ enum SharedAccountsStore {
             kSecAttrLabel as String: "Homey Developer Tools – Apple TV",
             kSecValueData as String: data,
         ]
-        return SecItemAdd(item as CFDictionary, nil) == errSecSuccess
+        return SecItemAdd(item as CFDictionary, nil)
     }
 
     static func clear() {
@@ -66,5 +67,76 @@ enum SharedAccountsStore {
             kSecAttrSynchronizable as String: kSecAttrSynchronizableAny,
         ]
         SecItemDelete(query as CFDictionary)
+    }
+}
+
+/// Accounts that were added on the Apple TV itself (paired with the iPhone over the
+/// local network, or entered as a Personal Access Token). Stored only on this device,
+/// so they work without iCloud Keychain.
+enum LinkedAccountsStore {
+    private static let service = "nl.lrvdlinden.homeydevtools.linked-accounts"
+    private static let account = "accounts"
+
+    static func load() -> [SharedAccount] {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account,
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne,
+        ]
+        var out: AnyObject?
+        guard SecItemCopyMatching(query as CFDictionary, &out) == errSecSuccess, let data = out as? Data else { return [] }
+        let d = JSONDecoder(); d.dateDecodingStrategy = .iso8601
+        return (try? d.decode([SharedAccount].self, from: data)) ?? []
+    }
+
+    static func save(_ accounts: [SharedAccount]) {
+        let e = JSONEncoder(); e.dateEncodingStrategy = .iso8601
+        guard let data = try? e.encode(accounts) else { return }
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account,
+        ]
+        SecItemDelete(query as CFDictionary)
+        guard !accounts.isEmpty else { return }
+        var item = query
+        item[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+        item[kSecValueData as String] = data
+        SecItemAdd(item as CFDictionary, nil)
+    }
+
+    /// Adds or replaces accounts (matched by id).
+    static func upsert(_ new: [SharedAccount]) {
+        var all = load()
+        for acc in new {
+            if let i = all.firstIndex(where: { $0.id == acc.id }) { all[i] = acc } else { all.append(acc) }
+        }
+        save(all)
+    }
+
+    static func remove(_ id: String) {
+        save(load().filter { $0.id != id })
+    }
+}
+
+/// Builds a SharedAccount from `GET /user/me`, used to verify a Personal Access Token.
+extension SharedAccount {
+    init(me: JSON, pat: String) {
+        let first = me["firstname"].string ?? ""
+        let last = me["lastname"].string ?? ""
+        let full = "\(first) \(last)".trimmingCharacters(in: .whitespaces)
+        let avatar: JSON = me["avatar"]
+        let avatarURL: String = avatar.isContainer ? avatar.firstString("large", "medium", "small", "url") : (avatar.string ?? "")
+        let id: String = me.firstString("_id", "id")
+        self.init(
+            id: id.isEmpty ? me.firstString("email") : id,
+            name: full.isEmpty ? me.firstString("fullname", "name", "email") : full,
+            email: me.firstString("email"),
+            avatar: avatarURL,
+            pat: pat,
+            sharedAt: Date()
+        )
     }
 }

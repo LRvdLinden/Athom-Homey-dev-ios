@@ -32,8 +32,18 @@ final class TVStore: TokenProvider {
 
     var active: SharedAccount? { accounts.first { $0.id == activeID } }
 
+    /// Accounts from iCloud Keychain (shared by the iPhone) plus the ones added on
+    /// this Apple TV (paired over the local network or entered as a token).
     func reloadAccounts() {
-        let loaded = SharedAccountsStore.load()
+        var merged: [SharedAccount] = []
+        for acc in LinkedAccountsStore.load() + SharedAccountsStore.load() {
+            if let i = merged.firstIndex(where: { $0.id == acc.id }) {
+                if acc.sharedAt > merged[i].sharedAt { merged[i] = acc }
+            } else {
+                merged.append(acc)
+            }
+        }
+        let loaded = merged.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
         if loaded != accounts { accounts = loaded }
         if active == nil {
             let saved = UserDefaults.standard.string(forKey: "tvActiveAccount")
@@ -41,6 +51,39 @@ final class TVStore: TokenProvider {
             delegated.removeAll()
             user = .null
         }
+    }
+
+    /// True when the account was added on this Apple TV (and can be removed here).
+    func isLinkedHere(_ id: String) -> Bool {
+        LinkedAccountsStore.load().contains { $0.id == id }
+    }
+
+    /// Saves accounts received from the iPhone over the local network.
+    func addLinked(_ new: [SharedAccount]) {
+        guard !new.isEmpty else { return }
+        LinkedAccountsStore.upsert(new)
+        reloadAccounts()
+        if active == nil, let first = new.first { switchTo(first.id) }
+    }
+
+    /// Verifies a Personal Access Token with `GET /user/me` and saves the account.
+    func addPAT(_ raw: String) async throws {
+        let pat = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !pat.isEmpty else { throw APIError(status: 0, message: L("Vul een Personal Access Token in."), url: "") }
+        let me = try await HTTP.send(Config.athomAPI.appendingPathComponent("user/me"),
+                                     headers: ["Authorization": "Bearer \(pat)"]).json
+        let account = SharedAccount(me: me, pat: pat)
+        guard !account.id.isEmpty else { throw APIError(status: 0, message: L("Kon het account niet herkennen."), url: "user/me") }
+        LinkedAccountsStore.upsert([account])
+        reloadAccounts()
+        switchTo(account.id)
+    }
+
+    /// Removes an account that was added on this Apple TV.
+    func removeLinked(_ id: String) {
+        LinkedAccountsStore.remove(id)
+        if activeID == id { activeID = nil }
+        reloadAccounts()
     }
 
     func switchTo(_ id: String) {

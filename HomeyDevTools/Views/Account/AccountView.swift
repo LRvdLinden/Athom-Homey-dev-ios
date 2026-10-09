@@ -184,6 +184,9 @@ struct AppleTVSection: View {
                 Label("Delen met Apple TV", systemImage: "appletv")
             }
             .disabled(busy)
+            NavigationLink { TVLinkView() } label: {
+                Label("Koppel via wifi", systemImage: "wifi")
+            }
             if enabled {
                 Button { Task { await apply(true) } } label: {
                     HStack { Label("Nu bijwerken", systemImage: "arrow.triangle.2.circlepath"); if busy { Spacer(); ProgressView() } }
@@ -195,7 +198,7 @@ struct AppleTVSection: View {
         } header: {
             Text("Apple TV")
         } footer: {
-            Text("Je accounts gaan via je iCloud-sleutelhanger naar de Apple TV-app. Daarvoor gebruikt de app per account je Personal Access Token (zoals ‘Reveal’ in Developer Tools → My Account). Zet uit om ze van je Apple TV te verwijderen.")
+            Text("‘Koppel via wifi’ stuurt je accounts direct naar een Apple TV in hetzelfde netwerk, met de code die de Apple TV toont. ‘Delen met Apple TV’ gaat via je iCloud-sleutelhanger en kan even duren. Beide gebruiken per account je Personal Access Token (zoals ‘Reveal’ in Developer Tools → My Account).")
         }
         .cardRows()
     }
@@ -209,6 +212,101 @@ struct AppleTVSection: View {
             status = L("\(n) account(s) gedeeld met Apple TV")
         } catch {
             self.error = error.localizedDescription
+        }
+    }
+}
+
+
+/// Sends the saved accounts to an Apple TV on the same network, using the code it shows.
+struct TVLinkView: View {
+    @Environment(AuthManager.self) private var auth
+    @State private var sender = TVLinkSender()
+    @State private var selected: TVLinkSender.FoundTV?
+    @State private var code = ""
+    @State private var preparing = false
+    @State private var prepareError: String?
+
+    var body: some View {
+        List {
+            Section {
+                Label("Open Homey Dev op je Apple TV. Daar staat een code van 4 cijfers.", systemImage: "appletv")
+                Label("Kies hieronder je Apple TV en voer die code in.", systemImage: "number")
+            }
+            .cardRows()
+
+            Section {
+                if sender.found.isEmpty {
+                    HStack(spacing: 12) {
+                        ProgressView()
+                        Text("Apple TV zoeken…").foregroundStyle(Theme.textSecondary)
+                    }
+                }
+                ForEach(sender.found) { (tv: TVLinkSender.FoundTV) in
+                    Button { code = ""; selected = tv } label: {
+                        Label(tv.name, systemImage: "appletv.fill")
+                    }
+                    .disabled(busy)
+                }
+            } header: {
+                Text("Apple TV in dit netwerk")
+            } footer: {
+                Text("iPhone en Apple TV moeten op hetzelfde wifi-netwerk zitten. Sta ‘Lokaal netwerk’ toe als iOS daarom vraagt.")
+            }
+            .cardRows()
+
+            statusSection
+        }
+        .themedList()
+        .navigationTitle("Koppel via wifi")
+        .onAppear { sender.start() }
+        .onDisappear { sender.stop() }
+        .alert("Code van je Apple TV", isPresented: Binding(get: { selected != nil }, set: { if !$0 { selected = nil } })) {
+            TextField("0000", text: $code)
+                .keyboardType(.numberPad)
+            Button("Annuleer", role: .cancel) { selected = nil }
+            Button("Koppel") {
+                if let tv = selected { Task { await link(tv) } }
+                selected = nil
+            }
+        } message: {
+            Text("Voer de 4 cijfers in die op je Apple TV staan.")
+        }
+    }
+
+    private var busy: Bool { preparing || sender.status == .sending }
+
+    @ViewBuilder
+    private var statusSection: some View {
+        if preparing {
+            Section { HStack(spacing: 12) { ProgressView(); Text("Accounts voorbereiden…") } }.cardRows()
+        } else if let prepareError {
+            Section { Label(prepareError, systemImage: "exclamationmark.triangle.fill").foregroundStyle(.orange) }.cardRows()
+        } else {
+            switch sender.status {
+            case .searching:
+                EmptyView()
+            case .sending:
+                Section { HStack(spacing: 12) { ProgressView(); Text("Versturen naar Apple TV…") } }.cardRows()
+            case .done(let n):
+                Section { Label(L("\(n) account(s) staan nu op je Apple TV"), systemImage: "checkmark.circle.fill").foregroundStyle(.green) }.cardRows()
+            case .failed(let message):
+                Section { Label(message, systemImage: "exclamationmark.triangle.fill").foregroundStyle(.orange) }.cardRows()
+            }
+        }
+    }
+
+    private func link(_ tv: TVLinkSender.FoundTV) async {
+        let trimmed = code.trimmingCharacters(in: .whitespaces)
+        guard trimmed.count == 4 else { prepareError = L("Voer de 4 cijfers van je Apple TV in."); return }
+        prepareError = nil
+        preparing = true
+        defer { preparing = false }
+        do {
+            let accounts = try await AppleTVSharing.sharedAccounts(auth: auth)
+            sender.reset()
+            sender.send(accounts, to: tv, code: trimmed)
+        } catch {
+            prepareError = error.localizedDescription
         }
     }
 }

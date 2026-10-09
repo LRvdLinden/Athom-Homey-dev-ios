@@ -1,4 +1,5 @@
 import Foundation
+import Security
 
 extension AuthManager: TokenProvider {}
 
@@ -8,8 +9,19 @@ enum AppleTVSharing {
     static let enabledKey = "appleTVSharingEnabled"
     static var isEnabled: Bool { UserDefaults.standard.bool(forKey: enabledKey) }
 
-    /// Fetches (or reveals) each account's Personal Access Token and shares it.
+    /// Fetches (or reveals) each account's Personal Access Token and shares it
+    /// through iCloud Keychain.
     static func publish(auth: AuthManager) async throws -> Int {
+        let shared = try await sharedAccounts(auth: auth)
+        let status = SharedAccountsStore.save(shared)
+        guard status == errSecSuccess else {
+            throw APIError(status: 0, message: L("Opslaan in de iCloud-sleutelhanger mislukt (code \(Int(status))). Gebruik ‘Koppel via wifi’."), url: "")
+        }
+        return shared.count
+    }
+
+    /// Every saved account with its Personal Access Token, ready for the Apple TV.
+    static func sharedAccounts(auth: AuthManager) async throws -> [SharedAccount] {
         var shared: [SharedAccount] = []
         var lastError: Error?
         for acc in auth.accounts {
@@ -18,9 +30,10 @@ enum AppleTVSharing {
                 shared.append(SharedAccount(id: acc.id, name: acc.name, email: acc.email, avatar: acc.avatar, pat: pat, sharedAt: Date()))
             } catch { lastError = error }
         }
-        if shared.isEmpty, let lastError { throw lastError }
-        SharedAccountsStore.save(shared)
-        return shared.count
+        if shared.isEmpty {
+            throw lastError ?? APIError(status: 0, message: L("Geen accounts om te delen."), url: "")
+        }
+        return shared
     }
 
     static func stop() { SharedAccountsStore.clear() }
