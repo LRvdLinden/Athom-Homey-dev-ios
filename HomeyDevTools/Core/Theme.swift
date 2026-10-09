@@ -1,6 +1,9 @@
 import SwiftUI
 import UIKit
 
+/// Localised string from Localizable.xcstrings (follows the device / per-app language).
+func L(_ value: String.LocalizationValue) -> String { String(localized: value) }
+
 /// Visual language taken from tools.developer.homey.app (dark #121319 surface,
 /// #222329 cards with 10pt radius, #0082FA accent) and homey.app (blue→cyan pill
 /// buttons, rainbow ring). Every colour has a light and a dark variant.
@@ -36,7 +39,7 @@ enum AppearanceSetting: String, CaseIterable, Identifiable {
     case system, light, dark
     var id: String { rawValue }
     var label: String {
-        switch self { case .system: "Automatisch (toestel)"; case .light: "Licht"; case .dark: "Donker" }
+        switch self { case .system: L("Automatisch (toestel)"); case .light: L("Licht"); case .dark: L("Donker") }
     }
     var icon: String {
         switch self { case .system: "circle.lefthalf.filled"; case .light: "sun.max"; case .dark: "moon" }

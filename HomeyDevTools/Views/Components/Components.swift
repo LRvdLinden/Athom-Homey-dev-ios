@@ -26,7 +26,7 @@ enum Fmt {
 }
 
 struct StatTile: View {
-    let title: String
+    let title: LocalizedStringKey
     let value: String
     var systemImage: String = "number"
     var tint: Color = .accentColor
@@ -89,14 +89,14 @@ struct StateBadge: View {
 
     private var label: String {
         switch state {
-        case "in_review": return "In review"
-        case "live": return "Live"
-        case "test": return "Test"
-        case "draft": return "Draft"
-        case "processing": return "Verwerken"
-        case "approved": return "Goedgekeurd"
-        case "rejected": return "Afgewezen"
-        case "canceled", "cancelled": return "Geannuleerd"
+        case "in_review": return L("In review")
+        case "live": return L("Live")
+        case "test": return L("Test")
+        case "draft": return L("Draft")
+        case "processing": return L("Verwerken")
+        case "approved": return L("Goedgekeurd")
+        case "rejected": return L("Afgewezen")
+        case "canceled", "cancelled": return L("Geannuleerd")
         default: return state.replacingOccurrences(of: "_", with: " ").capitalized
         }
     }

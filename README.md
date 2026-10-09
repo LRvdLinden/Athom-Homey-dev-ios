@@ -18,6 +18,8 @@ Native SwiftUI-app (iOS/iPadOS 17+) met de functies van [tools.developer.homey.a
 
 Ook in de app:
 
+- Meertalig: Nederlands, Engels, Duits en Frans. De app volgt automatisch de taal van je toestel en via iOS-Instellingen kun je per app een andere taal kiezen.
+
 - Een splashscreen met draaiend Homey-logo dat naadloos aansluit op het launch screen.
 - Het design van Developer Tools en homey.app: een donker oppervlak met kaarten, accent #0082FA en verloopknoppen van blauw naar cyaan. De app is volledig licht en donker te gebruiken.
 
@@ -56,5 +58,7 @@ De app praat met deze endpoints:
 - `api.athom.com/user/me` voor het profiel en de gekoppelde Homeys, en `/user/me/client` voor de API Clients.
 
 ## Status
+
+Versie 1.2.0: meertalig (NL, EN, DE, FR) via een String Catalog.
 
 Versie 1.1.0: nieuw Apple Developer-stijl icoon (witte Homey-ring), inlogscherm in de vertrouwde blauwe blueprint-stijl en een draaiend Homey-logo op het splashscreen.

@@ -26,7 +26,7 @@ struct FlowsView: View {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(f.name).lineLimit(2)
                                     HStack(spacing: 6) {
-                                        Text(f.advanced ? "Advanced" : "Standaard")
+                                        Text(f.advanced ? "Advanced" : L("Standaard"))
                                         if !f.enabled { Text("Uitgeschakeld").foregroundStyle(.orange) }
                                         if f.broken { Text("Defect").foregroundStyle(.red) }
                                     }
@@ -59,7 +59,7 @@ struct FlowsView: View {
         let q = search.lowercased()
         return q.isEmpty ? flows : flows.filter { $0.name.lowercased().contains(q) }
     }
-    private func folderName(_ f: HomeyFlow) -> String { f.folder.flatMap { folders[$0] } ?? "Zonder map" }
+    private func folderName(_ f: HomeyFlow) -> String { f.folder.flatMap { folders[$0] } ?? L("Zonder map") }
     private var sections: [String] { Array(Set(filtered.map(folderName))).sorted() }
 
     private func load() async {
@@ -73,7 +73,7 @@ struct FlowsView: View {
 
     private func trigger(_ f: HomeyFlow) async {
         running = f.id; defer { running = nil }
-        do { try await client.trigger(f); feedback = "\u{25B6}\u{FE0E} \(f.name) gestart" } catch { feedback = error.localizedDescription }
+        do { try await client.trigger(f); feedback = "\u{25B6}\u{FE0E} " + L("\(f.name) gestart") } catch { feedback = error.localizedDescription }
     }
 }
 
@@ -120,7 +120,7 @@ struct HomeyAppDetailView: View {
                 LabeledContent("ID", value: app.id).textSelection(.enabled)
                 LabeledContent("Versie", value: app.version)
                 LabeledContent("Status", value: app.state.isEmpty ? "—" : app.state)
-                LabeledContent("Ingeschakeld", value: app.enabled ? "Ja" : "Nee")
+                LabeledContent("Ingeschakeld", value: app.enabled ? L("Ja") : L("Nee"))
                 if !app.origin.isEmpty { LabeledContent("Bron", value: app.origin) }
             }
             Section {
@@ -130,7 +130,7 @@ struct HomeyAppDetailView: View {
                 .disabled(restarting)
                 NavigationLink("App-instellingen") {
                     Loader(load: { try await client.appSettings(app.id) }) { (j: JSON, _) in
-                        JSONInspectorView(title: "Instellingen", json: j)
+                        JSONInspectorView(title: L("Instellingen"), json: j)
                     }
                 }
                 NavigationLink("Ruwe API-data") { JSONInspectorView(title: app.name, json: app.raw) }
@@ -146,7 +146,7 @@ struct HomeyAppDetailView: View {
 
     private func restart() async {
         restarting = true; defer { restarting = false }
-        do { try await client.restartApp(app.id); feedback = "\(app.name) wordt herstart" } catch { feedback = error.localizedDescription }
+        do { try await client.restartApp(app.id); feedback = L("\(app.name) wordt herstart") } catch { feedback = error.localizedDescription }
     }
 }
 
@@ -197,7 +197,7 @@ struct VariablesView: View {
     }
 
     private func save(_ v: HomeyVariable, _ value: JSON) async {
-        do { try await client.setVariable(v, value: value); feedback = "\(v.name) bijgewerkt" } catch { feedback = error.localizedDescription }
+        do { try await client.setVariable(v, value: value); feedback = L("\(v.name) bijgewerkt") } catch { feedback = error.localizedDescription }
     }
 }
 
@@ -231,7 +231,7 @@ struct SystemView: View {
             if sys.isNull { return try await client.request("/api/manager/system/info") }
             return sys
         }) { (j: JSON, _) in
-            JSONInspectorView(title: "Systeem", json: j)
+            JSONInspectorView(title: L("Systeem"), json: j)
         }
         .navigationTitle("Systeem")
     }

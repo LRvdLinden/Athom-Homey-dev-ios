@@ -63,7 +63,7 @@ struct HomeyCapability: Identifiable, Hashable, Sendable {
 
     var formattedValue: String {
         switch value {
-        case .bool(let b): return b ? "Aan" : "Uit"
+        case .bool(let b): return b ? L("Aan") : L("Uit")
         case .number(let n):
             let d = decimals ?? (n.rounded() == n ? 0 : 2)
             let s = String(format: "%.\(d)f", type == "number" && max == 1 && min == 0 && units.isEmpty ? n * 100 : n)

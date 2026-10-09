@@ -63,7 +63,7 @@ struct AppsListView: View {
         .toolbar {
             AccountSwitcherButton()
             Menu {
-                Picker("Sorteer", selection: $sort) { ForEach(Sort.allCases) { Text($0.rawValue).tag($0) } }
+                Picker("Sorteer", selection: $sort) { ForEach(Sort.allCases) { Text(LocalizedStringKey($0.rawValue)).tag($0) } }
             } label: { Image(systemName: "arrow.up.arrow.down") }
         }
         .refreshable { await store.load(auth: auth, force: true) }

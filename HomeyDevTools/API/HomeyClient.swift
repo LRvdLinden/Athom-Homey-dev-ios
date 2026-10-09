@@ -24,7 +24,7 @@ final class HomeyClient {
             body: JSON.object(["token": .string(delegation)]).data()
         ).json
         let token = resp.string ?? resp.firstString("token", "session")
-        guard !token.isEmpty else { throw APIError(status: 0, message: "Geen Homey-sessie ontvangen.", url: baseURL.absoluteString) }
+        guard !token.isEmpty else { throw APIError(status: 0, message: L("Geen Homey-sessie ontvangen."), url: baseURL.absoluteString) }
         session = token
         return token
     }
@@ -32,7 +32,7 @@ final class HomeyClient {
     /// Raw request against this Homey. `path` like `/api/manager/devices/device/`.
     func request(_ path: String, method: String = "GET", json body: JSON? = nil) async throws -> JSON {
         guard let url = URL(string: baseURL.absoluteString.trimmingCharacters(in: CharacterSet(charactersIn: "/")) + path) else {
-            throw APIError(status: 0, message: "Ongeldig pad", url: path)
+            throw APIError(status: 0, message: L("Ongeldig pad"), url: path)
         }
         func run() async throws -> HTTP.Response {
             let token = try await login()

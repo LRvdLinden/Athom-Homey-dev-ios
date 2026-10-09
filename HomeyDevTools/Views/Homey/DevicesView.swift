@@ -43,7 +43,7 @@ struct DevicesView: View {
         let list = q.isEmpty ? devices : devices.filter {
             $0.name.lowercased().contains(q) || $0.deviceClass.contains(q) || $0.driverId.lowercased().contains(q)
         }
-        let dict = Dictionary(grouping: list) { zones[$0.zoneId]?.name ?? "Overig" }
+        let dict = Dictionary(grouping: list) { zones[$0.zoneId]?.name ?? L("Overig") }
         return dict.keys.sorted().map { ZoneGroup(id: $0, devices: dict[$0] ?? []) }
     }
 
@@ -62,7 +62,7 @@ struct DevicesView: View {
     private func toggle(_ d: HomeyDevice, _ on: Bool) async {
         do {
             try await client.setCapability(device: d.id, capability: "onoff", value: .bool(on))
-            feedback = "\(d.name) \(on ? "aan" : "uit")"
+            feedback = on ? L("\(d.name) aan") : L("\(d.name) uit")
             if let fresh = try? await client.device(d.id), let i = devices.firstIndex(where: { $0.id == d.id }) { devices[i] = fresh }
         } catch { feedback = error.localizedDescription }
     }
@@ -95,7 +95,7 @@ struct DeviceRow: View {
                         .foregroundStyle(isOn ? Color.yellow : Color.secondary.opacity(0.4))
                 }
                 .buttonStyle(.borderless)
-                .accessibilityLabel(isOn ? "Zet uit" : "Zet aan")
+                .accessibilityLabel(isOn ? L("Zet uit") : L("Zet aan"))
             }
         }
         .onAppear { isOn = device.onoff?.value.bool ?? false }
@@ -103,7 +103,7 @@ struct DeviceRow: View {
     }
 
     private var summary: String {
-        if !device.available { return device.unavailableMessage.isEmpty ? "Niet beschikbaar" : device.unavailableMessage }
+        if !device.available { return device.unavailableMessage.isEmpty ? L("Niet beschikbaar") : device.unavailableMessage }
         let caps = device.capabilities.filter { $0.id != "onoff" && !$0.value.isNull }.prefix(2).map(\.formattedValue)
         return caps.isEmpty ? device.deviceClass : caps.joined(separator: " · ")
     }
@@ -121,7 +121,7 @@ struct DeviceDetailView: View {
                 LabeledContent("Zone", value: zoneName)
                 LabeledContent("Klasse", value: device.deviceClass)
                 LabeledContent("Driver", value: device.driverId).font(.caption)
-                LabeledContent("Beschikbaar", value: device.available ? "Ja" : "Nee")
+                LabeledContent("Beschikbaar", value: device.available ? L("Ja") : L("Nee"))
                 LabeledContent("ID", value: device.id).font(.caption).textSelection(.enabled)
             }
             Section("Capabilities (\(device.capabilities.count))") {
@@ -145,7 +145,7 @@ struct DeviceDetailView: View {
     private func set(_ cap: HomeyCapability, _ value: JSON) async {
         do {
             try await client.setCapability(device: device.id, capability: cap.id, value: value)
-            feedback = "\(cap.title) bijgewerkt"
+            feedback = L("\(cap.title) bijgewerkt")
             try? await Task.sleep(for: .milliseconds(400))
             await refresh()
         } catch { feedback = error.localizedDescription }

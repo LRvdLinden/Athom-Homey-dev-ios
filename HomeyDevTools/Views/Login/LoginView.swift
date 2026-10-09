@@ -34,7 +34,7 @@ struct LoginView: View {
                     .shadow(color: .black.opacity(0.3), radius: 20, y: 10)
 
                 VStack(spacing: 8) {
-                    Text(isAddingAccount ? "Account toevoegen" : "Homey Developer Tools")
+                    Text(isAddingAccount ? L("Account toevoegen") : "Homey Developer Tools")
                         .font(.largeTitle.weight(.bold))
                         .multilineTextAlignment(.center)
                     Text("Je apps, builds, crashes, organisaties en Homeys – overal bij de hand.")
@@ -69,8 +69,8 @@ struct LoginView: View {
                     }
 
                     Text(isAddingAccount
-                         ? "Log in met een ander Homey-account. Je kunt daarna snel wisselen."
-                         : "Gebruik het e-mailadres en wachtwoord van je Homey-account.")
+                         ? L("Log in met een ander Homey-account. Je kunt daarna snel wisselen.")
+                         : L("Gebruik het e-mailadres en wachtwoord van je Homey-account."))
                         .font(.footnote)
                         .foregroundStyle(.white.opacity(0.8))
                         .multilineTextAlignment(.center)
@@ -112,7 +112,7 @@ struct WebLoginSheet: View {
                 if connecting || saving {
                     VStack(spacing: 14) {
                         HomeyLogo(size: 54, spinning: true)
-                        Text(saving ? "Account ophalen…" : "Verbinden met Homey…").font(.subheadline).foregroundStyle(.secondary)
+                        Text(saving ? L("Account ophalen…") : L("Verbinden met Homey…")).font(.subheadline).foregroundStyle(.secondary)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Theme.background)

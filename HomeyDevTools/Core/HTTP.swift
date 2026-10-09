@@ -57,7 +57,7 @@ enum HTTP {
         guard (200..<300).contains(status) else {
             let j = JSON.parse(data)
             var msg = j.firstString("message", "error_description", "error")
-            if msg.isEmpty { msg = String(data: data.prefix(300), encoding: .utf8) ?? "Onbekende fout" }
+            if msg.isEmpty { msg = String(data: data.prefix(300), encoding: .utf8) ?? L("Onbekende fout") }
             throw APIError(status: status, message: msg, url: url.absoluteString)
         }
         return Response(status: status, data: data, headers: hdrs)

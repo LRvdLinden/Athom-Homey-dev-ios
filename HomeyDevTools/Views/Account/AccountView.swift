@@ -16,7 +16,7 @@ struct AccountView: View {
                 HStack(spacing: 14) {
                     AccountAvatar(url: auth.avatarURL, initials: auth.active?.initials ?? "", size: 62)
                     VStack(alignment: .leading, spacing: 3) {
-                        Text(auth.displayName.isEmpty ? "Homey-account" : auth.displayName).font(.title3.weight(.semibold))
+                        Text(auth.displayName.isEmpty ? L("Homey-account") : auth.displayName).font(.title3.weight(.semibold))
                         if !auth.email.isEmpty { Text(auth.email).font(.subheadline).foregroundStyle(Theme.textSecondary) }
                         Text(auth.loginMethodLabel).font(.caption).foregroundStyle(Theme.textSecondary)
                     }
@@ -56,6 +56,21 @@ struct AccountView: View {
                 }
                 .pickerStyle(.inline)
                 .labelsHidden()
+            }
+            .cardRows()
+
+            Section {
+                Button {
+                    if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
+                } label: {
+                    LabeledContent {
+                        Text(Locale.current.localizedString(forLanguageCode: Locale.current.language.languageCode?.identifier ?? "") ?? "")
+                    } label: {
+                        Label("Taal", systemImage: "globe")
+                    }
+                }
+            } footer: {
+                Text("De app volgt de taal van je toestel. Kies in Instellingen een andere taal alleen voor deze app.")
             }
             .cardRows()
 

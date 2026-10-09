@@ -140,7 +140,7 @@ struct DevCrash: Identifiable, Hashable, Sendable {
     }
 
     var firstLine: String {
-        stack.split(separator: "\n").map { $0.trimmingCharacters(in: .whitespaces) }.first { !$0.isEmpty } ?? "Onbekende crash"
+        stack.split(separator: "\n").map { $0.trimmingCharacters(in: .whitespaces) }.first { !$0.isEmpty } ?? L("Onbekende crash")
     }
 }
 

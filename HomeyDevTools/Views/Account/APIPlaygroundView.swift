@@ -111,7 +111,7 @@ struct APIPlaygroundView: View {
             var body: JSON?
             if !bodyText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, method != "GET" {
                 let parsed = JSON.parse(Data(bodyText.utf8))
-                guard parsed.isContainer else { error = "Body is geen geldige JSON."; return }
+                guard parsed.isContainer else { error = L("Body is geen geldige JSON."); return }
                 body = parsed
             }
             let p = path.hasPrefix("/") ? path : "/" + path

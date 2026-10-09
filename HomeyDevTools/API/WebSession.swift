@@ -57,15 +57,15 @@ enum WebSessionBridge {
         """
         do {
             guard let raw = try await loader.webView.callAsyncJavaScript(js, contentWorld: .page) as? String else {
-                throw APIError(status: 401, message: "Sessie verlopen. Log opnieuw in voor dit account.", url: "")
+                throw APIError(status: 401, message: L("Sessie verlopen. Log opnieuw in voor dit account."), url: "")
             }
             let new = WebSession(store: raw)
-            guard new.hasToken else { throw APIError(status: 401, message: "Sessie verlopen. Log opnieuw in voor dit account.", url: "") }
+            guard new.hasToken else { throw APIError(status: 401, message: L("Sessie verlopen. Log opnieuw in voor dit account."), url: "") }
             return new
         } catch let e as APIError {
             throw e
         } catch {
-            throw APIError(status: 401, message: "Sessie verversen mislukt: \(error.localizedDescription)", url: "")
+            throw APIError(status: 401, message: L("Sessie verversen mislukt: \(error.localizedDescription)"), url: "")
         }
     }
 }

@@ -28,7 +28,7 @@ struct StoredAccount: Codable, Identifiable, Equatable, Sendable {
 
     var avatarURL: URL? { URL(string: avatar) }
     var methodLabel: String {
-        switch credential { case .web: return "Homey-account"; case .pat: return "Personal Access Token" }
+        switch credential { case .web: return L("Homey-account"); case .pat: return "Personal Access Token" }
     }
     var initials: String {
         let parts = name.split(separator: " ").prefix(2)
@@ -64,7 +64,7 @@ final class AuthManager {
     var active: StoredAccount? { accounts.first { $0.id == activeID } }
     var isLoggedIn: Bool { active != nil }
     var otherAccounts: [StoredAccount] { accounts.filter { $0.id != activeID }.sorted { $0.lastUsed > $1.lastUsed } }
-    var loginMethodLabel: String { active?.methodLabel ?? "Niet ingelogd" }
+    var loginMethodLabel: String { active?.methodLabel ?? L("Niet ingelogd") }
 
     /// Session to put into the in-app Developer Tools website for the active account.
     var activeWebSession: WebSession? {
@@ -80,7 +80,7 @@ final class AuthManager {
 
     func addPATAccount(_ raw: String) async throws {
         let pat = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !pat.isEmpty else { throw APIError(status: 0, message: "Vul een Personal Access Token in.", url: "") }
+        guard !pat.isEmpty else { throw APIError(status: 0, message: L("Vul een Personal Access Token in."), url: "") }
         try await add(credential: .pat(pat))
     }
 
@@ -90,7 +90,7 @@ final class AuthManager {
             headers: ["Authorization": "Bearer \(credential.accessToken)"]
         ).json
         let id = me.firstString("_id", "id").isEmpty ? me.firstString("email") : me.firstString("_id", "id")
-        guard !id.isEmpty else { throw APIError(status: 0, message: "Kon het account niet herkennen.", url: "user/me") }
+        guard !id.isEmpty else { throw APIError(status: 0, message: L("Kon het account niet herkennen."), url: "user/me") }
         let account = StoredAccount(
             id: id,
             name: Self.displayName(me),
@@ -160,14 +160,14 @@ final class AuthManager {
     // MARK: Tokens
 
     func accessToken() throws -> String {
-        guard let active else { throw APIError(status: 401, message: "Niet ingelogd.", url: "") }
+        guard let active else { throw APIError(status: 401, message: L("Niet ingelogd."), url: "") }
         return active.credential.accessToken
     }
 
     private func refreshActive() async throws {
         if let refreshTask { return try await refreshTask.value }
         guard case .web(let session) = active?.credential else {
-            throw APIError(status: 401, message: "Token ongeldig of ingetrokken. Voeg het account opnieuw toe.", url: "")
+            throw APIError(status: 401, message: L("Token ongeldig of ingetrokken. Voeg het account opnieuw toe."), url: "")
         }
         let id = activeID
         let task = Task { () throws -> Void in
@@ -189,7 +189,7 @@ final class AuthManager {
     /// Request against api.athom.com with the account token; refreshes once on 401.
     func athom(_ path: String, method: String = "GET", json body: JSON? = nil) async throws -> JSON {
         guard let url = URL(string: path, relativeTo: Config.athomAPI)?.absoluteURL else {
-            throw APIError(status: 0, message: "Ongeldig pad", url: path)
+            throw APIError(status: 0, message: L("Ongeldig pad"), url: path)
         }
         func run() async throws -> JSON {
             let token = try accessToken()
@@ -226,7 +226,7 @@ final class AuthManager {
         case .string(let s): token = s.trimmingCharacters(in: CharacterSet(charactersIn: "\" \n"))
         default: token = resp.firstString("token", "access_token")
         }
-        guard !token.isEmpty else { throw APIError(status: 0, message: "Geen delegation token ontvangen (\(audience)).", url: "delegation/token") }
+        guard !token.isEmpty else { throw APIError(status: 0, message: L("Geen delegation token ontvangen (\(audience))."), url: "delegation/token") }
         delegated[audience] = (token, JWT.expiry(token))
         return token
     }

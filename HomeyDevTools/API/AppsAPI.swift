@@ -8,7 +8,7 @@ struct AppsAPI {
 
     func request(_ path: String, method: String = "GET", json body: JSON? = nil) async throws -> JSON {
         guard let url = URL(string: Config.appsAPI.absoluteString + path) else {
-            throw APIError(status: 0, message: "Ongeldig pad", url: path)
+            throw APIError(status: 0, message: L("Ongeldig pad"), url: path)
         }
         func run() async throws -> JSON {
             let token = try await auth.delegationToken(audience: "apps")
@@ -106,12 +106,12 @@ struct AppsAPI {
             switch r { case .success(let v): return v
             case .failure(let e): errors.append("\(label): \(e.localizedDescription)"); return fallback }
         }
-        d.builds = take(await builds, "Builds", [])
-        d.installStats = take(await stats, "Statistieken", [])
-        d.drivers = take(await drivers, "Drivers", [])
-        d.suggestions = take(await sugg, "Suggesties", [])
-        d.liveBuild = take(await live, "Live build", nil)
-        d.liveCrashes = take(await crashes, "Crashes", [])
+        d.builds = take(await builds, L("Builds"), [])
+        d.installStats = take(await stats, L("Statistieken"), [])
+        d.drivers = take(await drivers, L("Drivers"), [])
+        d.suggestions = take(await sugg, L("Suggesties"), [])
+        d.liveBuild = take(await live, L("Live build"), nil)
+        d.liveCrashes = take(await crashes, L("Crashes"), [])
         d.errors = errors
         return d
     }

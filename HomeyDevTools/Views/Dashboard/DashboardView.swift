@@ -90,7 +90,7 @@ struct DashboardView: View {
             }
             .frame(width: 44, height: 44).clipShape(Circle())
             VStack(alignment: .leading) {
-                Text(auth.displayName.isEmpty ? "Welkom" : "Hoi \(auth.user["firstname"].string ?? auth.displayName)")
+                Text(auth.displayName.isEmpty ? L("Welkom") : L("Hoi \(auth.user["firstname"].string ?? auth.displayName)"))
                     .font(.title3.weight(.semibold))
                 if let last = store.lastLoaded {
                     Text("Bijgewerkt \(Fmt.relative(last))").font(.caption).foregroundStyle(.secondary)

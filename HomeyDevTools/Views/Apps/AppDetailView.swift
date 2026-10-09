@@ -91,7 +91,7 @@ struct AppDetailView: View {
                     Section("Suggesties (\(d.suggestions.count))") {
                         ForEach(d.suggestions.prefix(20)) { s in
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(s.text.isEmpty ? "(leeg)" : s.text).font(.callout)
+                                Text(s.text.isEmpty ? L("(leeg)") : s.text).font(.callout)
                                 Text(Fmt.relative(s.createdAt)).font(.caption2).foregroundStyle(.secondary)
                             }
                         }
@@ -189,7 +189,7 @@ struct AppDetailView: View {
                     Spacer()
                 }
                 Picker("Periode", selection: $range) {
-                    ForEach(TrendRange.allCases) { Text($0.rawValue).tag($0) }
+                    ForEach(TrendRange.allCases) { Text(LocalizedStringKey($0.rawValue)).tag($0) }
                 }
                 .pickerStyle(.segmented)
                 Chart(pts) { p in
@@ -313,13 +313,13 @@ struct CrashDetailView: View {
             }
             Section("Stacktrace") {
                 ScrollView(.horizontal) {
-                    Text(crash.stack.isEmpty ? "(geen stack)" : crash.stack)
+                    Text(crash.stack.isEmpty ? L("(geen stack)") : crash.stack)
                         .font(.system(.caption, design: .monospaced))
                         .textSelection(.enabled)
                         .padding(.vertical, 4)
                 }
             }
-            Section { NavigationLink("Ruwe API-data") { JSONInspectorView(title: "Crash", json: crash.raw) } }
+            Section { NavigationLink("Ruwe API-data") { JSONInspectorView(title: L("Crash"), json: crash.raw) } }
         }
         .navigationTitle("Crash")
         .navigationBarTitleDisplayMode(.inline)
