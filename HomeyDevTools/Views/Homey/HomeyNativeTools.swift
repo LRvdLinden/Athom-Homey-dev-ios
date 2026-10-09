@@ -407,7 +407,7 @@ struct ZigbeeToolView: View {
                             Image(systemName: icon(d.firstString("type"))).foregroundStyle(Theme.accent).frame(width: 24)
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(d.firstString("name", "modelId", "ieeeAddr")).lineLimit(1)
-                                Text([d.firstString("manufacturerName"), d.firstString("type"), d.firstString("ieeeAddr")].filter { !$0.isEmpty }.joined(separator: " · "))
+                                Text(detailLine(d.firstString("manufacturerName"), d.firstString("type"), d.firstString("ieeeAddr")))
                                     .font(.caption2).foregroundStyle(Theme.textSecondary).lineLimit(1)
                             }
                             Spacer()
@@ -498,18 +498,7 @@ struct ZwaveToolView: View {
                 ForEach(nodes) { node in
                     let id = node.id
                     let n = node.json
-                    HStack {
-                        Text(String(id)).font(.caption.monospacedDigit().weight(.bold))
-                            .frame(width: 30, height: 30)
-                            .background((failed.contains(id) ? Color.red : Theme.accent).opacity(0.15), in: Circle())
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(n.firstString("name", "deviceName", "product", "productName").isEmpty ? L("Node \(id)") : n.firstString("name", "deviceName", "product", "productName")).lineLimit(1)
-                            Text([n.firstString("manufacturer", "manufacturerName"), n.firstString("state", "status"), failed.contains(id) ? L("defect") : ""].filter { !$0.isEmpty }.joined(separator: " · "))
-                                .font(.caption2).foregroundStyle(failed.contains(id) ? .red : Theme.textSecondary).lineLimit(1)
-                        }
-                        Spacer()
-                        if working.contains(id) { ProgressView() }
-                    }
+                    ZWaveNodeRow(id: id, node: n, isFailed: failed.contains(id), isWorking: working.contains(id))
                     .contextMenu {
                         Button { Task { await nodeCommand(id, "sendTestFrame", L("Test-frame verstuurd"), 15) } } label: { Label("Test-frame versturen", systemImage: "waveform") }
                         Button { Task { await nodeCommand(id, "heal", L("Heal voltooid"), 300) } } label: { Label("Heal (routes herstellen)", systemImage: "bandage") }
@@ -551,6 +540,56 @@ struct ZwaveToolView: View {
     }
 }
 
+/// One Z-Wave node in the list. Kept as its own view so the type checker stays fast.
+struct ZWaveNodeRow: View {
+    let id: Int
+    let node: JSON
+    let isFailed: Bool
+    let isWorking: Bool
+
+    private var title: String {
+        let name = node.firstString("name", "deviceName", "product", "productName")
+        return name.isEmpty ? L("Node \(id)") : name
+    }
+
+    private var subtitle: String {
+        let defect: String = isFailed ? L("defect") : ""
+        return detailLine(node.firstString("manufacturer", "manufacturerName"), node.firstString("state", "status"), defect)
+    }
+
+    private var badgeColor: Color { isFailed ? Color.red : Theme.accent }
+    private var subtitleColor: Color { isFailed ? Color.red : Theme.textSecondary }
+
+    var body: some View {
+        HStack {
+            Text(String(id))
+                .font(Font.caption.monospacedDigit().weight(.bold))
+                .frame(width: 30, height: 30)
+                .background(badgeColor.opacity(0.15), in: Circle())
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title).lineLimit(1)
+                Text(subtitle)
+                    .font(.caption2)
+                    .foregroundStyle(subtitleColor)
+                    .lineLimit(1)
+            }
+            Spacer()
+            if isWorking { ProgressView() }
+        }
+    }
+}
+
+/// Joins the non-empty parts with " · ".
+func detailLine(_ parts: String...) -> String {
+    parts.filter { !$0.isEmpty }.joined(separator: " · ")
+}
+
+func rssiColor(_ rssi: Int) -> Color {
+    if rssi > -70 { return .green }
+    if rssi > -85 { return .orange }
+    return .red
+}
+
 // MARK: - BLE
 
 struct BLEToolView: View {
@@ -570,11 +609,11 @@ struct BLEToolView: View {
                             Image(systemName: "dot.radiowaves.left.and.right").foregroundStyle(Theme.accent).frame(width: 24)
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(p.firstString("localName", "name", "address", "uuid")).lineLimit(1)
-                                Text([p.firstString("address", "uuid"), p.firstString("state")].filter { !$0.isEmpty }.joined(separator: " · "))
+                                Text(detailLine(p.firstString("address", "uuid"), p.firstString("state")))
                                     .font(.caption2.monospaced()).foregroundStyle(Theme.textSecondary).lineLimit(1)
                             }
                             Spacer()
-                            if let rssi = p["rssi"].int { Text("\(rssi) dBm").font(.caption2.monospacedDigit()).foregroundStyle(rssi > -70 ? .green : rssi > -85 ? .orange : .red) }
+                            if let rssi = p["rssi"].int { Text("\(rssi) dBm").font(.caption2.monospacedDigit()).foregroundStyle(rssiColor(rssi)) }
                         }
                     }
                 }
@@ -820,7 +859,7 @@ struct VideosToolView: View {
                         Image(systemName: "video.fill").foregroundStyle(Theme.accent).frame(width: 24)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(v["title"].localized.isEmpty ? v.firstString("id") : v["title"].localized)
-                            Text([v.firstString("type"), v.firstString("ownerUri")].filter { !$0.isEmpty }.joined(separator: " · "))
+                            Text(detailLine(v.firstString("type"), v.firstString("ownerUri")))
                                 .font(.caption2).foregroundStyle(Theme.textSecondary).lineLimit(1)
                         }
                     }
