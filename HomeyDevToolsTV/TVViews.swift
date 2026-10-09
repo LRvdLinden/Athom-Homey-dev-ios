@@ -507,11 +507,16 @@ struct TVHomeyDetailView: View {
     @State private var system: JSON = .null
     @State private var error: String?
 
+    private var modelName: String {
+        let name: String = system.firstString("homeyModelName", "modelName")
+        return name.isEmpty ? client.homey.subtitle : name
+    }
+
     var body: some View {
         List {
             if let error { Text(error).foregroundStyle(.orange) }
             Section("Systeem") {
-                LabeledContent("Model", value: system.firstString("homeyModelName", "modelName").isEmpty ? client.homey.subtitle : system.firstString("homeyModelName", "modelName"))
+                LabeledContent("Model", value: modelName)
                 LabeledContent("Versie", value: system.firstString("homeyVersion", "softwareVersion"))
                 NavigationLink { TVInsightsView(client: client) } label: { Label("Insights", systemImage: "chart.xyaxis.line") }
             }
@@ -554,7 +559,7 @@ struct TVInsightsView: View {
             ForEach(Array(logs.enumerated()), id: \.offset) { _, log in
                 NavigationLink { TVInsightsLogView(client: client, log: log) } label: {
                     HStack {
-                        Text(log["title"].localized.isEmpty ? log.firstString("id") : log["title"].localized)
+                        Text(titleOrID(log))
                         Spacer()
                         Text(log.firstString("ownerName", "uri")).foregroundStyle(.secondary)
                     }

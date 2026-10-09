@@ -159,3 +159,9 @@ enum DateParsing {
         iso.date(from: s) ?? isoNoFrac.date(from: s) ?? Double(s).map { Date(timeIntervalSince1970: $0 > 1e11 ? $0 / 1000 : $0) }
     }
 }
+
+/// The localized "title" of a Homey object, or its id when it has none.
+func titleOrID(_ json: JSON) -> String {
+    let title: String = json["title"].localized
+    return title.isEmpty ? json.firstString("id") : title
+}

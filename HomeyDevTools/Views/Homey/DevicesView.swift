@@ -194,7 +194,7 @@ struct CapabilityRow: View {
         } else if cap.type == "enum" && cap.setable, !raw["values"].array.isEmpty {
             Menu(cap.formattedValue) {
                 ForEach(raw["values"].array, id: \.self) { v in
-                    Button(v["title"].localized.isEmpty ? (v["id"].string ?? "") : v["title"].localized) {
+                    Button(titleOrID(v)) {
                         Task { await onSet(v["id"]) }
                     }
                 }

@@ -156,7 +156,7 @@ struct SystemToolView: View {
                     ForEach(Array(experiments.enumerated()), id: \.offset) { _, e in
                         Toggle(isOn: Binding(get: { e["enabled"].bool ?? false }, set: { on in Task { await toggleExperiment(e, on) } })) {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(e["title"].localized.isEmpty ? e.firstString("id") : e["title"].localized)
+                                Text(titleOrID(e))
                                 if !e["description"].localized.isEmpty {
                                     Text(e["description"].localized).font(.caption).foregroundStyle(Theme.textSecondary).lineLimit(3)
                                 }
@@ -265,7 +265,7 @@ struct InsightsToolView: View {
                                 Image(systemName: log.firstString("type") == "boolean" ? "switch.2" : "chart.xyaxis.line")
                                     .foregroundStyle(Theme.accent).frame(width: 24)
                                 VStack(alignment: .leading, spacing: 1) {
-                                    Text(log["title"].localized.isEmpty ? log.firstString("id") : log["title"].localized)
+                                    Text(titleOrID(log))
                                     Text(log.firstString("id")).font(.caption2.monospaced()).foregroundStyle(Theme.textSecondary)
                                 }
                                 Spacer()
@@ -311,6 +311,13 @@ struct InsightsLogView: View {
     @State private var points: [Point] = []
     @State private var error: String?
 
+    private var minValue: Double { points.map { $0.value }.min() ?? 0 }
+    private var maxValue: Double { points.map { $0.value }.max() ?? 0 }
+    private func lastValueText(_ v: Double) -> String {
+        let units: String = log["units"].localized
+        return units.isEmpty ? twoDecimals(v) : twoDecimals(v) + " " + units
+    }
+
     private let resolutions = ["lastHour", "last24Hours", "last7Days", "last31Days", "last1Year"]
     private func label(_ r: String) -> LocalizedStringKey {
         switch r { case "lastHour": "1u"; case "last24Hours": "24u"; case "last7Days": "7d"; case "last31Days": "31d"; default: "1j" }
@@ -342,15 +349,15 @@ struct InsightsLogView: View {
                     Text("Geen waarden in deze periode.").font(.footnote).foregroundStyle(Theme.textSecondary)
                 }
                 if let last = points.last {
-                    LabeledContent("Laatste waarde", value: "\(String(format: "%.2f", last.value)) \(log["units"].localized)")
-                    LabeledContent("Minimum", value: String(format: "%.2f", points.map(\.value).min() ?? 0))
-                    LabeledContent("Maximum", value: String(format: "%.2f", points.map(\.value).max() ?? 0))
+                    LabeledContent("Laatste waarde", value: lastValueText(last.value))
+                    LabeledContent("Minimum", value: twoDecimals(minValue))
+                    LabeledContent("Maximum", value: twoDecimals(maxValue))
                 }
             }
             .cardRows()
         }
         .themedList()
-        .navigationTitle(log["title"].localized.isEmpty ? log.firstString("id") : log["title"].localized)
+        .navigationTitle(titleOrID(log))
         .navigationBarTitleDisplayMode(.inline)
         .task(id: resolution) { await load() }
     }
@@ -379,9 +386,12 @@ struct ZigbeeToolView: View {
     @State private var busy = false
 
     var body: some View {
-        let z = state.json["zigbee_state"].isNull ? state.json : state.json["zigbee_state"]
-        let net = z["net"].isNull ? state.json["controllerState"] : z["net"]
-        let devices = z["devices"].array.isEmpty ? z["nodes"].items : z["devices"].array
+        let zInner: JSON = state.json["zigbee_state"]
+        let z: JSON = zInner.isNull ? state.json : zInner
+        let netInner: JSON = z["net"]
+        let net: JSON = netInner.isNull ? state.json["controllerState"] : netInner
+        let deviceArray: [JSON] = z["devices"].array
+        let devices: [JSON] = deviceArray.isEmpty ? z["nodes"].items : deviceArray
         List {
             Section { ToolHeader(client: client) }.listRowBackground(Color.clear)
             if let e = state.error { ErrorBanner(message: e) { Task { await load() } }.listRowBackground(Color.clear) }
@@ -459,19 +469,41 @@ struct ZwaveToolView: View {
     @State private var working: Set<Int> = []
     @State private var removeNode: Int?
 
+    private var zw: JSON {
+        let inner: JSON = state.json["zw_state"]
+        return inner.isNull ? state.json : inner
+    }
+
+    private var nodes: [ZNode] {
+        var out: [ZNode] = []
+        for (key, value) in zw["nodes"].object {
+            let fallback: Int? = value["nodeId"].int
+            if let id = Int(key) ?? fallback { out.append(ZNode(id: id, json: value)) }
+        }
+        return out.sorted { $0.id < $1.id }
+    }
+
+    private var homeIdText: String {
+        let raw: JSON = zw["homeId"]
+        if let v = raw.int { return hex(v, width: 8) }
+        return raw.displayString
+    }
+
+    private var stats: [(key: String, value: String)] {
+        let json: JSON = zw["stats"]
+        return json.object.keys.sorted().map { key in (key: key, value: json[key].displayString) }
+    }
+
     var body: some View {
-        let zw = state.json["zw_state"].isNull ? state.json : state.json["zw_state"]
-        let nodes = zw["nodes"].object.compactMap { k, v -> ZNode? in
-            guard let id = Int(k) ?? v["nodeId"].int else { return nil }
-            return ZNode(id: id, json: v)
-        }.sorted { $0.id < $1.id }
+        let zw: JSON = self.zw
+        let nodes: [ZNode] = self.nodes
         List {
             Section { ToolHeader(client: client) }.listRowBackground(Color.clear)
             if let e = state.error { ErrorBanner(message: e) { Task { await load() } }.listRowBackground(Color.clear) }
             if let m = state.message { Label(m, systemImage: "checkmark.circle").foregroundStyle(.green).listRowBackground(Color.clear) }
 
             Section("Controller") {
-                LabeledContent("Home ID", value: zw["homeId"].int.map { hex($0, width: 8) } ?? zw["homeId"].displayString)
+                LabeledContent("Home ID", value: homeIdText)
                 LabeledContent("Node ID", value: zw["nodeId"].displayString)
                 LabeledContent("Regio", value: zw.firstString("softwareRegion", "hardwareRegion"))
                 if !zw.firstString("currentCommand").isEmpty { LabeledContent("Huidige opdracht", value: zw.firstString("currentCommand")) }
@@ -485,10 +517,10 @@ struct ZwaveToolView: View {
             }
             .cardRows()
 
-            if !zw["stats"].isNull {
+            if !stats.isEmpty {
                 Section("Statistieken") {
-                    ForEach(zw["stats"].object.keys.sorted(), id: \.self) { k in
-                        LabeledContent(k, value: zw["stats"][k].displayString).font(.caption.monospaced())
+                    ForEach(stats, id: \.key) { item in
+                        MonoValueRow(label: item.key, value: item.value)
                     }
                 }
                 .cardRows()
@@ -578,6 +610,23 @@ struct ZWaveNodeRow: View {
         }
     }
 }
+
+/// Label + monospaced value, as its own view so the type checker stays fast.
+struct MonoValueRow: View {
+    let label: String
+    let value: String
+
+    var body: some View {
+        LabeledContent {
+            Text(value)
+        } label: {
+            Text(label)
+        }
+        .font(Font.caption.monospaced())
+    }
+}
+
+func twoDecimals(_ v: Double) -> String { String(format: "%.2f", v) }
 
 /// Joins the non-empty parts with " · ".
 func detailLine(_ parts: String...) -> String {
@@ -790,7 +839,7 @@ struct ImagesToolView: View {
                         HomeyImage(client: client, path: img.firstString("url", "imageUrl"), reloadToken: reloadToken)
                             .aspectRatio(4 / 3, contentMode: .fit)
                             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                        Text(img["title"].localized.isEmpty ? img.firstString("id") : img["title"].localized)
+                        Text(titleOrID(img))
                             .font(.caption.weight(.medium)).lineLimit(1)
                         Text(img.firstString("ownerUri", "ownerName")).font(.caption2).foregroundStyle(Theme.textSecondary).lineLimit(1)
                     }
@@ -858,7 +907,7 @@ struct VideosToolView: View {
                     HStack {
                         Image(systemName: "video.fill").foregroundStyle(Theme.accent).frame(width: 24)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(v["title"].localized.isEmpty ? v.firstString("id") : v["title"].localized)
+                            Text(titleOrID(v))
                             Text(detailLine(v.firstString("type"), v.firstString("ownerUri")))
                                 .font(.caption2).foregroundStyle(Theme.textSecondary).lineLimit(1)
                         }
@@ -908,7 +957,7 @@ struct VideoPlayerToolView: View {
         }
         .padding()
         .background(Theme.background.ignoresSafeArea())
-        .navigationTitle(video["title"].localized.isEmpty ? video.firstString("id") : video["title"].localized)
+        .navigationTitle(titleOrID(video))
         .navigationBarTitleDisplayMode(.inline)
         .task {
             if video.firstString("type").lowercased().contains("webrtc") {
