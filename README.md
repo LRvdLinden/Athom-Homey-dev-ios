@@ -25,6 +25,10 @@ A native SwiftUI app for iPhone, iPad, Apple TV and Apple Watch (iOS/iPadOS 17+,
 
 <p align="center"><img src="docs/screenshots/tvos.png" width="820" alt="Apple TV – dashboard"></p>
 
+**Apple Watch (watchOS)**: complications on the watch face, overview, My Apps and app detail
+
+<p align="center"><img src="docs/screenshots/watchos.png" width="820" alt="Apple Watch – complications, overview, My Apps and app detail"></p>
+
 **Widgets**: Installs (small and medium), Top apps and Review & crashes
 
 <p align="center"><img src="docs/screenshots/widgets.png" width="720" alt="Home screen widgets"></p>
