@@ -9,10 +9,11 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/latest-1.3.4-0082FA?style=for-the-badge" alt="Latest version 1.3.4">
+  <img src="https://img.shields.io/badge/latest-1.3.5-0082FA?style=for-the-badge" alt="Latest version 1.3.5">
   <img src="https://img.shields.io/badge/iOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iOS 17+">
   <img src="https://img.shields.io/badge/iPadOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iPadOS 17+">
   <img src="https://img.shields.io/badge/tvOS-17%2B-111111?style=for-the-badge&logo=appletv&logoColor=white" alt="tvOS 17+">
+  <img src="https://img.shields.io/badge/watchOS-10%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="watchOS 10+">
 </p>
 
 <p align="center">
@@ -27,7 +28,8 @@
 
 | Version | Highlights | Platforms |
 |:--|:--|:--|
-| [**1.3.4**](#134) | Push check every 30 minutes | 📱 iPhone · 📱 iPad · 📺 Apple TV |
+| [**1.3.5**](#135) | Apple Watch app with complications, test push | 📱 iPhone · 📱 iPad · 📺 Apple TV · ⌚️ Apple Watch |
+| [1.3.4](#134) | Push check every 30 minutes | 📱 iPhone · 📱 iPad · 📺 Apple TV |
 | [1.3.3](#133) | Privacy, disclaimer, version and copyright on the Account page | 📱 iPhone · 📱 iPad · 📺 Apple TV |
 | [1.3.2](#132) | Direct push notifications through OneSignal | 📱 iPhone · 📱 iPad |
 | [1.3.1](#131) | Status notifications for every build change | 📱 iPhone · 📱 iPad |
@@ -48,9 +50,27 @@
 
 ---
 
+## 1.3.5
+
+<img src="https://img.shields.io/badge/build-20-555?style=flat-square" alt="Build 20"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+
+#### ⌚️ Apple Watch app (watchOS 10+)
+- ✨ Comes with the iPhone app; no login on the watch. The iPhone sends the same summary the widgets use (WatchConnectivity) after every refresh.
+- ✨ **Overview:** total installs, 7-day change, 30-day trend, Cloud/Local, in review and live crashes.
+- ✨ **My Apps:** installs and growth per app, with a detail page (versions, test status, devices, rating, crashes, trend).
+- ✨ **Attention:** apps in review and apps with crashes.
+- ✨ **Complications:** circular, corner, inline and rectangular, with installs, 7-day change and apps in review.
+
+#### 🔔 Push notifications
+- ✨ **Test push:** *Actions → Status push → Run workflow* now has a *Send a test push to every account* option. It uses exactly the same targeting as real status pushes, so you can check the whole chain.
+- 🛠 The workflow log shows the status of every app, the number of changes and why a push didn't reach a device.
+- 🛠 The app re-sends its push tags to OneSignal at every launch.
+
+---
+
 ## 1.3.4
 
-<img src="https://img.shields.io/badge/build-19-555?style=flat-square" alt="Build 19"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+<img src="https://img.shields.io/badge/build-19-555?style=flat-square" alt="Build 19">
 
 - 🔄 **Direct push:** the GitHub Actions job now checks every **30 minutes** instead of every 10. That keeps it within the 2,000 free Actions minutes per month of a private repository (about 1,450 minutes).
 - 🔄 The notification settings and the README say "every half hour".

@@ -9,6 +9,11 @@ on:
     # Every 30 minutes: fits the 2,000 free Actions minutes of a private repo.
     - cron: "*/30 * * * *"
   workflow_dispatch:
+    inputs:
+      test_push:
+        description: "Send a test push to every account"
+        type: boolean
+        default: false
 
 concurrency:
   group: status-push
@@ -37,6 +42,7 @@ jobs:
         env:
           HOMEY_PATS: ${{ secrets.HOMEY_PATS }}
           ONESIGNAL_API_KEY: ${{ secrets.ONESIGNAL_API_KEY }}
+          TEST_PUSH: ${{ inputs.test_push }}
           ONESIGNAL_APP_ID: ${{ vars.ONESIGNAL_APP_ID || '23f09f93-060f-4aa4-bde2-d11cf1e49be0' }}
 
       - name: Save status

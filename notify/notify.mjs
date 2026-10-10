@@ -12,6 +12,7 @@
 //   ONESIGNAL_APP_ID    OneSignal App ID
 //   STATE_DIR           where the previous status is kept (default .notify-state)
 //   DRY_RUN=1           log instead of sending
+//   TEST_PUSH=1         send one test push per account (same targeting as real pushes)
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -21,6 +22,7 @@ const APPS = 'https://apps-api.athom.com/api/v1';
 const STATE_DIR = process.env.STATE_DIR || '.notify-state';
 const STATE_FILE = join(STATE_DIR, 'state.json');
 const DRY_RUN = process.env.DRY_RUN === '1';
+const TEST_PUSH = process.env.TEST_PUSH === '1' || process.env.TEST_PUSH === 'true';
 
 const pats = (process.env.HOMEY_PATS || '').split(/[\n,]/).map((s) => s.trim()).filter(Boolean);
 const oneSignalKey = (process.env.ONESIGNAL_API_KEY || '').trim();
@@ -92,6 +94,36 @@ const TEXT = {
   live: { en: (v) => `${v}is now live.`, nl: (v) => `${v}staat nu live.` },
 };
 
+async function send(body, label) {
+  if (DRY_RUN) { console.log('[dry run]', JSON.stringify(body)); return; }
+  const res = await fetch('https://api.onesignal.com/notifications?c=push', {
+    method: 'POST',
+    headers: { Authorization: `Key ${oneSignalKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const text = await res.text();
+  let hint = '';
+  try {
+    const r = JSON.parse(text);
+    if (r.errors) hint = ` → ${JSON.stringify(r.errors)}`;
+    if (!r.id || /not subscribed/i.test(text)) hint += ' → no device matched: open the app, turn on "Direct via push" and check the tags in OneSignal (Audience → Subscriptions).';
+  } catch {}
+  console.log(`${label}: HTTP ${res.status} ${text.slice(0, 200)}${hint}`);
+}
+
+async function testPush({ userId, accountName }) {
+  await send({
+    app_id: oneSignalApp,
+    target_channel: 'push',
+    filters: [{ field: 'tag', key: `u_${tagSafe(userId)}`, relation: '=', value: '1' }],
+    headings: { en: 'HomeyDev', nl: 'HomeyDev' },
+    contents: {
+      en: `Test push for ${accountName}. Status pushes are working.`,
+      nl: `Testmelding voor ${accountName}. Statusmeldingen werken.`,
+    },
+  }, `test push ${accountName} (tag u_${tagSafe(userId)})`);
+}
+
 async function push({ userId, accountName, multiple, app, kind, version }) {
   const v = version ? `v${version} ` : '';
   const name = localized(app.name) || localized(app.liveBuild?.name) || app.id;
@@ -109,14 +141,7 @@ async function push({ userId, accountName, multiple, app, kind, version }) {
     collapse_id: `${app.id}.${kind}.${version}`.slice(0, 64),
     data: { appId: app.id, kind },
   };
-  if (DRY_RUN) { console.log('[dry run]', JSON.stringify(body)); return; }
-  const res = await fetch('https://api.onesignal.com/notifications?c=push', {
-    method: 'POST',
-    headers: { Authorization: `Key ${oneSignalKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
-  const text = await res.text();
-  console.log(`push ${kind} ${app.id} ${version}: HTTP ${res.status} ${text.slice(0, 160)}`);
+  await send(body, `push ${kind} ${app.id} ${version}`);
 }
 
 let state = {};
@@ -128,9 +153,11 @@ for (const pat of pats) {
     const me = await http(`${ATHOM}/user/me`, { token: pat });
     const userId = me._id || me.id;
     const accountName = [me.firstname, me.lastname].filter(Boolean).join(' ') || me.email || '';
+    if (TEST_PUSH) await testPush({ userId, accountName });
     const apps = await allApps(await delegationToken(pat));
     const before = state[userId];
     const now = {};
+    let changes = 0;
     for (const app of apps) {
       const seen = {
         live: app.liveBuild?.id ?? null,
@@ -144,15 +171,19 @@ for (const pat of pats) {
       if (!prev) continue;
       if (seen.live != null && seen.live !== prev.live) {
         await push({ userId, accountName, multiple: pats.length > 1, app, kind: 'live', version: seen.liveVersion });
+        changes++;
       }
       const testChanged = seen.test !== prev.test || seen.state !== prev.state;
       const kind = TEST_KINDS[seen.state];
       if (testChanged && seen.test != null && kind) {
         await push({ userId, accountName, multiple: pats.length > 1, app, kind, version: seen.testVersion });
+        changes++;
       }
     }
     next[userId] = now;
-    console.log(`${accountName}: ${apps.length} apps checked`);
+    const summary = apps.map((a) => `${a.id}=${a.testBuild?.state || '-'}/${a.liveBuild?.version || a.liveVersion || '-'}`).join(', ');
+    console.log(`${accountName}: ${apps.length} apps checked, ${before ? `${changes} change(s)` : 'first run (status recorded)'}`);
+    console.log(`  status: ${summary}`);
   } catch (e) {
     console.error(`Account check failed: ${e.message}`);
   }

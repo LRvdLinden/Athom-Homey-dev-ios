@@ -91,6 +91,7 @@ struct RootView: View {
                 async let apps: Void = portfolio.load(auth: auth, force: true)
                 _ = await (user, apps)
             }
+            PushNotifications.sync(auth: auth)
             let remaining = 1.6 - Date().timeIntervalSince(start)
             if remaining > 0 { try? await Task.sleep(for: .seconds(remaining)) }
             withAnimation(.easeInOut(duration: 0.45)) { showSplash = false }

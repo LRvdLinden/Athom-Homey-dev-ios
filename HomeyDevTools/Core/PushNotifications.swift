@@ -70,6 +70,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         MainActor.assumeIsolated { PushNotifications.start(launchOptions: launchOptions) }
+        WatchSync.shared.activate()
         return true
     }
 }

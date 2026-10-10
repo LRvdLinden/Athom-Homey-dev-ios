@@ -2,7 +2,7 @@
 
 # Developer Tools for Homey – iOS
 
-A native SwiftUI app for iPhone, iPad and Apple TV (iOS/iPadOS 17+, tvOS 17+) that brings [Homey Developer Tools](https://tools.developer.homey.app) to your pocket. It supports multiple accounts, light and dark mode, and four languages.
+A native SwiftUI app for iPhone, iPad, Apple TV and Apple Watch (iOS/iPadOS 17+, tvOS 17+, watchOS 10+) that brings [Homey Developer Tools](https://tools.developer.homey.app) to your pocket. It supports multiple accounts, light and dark mode, and four languages.
 
 > Unofficial app. Homey and the Homey logo are trademarks of Athom B.V.
 
@@ -57,6 +57,18 @@ Add them from the home screen (long-press → **+** → *Homey Dev*):
 
 The app shares a snapshot with the widgets through the App Group `group.nl.lrvdlinden.homeydevtools`. The widgets don't need a login, and their data updates each time the app refreshes.
 
+## Apple Watch
+
+The watch app comes with the iPhone app and needs no login: the iPhone sends it the same summary the widgets use, every time it refreshes.
+
+- **Overview:** total installs, 7-day change, a 30-day trend, Cloud/Local, apps in review and live crashes.
+- **My Apps:** every app with installs and growth; tap one for versions, test status, devices, rating, crashes and its own trend.
+- **Attention:** apps in review and apps with crashes.
+- **Complications** for the watch face (circular, corner, inline and rectangular): installs, 7-day change and apps in review.
+- Push notifications from the iPhone also appear on the watch.
+
+Open the iPhone app once after installing; pull the refresh button on the watch to ask the iPhone for the latest data.
+
 ## Apple TV
 
 There are three ways to get your accounts onto the Apple TV:
@@ -102,7 +114,7 @@ The OneSignal App ID is built into the app. The API key and tokens stay in GitHu
 ## Building
 
 1. Open `HomeyDevTools.xcodeproj` in **Xcode 16 or later**.
-2. Select your **Team** under *Signing & Capabilities* for all three targets: **HomeyDevTools**, **HomeyDevToolsWidget** and **HomeyDevToolsTV**. The bundle IDs are `nl.lrvdlinden.homeydevtools` (iPhone, iPad and Apple TV share it, so it is one App Store app with universal purchase) and `nl.lrvdlinden.homeydevtools.widgets`. Xcode registers the App Group automatically.
+2. Select your **Team** under *Signing & Capabilities* for all targets: **HomeyDevTools**, **HomeyDevToolsWidget**, **HomeyDevToolsTV**, **HomeyDevToolsWatch** and **HomeyDevToolsWatchWidget**. The bundle IDs are `nl.lrvdlinden.homeydevtools` (iPhone, iPad and Apple TV share it, so it is one App Store app with universal purchase) and `nl.lrvdlinden.homeydevtools.widgets`. Xcode registers the App Group automatically.
 3. Choose an iPhone or simulator and press ▶︎.
 
 There are no third-party dependencies: only SwiftUI, Charts, WebKit and CryptoKit.
@@ -131,7 +143,7 @@ Open `Localizable.xcstrings` in Xcode, click **+** to add a language and transla
 
 ## What's new
 
-**1.3.4**: direct push notifications through OneSignal now check every 30 minutes, so the workflow fits the free GitHub Actions minutes of a private repository. Earlier: status notifications (1.3.1–1.3.2) and privacy, disclaimer and about (1.3.3). See [Push notifications](#push-notifications) for the setup.
+**1.3.5** adds an ⌚️ **Apple Watch app** with complications, plus a **test push** button for the status-push workflow (*Actions → Status push → Run workflow → Send a test push*).
 
 📜 See the full history in **[CHANGELOG.md](CHANGELOG.md)**.
 

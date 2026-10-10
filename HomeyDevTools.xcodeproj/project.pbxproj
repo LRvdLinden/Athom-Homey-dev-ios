@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A2000000000000000000000E /* HomeyDevToolsWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* HomeyDevToolsWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A6000000000000000000000C /* OneSignalFramework in Frameworks */ = {isa = PBXBuildFile; productRef = A6000000000000000000000B /* OneSignalFramework */; };
+		A7000000000000000000000E /* HomeyDevToolsWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = A70000000000000000000001 /* HomeyDevToolsWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A8000000000000000000000E /* HomeyDevToolsWatchWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A80000000000000000000001 /* HomeyDevToolsWatchWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -18,6 +20,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = A20000000000000000000006;
 			remoteInfo = HomeyDevToolsWidget;
+		};
+		A7000000000000000000000F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A10000000000000000000009 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A70000000000000000000006;
+			remoteInfo = HomeyDevToolsWatch;
+		};
+		A8000000000000000000000F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A10000000000000000000009 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A80000000000000000000006;
+			remoteInfo = HomeyDevToolsWatchWidget;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -33,12 +49,36 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A70000000000000000000012 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				A7000000000000000000000E /* HomeyDevToolsWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A70000000000000000000010 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A8000000000000000000000E /* HomeyDevToolsWatchWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A40000000000000000000001 /* HomeyDevToolsTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeyDevToolsTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20000000000000000000001 /* HomeyDevToolsWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HomeyDevToolsWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000001 /* HomeyDevTools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeyDevTools.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A70000000000000000000001 /* HomeyDevToolsWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeyDevToolsWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A80000000000000000000001 /* HomeyDevToolsWatchWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HomeyDevToolsWatchWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -67,6 +107,16 @@
 			path = HomeyDevTools;
 			sourceTree = "<group>";
 		};
+		A70000000000000000000002 /* HomeyDevToolsWatch */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HomeyDevToolsWatch;
+			sourceTree = "<group>";
+		};
+		A80000000000000000000002 /* HomeyDevToolsWatchWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HomeyDevToolsWatchWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +142,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A70000000000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A80000000000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -103,6 +167,8 @@
 				A30000000000000000000002 /* Shared */,
 				A50000000000000000000002 /* SharedCore */,
 				A40000000000000000000002 /* HomeyDevToolsTV */,
+				A70000000000000000000002 /* HomeyDevToolsWatch */,
+				A80000000000000000000002 /* HomeyDevToolsWatchWidget */,
 				A10000000000000000000005 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -113,6 +179,8 @@
 				A10000000000000000000001 /* HomeyDevTools.app */,
 				A20000000000000000000001 /* HomeyDevToolsWidget.appex */,
 				A40000000000000000000001 /* HomeyDevToolsTV.app */,
+				A70000000000000000000001 /* HomeyDevToolsWatch.app */,
+				A80000000000000000000001 /* HomeyDevToolsWatchWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -174,11 +242,13 @@
 				A10000000000000000000003 /* Frameworks */,
 				A10000000000000000000008 /* Resources */,
 				A20000000000000000000010 /* Embed Foundation Extensions */,
+				A70000000000000000000012 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				A20000000000000000000011 /* PBXTargetDependency */,
+				A70000000000000000000011 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A10000000000000000000002 /* HomeyDevTools */,
@@ -192,6 +262,54 @@
 			productName = HomeyDevTools;
 			productReference = A10000000000000000000001 /* HomeyDevTools.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A70000000000000000000006 /* HomeyDevToolsWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A7000000000000000000000B /* Build configuration list for PBXNativeTarget "HomeyDevToolsWatch" */;
+			buildPhases = (
+				A70000000000000000000007 /* Sources */,
+				A70000000000000000000003 /* Frameworks */,
+				A70000000000000000000008 /* Resources */,
+				A70000000000000000000010 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A80000000000000000000011 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A70000000000000000000002 /* HomeyDevToolsWatch */,
+				A30000000000000000000002 /* Shared */,
+			);
+			name = HomeyDevToolsWatch;
+			packageProductDependencies = (
+			);
+			productName = HomeyDevToolsWatch;
+			productReference = A70000000000000000000001 /* HomeyDevToolsWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A80000000000000000000006 /* HomeyDevToolsWatchWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8000000000000000000000B /* Build configuration list for PBXNativeTarget "HomeyDevToolsWatchWidget" */;
+			buildPhases = (
+				A80000000000000000000007 /* Sources */,
+				A80000000000000000000003 /* Frameworks */,
+				A80000000000000000000008 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A80000000000000000000002 /* HomeyDevToolsWatchWidget */,
+				A30000000000000000000002 /* Shared */,
+			);
+			name = HomeyDevToolsWatchWidget;
+			packageProductDependencies = (
+			);
+			productName = HomeyDevToolsWatchWidget;
+			productReference = A80000000000000000000001 /* HomeyDevToolsWatchWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -210,6 +328,12 @@
 						CreatedOnToolsVersion = 16.0;
 					};
 					A40000000000000000000006 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					A70000000000000000000006 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					A80000000000000000000006 = {
 						CreatedOnToolsVersion = 16.0;
 					};
 				};
@@ -237,6 +361,8 @@
 				A10000000000000000000006 /* HomeyDevTools */,
 				A20000000000000000000006 /* HomeyDevToolsWidget */,
 				A40000000000000000000006 /* HomeyDevToolsTV */,
+				A70000000000000000000006 /* HomeyDevToolsWatch */,
+				A80000000000000000000006 /* HomeyDevToolsWatchWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -257,6 +383,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		A10000000000000000000008 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A70000000000000000000008 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A80000000000000000000008 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -287,6 +427,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A70000000000000000000007 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A80000000000000000000007 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -294,6 +448,16 @@
 			isa = PBXTargetDependency;
 			target = A20000000000000000000006 /* HomeyDevToolsWidget */;
 			targetProxy = A2000000000000000000000F /* PBXContainerItemProxy */;
+		};
+		A70000000000000000000011 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A70000000000000000000006 /* HomeyDevToolsWatch */;
+			targetProxy = A7000000000000000000000F /* PBXContainerItemProxy */;
+		};
+		A80000000000000000000011 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A80000000000000000000006 /* HomeyDevToolsWatchWidget */;
+			targetProxy = A8000000000000000000000F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -306,7 +470,7 @@
 				CODE_SIGN_ENTITLEMENTS = HomeyDevToolsTV.entitlements;
 				INFOPLIST_FILE = "HomeyDevToolsTV-Info.plist";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -319,7 +483,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -339,7 +503,7 @@
 				CODE_SIGN_ENTITLEMENTS = HomeyDevToolsTV.entitlements;
 				INFOPLIST_FILE = "HomeyDevToolsTV-Info.plist";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -352,7 +516,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -372,7 +536,7 @@
 				CODE_SIGN_ENTITLEMENTS = HomeyDevToolsWidget.entitlements;
 				SUPPORTS_MACCATALYST = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -386,7 +550,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -404,7 +568,7 @@
 				CODE_SIGN_ENTITLEMENTS = HomeyDevToolsWidget.entitlements;
 				SUPPORTS_MACCATALYST = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -418,7 +582,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -488,7 +652,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -504,7 +668,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -522,7 +686,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -538,12 +702,136 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A7000000000000000000000C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HomeyDevToolsWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 20;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Homey Dev";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = nl.lrvdlinden.homeydevtools;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.3.5;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		A7000000000000000000000D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HomeyDevToolsWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 20;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Homey Dev";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = nl.lrvdlinden.homeydevtools;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.3.5;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		A8000000000000000000000C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HomeyDevToolsWatchWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 20;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "HomeyDevToolsWatchWidget-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Homey Dev";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3.5;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools.watchkitapp.complications;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		A8000000000000000000000D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HomeyDevToolsWatchWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 20;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "HomeyDevToolsWatchWidget-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Homey Dev";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3.5;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.lrvdlinden.homeydevtools.watchkitapp.complications;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
@@ -582,6 +870,24 @@
 			buildConfigurations = (
 				A4000000000000000000000C /* Debug */,
 				A4000000000000000000000D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A7000000000000000000000B /* Build configuration list for PBXNativeTarget "HomeyDevToolsWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7000000000000000000000C /* Debug */,
+				A7000000000000000000000D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8000000000000000000000B /* Build configuration list for PBXNativeTarget "HomeyDevToolsWatchWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8000000000000000000000C /* Debug */,
+				A8000000000000000000000D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

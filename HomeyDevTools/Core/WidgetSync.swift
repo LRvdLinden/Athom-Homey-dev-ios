@@ -49,6 +49,7 @@ enum WidgetSync {
             totalHistory: HistoryMath.sum(widgetApps.map(\.history))
         )
         snapshot.save()
+        WatchSync.shared.send(snapshot)
         await saveIcons(for: Array(sorted.prefix(enrichedCount)))
         WidgetCenter.shared.reloadAllTimelines()
     }
