@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/latest-1.3.5-0082FA?style=for-the-badge" alt="Latest version 1.3.5">
+  <img src="https://img.shields.io/badge/latest-1.3.6-0082FA?style=for-the-badge" alt="Latest version 1.3.6">
   <img src="https://img.shields.io/badge/iOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iOS 17+">
   <img src="https://img.shields.io/badge/iPadOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iPadOS 17+">
   <img src="https://img.shields.io/badge/tvOS-17%2B-111111?style=for-the-badge&logo=appletv&logoColor=white" alt="tvOS 17+">
@@ -28,7 +28,8 @@
 
 | Version | Highlights | Platforms |
 |:--|:--|:--|
-| [**1.3.5**](#135) | Apple Watch app with complications, test push | 📱 iPhone · 📱 iPad · 📺 Apple TV · ⌚️ Apple Watch |
+| [**1.3.6**](#136) | Real Homey product images | 📱 iPhone · 📱 iPad |
+| [1.3.5](#135) | Apple Watch app with complications, test push | 📱 iPhone · 📱 iPad · 📺 Apple TV · ⌚️ Apple Watch |
 | [1.3.4](#134) | Push check every 30 minutes | 📱 iPhone · 📱 iPad · 📺 Apple TV |
 | [1.3.3](#133) | Privacy, disclaimer, version and copyright on the Account page | 📱 iPhone · 📱 iPad · 📺 Apple TV |
 | [1.3.2](#132) | Direct push notifications through OneSignal | 📱 iPhone · 📱 iPad |
@@ -50,9 +51,19 @@
 
 ---
 
+## 1.3.6
+
+<img src="https://img.shields.io/badge/build-21-555?style=flat-square" alt="Build 21"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+
+- 🎨 **Homeys** now show the real product image of each Homey, the same ones my.homey.app uses: the black Homey Pro, the Homey Cloud house, the Self-Hosted Server box and so on, in light and dark mode (`modelImage` from the Athom API).
+- 🔄 Model names follow my.homey.app, e.g. *Homey Pro (Early 2023)*, *Homey Pro mini*, *Homey Self-Hosted Server*.
+- 🎨 The images also appear on the Homey detail page and in the header of the native tools.
+
+---
+
 ## 1.3.5
 
-<img src="https://img.shields.io/badge/build-20-555?style=flat-square" alt="Build 20"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+<img src="https://img.shields.io/badge/build-20-555?style=flat-square" alt="Build 20">
 
 #### ⌚️ Apple Watch app (watchOS 10+)
 - ✨ Comes with the iPhone app; no login on the watch. The iPhone sends the same summary the widgets use (WatchConnectivity) after every refresh.

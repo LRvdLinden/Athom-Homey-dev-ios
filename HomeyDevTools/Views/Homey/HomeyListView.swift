@@ -118,7 +118,7 @@ struct HomeyRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            HomeyLogo(size: 38)
+            HomeyModelImage(homey: homey, size: 48)
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
                     Text(homey.name).font(.body.weight(.medium))
@@ -142,7 +142,7 @@ struct HomeyDetailView: View {
                 List {
                     Section {
                         HStack(spacing: 14) {
-                            HomeyLogo(size: 54)
+                            HomeyModelImage(homey: homey, size: 64)
                             VStack(alignment: .leading, spacing: 3) {
                                 Text(homey.name).font(.title3.weight(.semibold))
                                 Text(homey.subtitle).font(.caption).foregroundStyle(Theme.textSecondary)

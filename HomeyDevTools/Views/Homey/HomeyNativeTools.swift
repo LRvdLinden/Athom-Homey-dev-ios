@@ -70,7 +70,7 @@ struct ToolHeader: View {
     let client: HomeyClient
     var body: some View {
         HStack(spacing: 8) {
-            HomeyLogo(size: 18)
+            HomeyModelImage(homey: client.homey, size: 24)
             Text(client.homey.name).font(.footnote.weight(.semibold))
             Text(client.homey.subtitle).font(.caption2).foregroundStyle(Theme.textSecondary).lineLimit(1)
         }
