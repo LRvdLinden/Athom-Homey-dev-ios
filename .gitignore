@@ -7,3 +7,9 @@ build/
 *.dSYM.zip
 
 .notify-state/
+
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
