@@ -8,7 +8,7 @@ enum AppInfo {
     static let copyright = "© HomeyDev - PixelForges"
 }
 
-/// Disclaimer and privacy texts, shared by the iPhone/iPad and Apple TV apps.
+/// Disclaimer and privacy texts shown on the Account page.
 struct LegalDocument: Identifiable {
     struct Part: Identifiable {
         let id = UUID()
@@ -41,8 +41,8 @@ struct LegalDocument: Identifiable {
                      text: L("De app bevat geen advertenties, analytics of tracking. We zien niet welke apps, Homey's of gegevens je bekijkt.")),
                 Part(icon: "bell.badge.fill", title: L("Meldingen"),
                      text: L("Statusmeldingen op je toestel worden door de app zelf gemaakt. Zet je ‘Direct via push’ aan, dan registreert de app je toestel bij OneSignal, met je Athom-gebruikers-ID en je meldingsvoorkeuren als kenmerken. De statuscontrole voor push draait in de GitHub-omgeving van de ontwikkelaar. Zet push uit om je toestel af te melden.")),
-                Part(icon: "appletv.fill", title: L("Apple TV en widgets"),
-                     text: L("Koppelen met je Apple TV gaat versleuteld via je eigen netwerk of via je iCloud-sleutelhanger. Widgets lezen een samenvatting die de app op je toestel opslaat.")),
+                Part(icon: "applewatch", title: L("Widgets en Apple Watch"),
+                     text: L("Widgets en de Apple Watch-app lezen een samenvatting die de app op je toestel opslaat en via je eigen iPhone naar je watch stuurt. Er gaat niets via iCloud of een server.")),
                 Part(icon: "trash.fill", title: L("Verwijderen"),
                      text: L("Meld je af onder Account of verwijder de app, dan zijn alle opgeslagen sessies en tokens weg. Je Personal Access Tokens trek je in via Developer Tools → My Account.")),
                 Part(icon: "doc.text.fill", title: L("Voorwaarden"),

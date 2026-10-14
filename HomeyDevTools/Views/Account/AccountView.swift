@@ -76,8 +76,6 @@ struct AccountView: View {
 
             NotificationsSection()
 
-            AppleTVSection()
-
             if !store.organizations.isEmpty {
                 Section("My Organizations") {
                     ForEach(store.organizations) { org in
@@ -184,148 +182,6 @@ struct APIClientsView: View {
 }
 
 
-/// Share saved accounts with the Apple TV app through iCloud Keychain.
-struct AppleTVSection: View {
-    @Environment(AuthManager.self) private var auth
-    @AppStorage(AppleTVSharing.enabledKey) private var enabled = false
-    @State private var busy = false
-    @State private var status: String?
-    @State private var error: String?
-
-    var body: some View {
-        Section {
-            Toggle(isOn: Binding(get: { enabled }, set: { on in enabled = on; Task { await apply(on) } })) {
-                Label("Delen met Apple TV", systemImage: "appletv")
-            }
-            .disabled(busy)
-            NavigationLink { TVLinkView() } label: {
-                Label("Koppel via wifi", systemImage: "wifi")
-            }
-            if enabled {
-                Button { Task { await apply(true) } } label: {
-                    HStack { Label("Nu bijwerken", systemImage: "arrow.triangle.2.circlepath"); if busy { Spacer(); ProgressView() } }
-                }
-                .disabled(busy)
-            }
-            if let status { Text(status).font(.footnote).foregroundStyle(.green) }
-            if let error { Text(error).font(.footnote).foregroundStyle(.red) }
-        } header: {
-            Text("Apple TV")
-        } footer: {
-            Text("‘Koppel via wifi’ stuurt je accounts direct naar een Apple TV in hetzelfde netwerk, met de code die de Apple TV toont. ‘Delen met Apple TV’ gaat via je iCloud-sleutelhanger en kan even duren. Beide gebruiken per account je Personal Access Token (zoals ‘Reveal’ in Developer Tools → My Account).")
-        }
-        .cardRows()
-    }
-
-    private func apply(_ on: Bool) async {
-        busy = true; error = nil; status = nil
-        defer { busy = false }
-        guard on else { AppleTVSharing.stop(); status = L("Niet meer gedeeld met Apple TV"); return }
-        do {
-            let n = try await AppleTVSharing.publish(auth: auth)
-            status = L("\(n) account(s) gedeeld met Apple TV")
-        } catch {
-            self.error = error.localizedDescription
-        }
-    }
-}
-
-
-/// Sends the saved accounts to an Apple TV on the same network, using the code it shows.
-struct TVLinkView: View {
-    @Environment(AuthManager.self) private var auth
-    @State private var sender = TVLinkSender()
-    @State private var selected: TVLinkSender.FoundTV?
-    @State private var code = ""
-    @State private var preparing = false
-    @State private var prepareError: String?
-
-    var body: some View {
-        List {
-            Section {
-                Label("Open Homey Dev op je Apple TV. Daar staat een code van 4 cijfers.", systemImage: "appletv")
-                Label("Kies hieronder je Apple TV en voer die code in.", systemImage: "number")
-            }
-            .cardRows()
-
-            Section {
-                if sender.found.isEmpty {
-                    HStack(spacing: 12) {
-                        ProgressView()
-                        Text("Apple TV zoeken…").foregroundStyle(Theme.textSecondary)
-                    }
-                }
-                ForEach(sender.found) { (tv: TVLinkSender.FoundTV) in
-                    Button { code = ""; selected = tv } label: {
-                        Label(tv.name, systemImage: "appletv.fill")
-                    }
-                    .disabled(busy)
-                }
-            } header: {
-                Text("Apple TV in dit netwerk")
-            } footer: {
-                Text("iPhone en Apple TV moeten op hetzelfde wifi-netwerk zitten. Sta ‘Lokaal netwerk’ toe als iOS daarom vraagt.")
-            }
-            .cardRows()
-
-            statusSection
-        }
-        .themedList()
-        .navigationTitle("Koppel via wifi")
-        .onAppear { sender.start() }
-        .onDisappear { sender.stop() }
-        .alert("Code van je Apple TV", isPresented: Binding(get: { selected != nil }, set: { if !$0 { selected = nil } })) {
-            TextField("0000", text: $code)
-                .keyboardType(.numberPad)
-            Button("Annuleer", role: .cancel) { selected = nil }
-            Button("Koppel") {
-                if let tv = selected { Task { await link(tv) } }
-                selected = nil
-            }
-        } message: {
-            Text("Voer de 4 cijfers in die op je Apple TV staan.")
-        }
-    }
-
-    private var busy: Bool { preparing || sender.status == .sending }
-
-    @ViewBuilder
-    private var statusSection: some View {
-        if preparing {
-            Section { HStack(spacing: 12) { ProgressView(); Text("Accounts voorbereiden…") } }.cardRows()
-        } else if let prepareError {
-            Section { Label(prepareError, systemImage: "exclamationmark.triangle.fill").foregroundStyle(.orange) }.cardRows()
-        } else {
-            switch sender.status {
-            case .searching:
-                EmptyView()
-            case .sending:
-                Section { HStack(spacing: 12) { ProgressView(); Text("Versturen naar Apple TV…") } }.cardRows()
-            case .done(let n):
-                Section { Label(L("\(n) account(s) staan nu op je Apple TV"), systemImage: "checkmark.circle.fill").foregroundStyle(.green) }.cardRows()
-            case .failed(let message):
-                Section { Label(message, systemImage: "exclamationmark.triangle.fill").foregroundStyle(.orange) }.cardRows()
-            }
-        }
-    }
-
-    private func link(_ tv: TVLinkSender.FoundTV) async {
-        let trimmed = code.trimmingCharacters(in: .whitespaces)
-        guard trimmed.count == 4 else { prepareError = L("Voer de 4 cijfers van je Apple TV in."); return }
-        prepareError = nil
-        preparing = true
-        defer { preparing = false }
-        do {
-            let accounts = try await AppleTVSharing.sharedAccounts(auth: auth)
-            sender.reset()
-            sender.send(accounts, to: tv, code: trimmed)
-        } catch {
-            prepareError = error.localizedDescription
-        }
-    }
-}
-
-
 /// Account → Meldingen: notifications for every status change of your apps.
 struct NotificationsSection: View {
     @Environment(AuthManager.self) private var auth
@@ -362,6 +218,11 @@ struct NotificationsSection: View {
                     Label("Testmelding sturen", systemImage: "paperplane")
                 }
             }
+            if pushEnabled && !enabled {
+                Label("Alleen push: draait de GitHub-taak niet, dan krijg je niets. Zet ook Statusmeldingen aan als reserve.", systemImage: "exclamationmark.triangle")
+                    .font(.footnote)
+                    .foregroundStyle(.orange)
+            }
             if let error {
                 Text(error).font(.footnote).foregroundStyle(enabled ? .orange : .red)
                 if !enabled {
@@ -374,7 +235,7 @@ struct NotificationsSection: View {
         } header: {
             Text("Meldingen")
         } footer: {
-            Text("Statusmeldingen: de app controleert zelf bij elke verversing en op de achtergrond (iOS bepaalt hoe vaak). Direct via push: een server controleert elk half uur en stuurt een pushmelding via OneSignal, ook als de app dicht is. Met push aan stuurt de app zelf geen dubbele meldingen.")
+            Text("Statusmeldingen: de app controleert zelf bij elke verversing en op de achtergrond (iOS bepaalt hoe vaak). Direct via push: een GitHub Actions-taak controleert elk half uur en stuurt een pushmelding via OneSignal, ook als de app dicht is. Zet je beide aan, dan vangt de app het op als de push-server stilvalt; dezelfde wijziging verschijnt maar één keer.")
         }
         .cardRows()
     }

@@ -1,0 +1,75 @@
+{
+  "sourceLanguage": "nl",
+  "strings": {
+    "Homey Dev": {
+      "shouldTranslate": false
+    },
+    "Installaties": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installationen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installs"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installations"
+          }
+        }
+      }
+    },
+    "Open de iPhone-app": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Öffne die iPhone-App"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open the iPhone app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrez l’app iPhone"
+          }
+        }
+      }
+    },
+    "Totaal aantal installaties, groei en apps in review.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installationen gesamt, Wachstum und Apps in Prüfung."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total installs, growth and apps in review."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total des installations, croissance et apps en révision."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

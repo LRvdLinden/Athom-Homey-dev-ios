@@ -21,9 +21,24 @@ final class WatchSync: NSObject, WCSessionDelegate {
         try? session.updateApplicationContext(["snapshot": data, "sentAt": Date().timeIntervalSince1970])
     }
 
+    /// The watch shows at most 30 days, and WatchConnectivity has a size limit
+    /// (about 65 KB for an application context), so send a trimmed summary.
     static func encode(_ snapshot: WidgetSnapshot) -> Data? {
         let e = JSONEncoder(); e.dateEncodingStrategy = .iso8601
-        return try? e.encode(snapshot)
+        var maxApps = 30, days = 32
+        while true {
+            var s = snapshot
+            s.apps = Array(s.apps.sorted { $0.installs > $1.installs }.prefix(maxApps)).enumerated().map { i, app in
+                var a = app
+                a.history = Array(app.history.suffix(i < 15 ? days : 8))
+                return a
+            }
+            s.totalHistory = Array(snapshot.totalHistory.suffix(days))
+            guard let data = try? e.encode(s) else { return nil }
+            if data.count < 60_000 || maxApps <= 5 { return data }
+            maxApps = max(5, maxApps / 2)
+            days = max(8, days / 2)
+        }
     }
 
     // MARK: WCSessionDelegate

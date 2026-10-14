@@ -11,13 +11,6 @@
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
-	<key>NSBonjourServices</key>
-	<array>
-		<string>_homeydev-tv._tcp</string>
-		<string>_homeydev-tv._udp</string>
-	</array>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Om je accounts via wifi naar je Apple TV te sturen.</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>

@@ -3,10 +3,11 @@ import UserNotifications
 import BackgroundTasks
 
 /// Status notifications for your apps: new build, Test, in review, approved,
-/// rejected and live. There is no server, so the app compares the build status
-/// of every app with what it saw last time — whenever it refreshes, and in the
-/// background (Background App Refresh; iOS decides how often) — and shows a
-/// local notification for every change.
+/// rejected and live. The app compares the build status of every app with what
+/// it saw last time — whenever it refreshes, and in the background (Background
+/// App Refresh; iOS decides how often) — and shows a local notification for
+/// every change. With direct push on as well, both use the same notification
+/// identifier, so a change never shows up twice in Notification Center.
 @MainActor
 enum StatusNotifier {
     static let taskID = "nl.lrvdlinden.homeydevtools.status-refresh"
@@ -93,7 +94,7 @@ enum StatusNotifier {
         var lastError: Error?
         for acc in auth.accounts {
             do {
-                let pat = try await AppleTVSharing.personalAccessToken(for: acc, auth: auth)
+                let pat = try await PersonalAccessTokens.token(for: acc, auth: auth)
                 tokens[acc.id] = .init(pat: pat, name: acc.name.isEmpty ? acc.email : acc.name)
             } catch { lastError = error }
         }
@@ -104,9 +105,11 @@ enum StatusNotifier {
     // MARK: Checking
 
     /// Called after the app loaded the portfolio of the active account.
-    static func check(apps: [DevApp], accountID: String, accountName: String, multipleAccounts: Bool) {
+    /// `complete` is false when some organizations couldn't be read: apps that are
+    /// missing then keep their last known status instead of being forgotten.
+    static func check(apps: [DevApp], accountID: String, accountName: String, multipleAccounts: Bool, complete: Bool = true) {
         guard isEnabled else { return }
-        compare(apps, accountID: accountID, accountName: multipleAccounts ? accountName : nil, notify: true)
+        compare(apps, accountID: accountID, accountName: multipleAccounts ? accountName : nil, notify: true, complete: complete)
     }
 
     /// Checks every account that has a stored token. Used by the background task.
@@ -114,21 +117,28 @@ enum StatusNotifier {
         let tokens = NotificationTokens.load()
         for (accountID, entry) in tokens {
             let api = AppsAPI(auth: PATTokenProvider(pat: entry.pat))
-            guard let apps = try? await allApps(api) else { continue }
-            compare(apps, accountID: accountID, accountName: tokens.count > 1 ? entry.name : nil, notify: notify)
+            guard let (apps, complete) = try? await allApps(api) else { continue }
+            compare(apps, accountID: accountID, accountName: tokens.count > 1 ? entry.name : nil, notify: notify, complete: complete)
         }
     }
 
-    private static func allApps(_ api: AppsAPI) async throws -> [DevApp] {
-        var out = try await api.myApps()
-        if let orgs = try? await api.organizations() {
-            for org in orgs {
-                let full = (try? await api.organization(org.id)) ?? org
-                if let apps = try? await api.apps(of: full) { out += apps }
+    /// Own apps plus organization apps (loaded in parallel), and whether everything could be read.
+    private static func allApps(_ api: AppsAPI) async throws -> ([DevApp], Bool) {
+        async let mineResult = catching { try await api.myApps() }
+        async let orgsResult = catching { try await api.organizations() }
+        let (mine, orgs) = await (mineResult, orgsResult)
+        var out = try mine.get()
+        var complete = true
+        switch orgs {
+        case .success(let list):
+            for load in await api.organizationsWithApps(list) {
+                if let apps = load.apps { out += apps } else { complete = false }
             }
+        case .failure:
+            complete = false
         }
         var seen = Set<String>()
-        return out.filter { seen.insert($0.id).inserted }
+        return (out.filter { seen.insert($0.id).inserted }, complete)
     }
 
     /// What we remember per app.
@@ -138,11 +148,13 @@ enum StatusNotifier {
         var testState: String
     }
 
-    private static func compare(_ apps: [DevApp], accountID: String, accountName: String?, notify: Bool) {
+    private static func compare(_ apps: [DevApp], accountID: String, accountName: String?, notify: Bool, complete: Bool) {
         let key = "notifications.seen.\(accountID)"
         let decoder = JSONDecoder()
         let previous: [String: Seen] = (UserDefaults.standard.data(forKey: key)).flatMap { try? decoder.decode([String: Seen].self, from: $0) } ?? [:]
-        var current: [String: Seen] = [:]
+        // A partial load keeps what we knew about the apps that are missing now,
+        // so their next change is still noticed.
+        var current: [String: Seen] = complete ? [:] : previous
 
         for app in apps {
             let now = Seen(liveBuildId: app.liveBuildId, testBuildId: app.testBuildId, testState: app.testState)
@@ -172,8 +184,25 @@ enum StatusNotifier {
     }
 
     private static func post(_ kind: Kind, app: DevApp, version: String, accountName: String?) {
-        // With direct push on, the server sends these; avoid doubles.
-        guard kind.isOn, !PushNotifications.isEnabled else { return }
+        guard kind.isOn else { return }
+        // Same identifier as the push (OneSignal collapse_id), so push and local never double up.
+        let identifier = String("\(app.id).\(kind.rawValue).\(version)".prefix(64))
+        Task {
+            let delivered = await UNUserNotificationCenter.current().deliveredNotifications()
+            if delivered.contains(where: { $0.request.identifier == identifier || isSameChange($0, appId: app.id, kind: kind) }) { return }
+            add(kind, app: app, version: version, accountName: accountName, identifier: identifier)
+        }
+    }
+
+    /// A push from OneSignal carries `appId` and `kind` in its custom data.
+    private static func isSameChange(_ n: UNNotification, appId: String, kind: Kind) -> Bool {
+        let info = n.request.content.userInfo
+        let custom = (info["custom"] as? [String: Any])?["a"] as? [String: Any] ?? info as? [String: Any] ?? [:]
+        let sameApp = (custom["appId"] as? String) == appId && (custom["kind"] as? String) == kind.rawValue
+        return sameApp && Date().timeIntervalSince(n.date) < 6 * 3600
+    }
+
+    private static func add(_ kind: Kind, app: DevApp, version: String, accountName: String?, identifier: String) {
         let content = UNMutableNotificationContent()
         content.title = app.name
         if let accountName { content.subtitle = accountName }
@@ -181,7 +210,7 @@ enum StatusNotifier {
         content.sound = .default
         content.threadIdentifier = app.id
         content.userInfo = ["appId": app.id, "kind": kind.rawValue]
-        let request = UNNotificationRequest(identifier: "\(app.id).\(kind.rawValue).\(version)", content: content, trigger: nil)
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: nil)
         UNUserNotificationCenter.current().add(request)
     }
 
@@ -229,6 +258,11 @@ final class NotificationPresenter: NSObject, UNUserNotificationCenterDelegate {
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .list, .sound])
+        // A push for a change the app already showed itself (same identifier): stay quiet.
+        let id = notification.request.identifier
+        center.getDeliveredNotifications { delivered in
+            let shown = delivered.contains { $0.request.identifier == id && $0.date < notification.date }
+            completionHandler(shown ? [] : [.banner, .list, .sound])
+        }
     }
 }

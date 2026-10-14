@@ -15,6 +15,10 @@ on:
         type: boolean
         default: false
 
+permissions:
+  contents: read
+  actions: write   # to delete the previous status cache
+
 concurrency:
   group: status-push
   cancel-in-progress: false
@@ -51,3 +55,14 @@ jobs:
         with:
           path: .notify-state
           key: notify-state-${{ github.run_id }}
+
+      # Caches can't be overwritten, so each run saves a new one; keep only the newest.
+      - name: Remove older status caches
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh cache list --repo "$GITHUB_REPOSITORY" --key notify-state- --limit 100 --json key --jq '.[].key' \
+            | grep -v "^notify-state-${{ github.run_id }}$" \
+            | while read -r key; do gh cache delete "$key" --repo "$GITHUB_REPOSITORY" || true; done

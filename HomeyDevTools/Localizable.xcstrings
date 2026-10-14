@@ -23,6 +23,15 @@
         }
       }
     },
+    "%@": {
+      "shouldTranslate": false
+    },
+    "%@ %@": {
+      "shouldTranslate": false
+    },
+    "%@ / %@": {
+      "shouldTranslate": false
+    },
     "%@ aan": {
       "localizations": {
         "de": {
@@ -265,24 +274,134 @@
         }
       }
     },
-    "%lld account(s) gedeeld met Apple TV": {
+    "%@is afgekeurd. Bekijk de opmerkingen van de reviewer.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lld Konto/Konten mit Apple TV geteilt"
+            "value": "%@wurde abgelehnt. Sieh dir die Kommentare des Prüfers an."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lld account(s) shared with Apple TV"
+            "value": "%@was rejected. Check the reviewer's comments."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "%lld compte(s) partagé(s) avec l'Apple TV"
+            "value": "%@a été refusé. Consultez les commentaires du relecteur."
+          }
+        }
+      }
+    },
+    "%@is geüpload als draft.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@wurde als Entwurf hochgeladen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@was uploaded as a draft."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@a été envoyé en brouillon."
+          }
+        }
+      }
+    },
+    "%@is goedgekeurd door Athom.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@wurde von Athom genehmigt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@was approved by Athom."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@a été approuvé par Athom."
+          }
+        }
+      }
+    },
+    "%@is ingediend voor certificering.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@wurde zur Zertifizierung eingereicht."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@was submitted for certification."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@a été soumis pour certification."
+          }
+        }
+      }
+    },
+    "%@staat nu in Test.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ist jetzt im Test."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@is now in Test."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@est maintenant en Test."
+          }
+        }
+      }
+    },
+    "%@staat nu live.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ist jetzt live."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@is now live."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@est maintenant en ligne."
           }
         }
       }
@@ -375,6 +494,9 @@
         }
       }
     },
+    "%lld · v%@": {
+      "shouldTranslate": false
+    },
     "%lld×": {
       "localizations": {
         "de": {
@@ -440,6 +562,9 @@
           }
         }
       }
+    },
+    "0000 006D 0022 0002 …": {
+      "shouldTranslate": false
     },
     "1j": {
       "localizations": {
@@ -780,6 +905,28 @@
         }
       }
     },
+    "Acties zijn echt": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktionen sind echt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actions are real"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les actions sont réelles"
+          }
+        }
+      }
+    },
     "Acties · v%@": {
       "localizations": {
         "de": {
@@ -820,6 +967,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Admin"
+          }
+        }
+      }
+    },
+    "Afgekeurd": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abgelehnt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rejected"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refusé"
           }
         }
       }
@@ -1000,6 +1169,28 @@
         }
       }
     },
+    "Alleen push: draait de GitHub-taak niet, dan krijg je niets. Zet ook Statusmeldingen aan als reserve.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nur Push: Läuft der GitHub-Job nicht, bekommst du nichts. Schalte zur Sicherheit auch Statusmitteilungen ein."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Push only: if the GitHub job isn't running, you get nothing. Turn on Status notifications too as a backup."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Push uniquement : si la tâche GitHub ne tourne pas, vous ne recevez rien. Activez aussi les notifications de statut en secours."
+          }
+        }
+      }
+    },
     "Alles": {
       "localizations": {
         "de": {
@@ -1106,28 +1297,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Appareils (%lld)"
-          }
-        }
-      }
-    },
-    "Apple TV": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple TV"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple TV"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apple TV"
           }
         }
       }
@@ -1528,6 +1697,28 @@
         }
       }
     },
+    "Bijgewerkt: oktober 2026": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktualisiert: Oktober 2026"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updated: October 2026"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mis à jour : octobre 2026"
+          }
+        }
+      }
+    },
     "Bluetooth LE": {
       "localizations": {
         "de": {
@@ -1638,6 +1829,28 @@
         }
       }
     },
+    "Builds publiceren, indienen of terugtrekken, reviews beantwoorden, leden beheren en Homey-acties zoals herstarten of Z-Wave-nodes verwijderen gebeuren echt in je account. Controleer wat je doet; de ontwikkelaar is niet aansprakelijk voor de gevolgen.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Builds veröffentlichen, einreichen oder zurückziehen, auf Bewertungen antworten, Mitglieder verwalten und Homey-Aktionen wie Neustarten oder Z-Wave-Nodes entfernen passieren wirklich in deinem Konto. Prüfe, was du tust; der Entwickler haftet nicht für die Folgen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Publishing, submitting or retracting builds, replying to reviews, managing members and Homey actions such as restarting or removing Z-Wave nodes really happen in your account. Check what you do; the developer is not liable for the consequences."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Publier, soumettre ou retirer des builds, répondre aux avis, gérer les membres et les actions Homey comme redémarrer ou supprimer des nœuds Z-Wave ont réellement lieu dans votre compte. Vérifiez ce que vous faites ; le développeur n’est pas responsable des conséquences."
+          }
+        }
+      }
+    },
     "Capabilities (%lld)": {
       "localizations": {
         "de": {
@@ -1678,6 +1891,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Journal des modifications"
+          }
+        }
+      }
+    },
+    "Cijfers en statussen komen van Athom en kunnen vertraagd of onvolledig zijn. Meldingen kunnen later of niet aankomen.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zahlen und Status stammen von Athom und können verzögert oder unvollständig sein. Mitteilungen können später oder gar nicht ankommen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Figures and statuses come from Athom and may be delayed or incomplete. Notifications may arrive late or not at all."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les chiffres et statuts viennent d’Athom et peuvent être retardés ou incomplets. Les notifications peuvent arriver en retard ou pas du tout."
           }
         }
       }
@@ -1748,6 +1983,28 @@
         }
       }
     },
+    "Contact": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontakt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contact"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contact"
+          }
+        }
+      }
+    },
     "Controle voltooid": {
       "localizations": {
         "de": {
@@ -1766,6 +2023,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vérification terminée"
+          }
+        }
+      }
+    },
+    "Controleren op de achtergrond lukt niet (%@). Je krijgt meldingen wanneer de app ververst.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prüfen im Hintergrund ist nicht möglich (%@). Du bekommst Mitteilungen, wenn die App aktualisiert."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Background checks aren't possible (%@). You'll get notifications when the app refreshes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La vérification en arrière-plan est impossible (%@). Vous recevrez des notifications lors de l’actualisation de l’app."
           }
         }
       }
@@ -1902,6 +2181,50 @@
         }
       }
     },
+    "De app bevat geen advertenties, analytics of tracking. We zien niet welke apps, Homey's of gegevens je bekijkt.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die App enthält keine Werbung, Analysen oder Tracking. Wir sehen nicht, welche Apps, Homeys oder Daten du ansiehst."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The app contains no ads, analytics or tracking. We can't see which apps, Homeys or data you view."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’app ne contient ni publicité, ni analytics, ni pistage. Nous ne voyons pas quelles apps, Homey ou données vous consultez."
+          }
+        }
+      }
+    },
+    "De app haalt gegevens rechtstreeks op bij Athom: api.athom.com, apps-api.athom.com, tools.developer.homey.app en je eigen Homey's. Er zit geen eigen server van ons tussen.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die App holt Daten direkt bei Athom ab: api.athom.com, apps-api.athom.com, tools.developer.homey.app und deine eigenen Homeys. Es gibt keinen eigenen Server dazwischen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The app fetches data directly from Athom: api.athom.com, apps-api.athom.com, tools.developer.homey.app and your own Homeys. There is no server of ours in between."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’app récupère les données directement chez Athom : api.athom.com, apps-api.athom.com, tools.developer.homey.app et vos propres Homey. Aucun serveur à nous n’est intermédiaire."
+          }
+        }
+      }
+    },
     "De app volgt de taal van je toestel. Kies in Instellingen een andere taal alleen voor deze app.": {
       "localizations": {
         "de": {
@@ -1942,6 +2265,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "L'app appartiendra à l'organisation. Les membres ayant le bon rôle pourront la gérer."
+          }
+        }
+      }
+    },
+    "De app wordt geleverd zoals hij is, zonder garantie. Functies kunnen stoppen met werken als Athom iets verandert.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die App wird ohne Gewähr so bereitgestellt, wie sie ist. Funktionen können aufhören zu funktionieren, wenn Athom etwas ändert."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The app is provided as is, without warranty. Features may stop working if Athom changes something."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’app est fournie telle quelle, sans garantie. Des fonctions peuvent cesser de marcher si Athom change quelque chose."
           }
         }
       }
@@ -2100,28 +2445,6 @@
         }
       }
     },
-    "Delen met Apple TV": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mit Apple TV teilen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Share with Apple TV"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partager avec l'Apple TV"
-          }
-        }
-      }
-    },
     "Details": {
       "localizations": {
         "de": {
@@ -2213,6 +2536,28 @@
         }
       }
     },
+    "Deze app is niet gemaakt, goedgekeurd of ondersteund door Athom B.V. Homey en het Homey-logo zijn handelsmerken van Athom B.V.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diese App wird nicht von Athom B.V. erstellt, empfohlen oder unterstützt. Homey und das Homey-Logo sind Marken von Athom B.V."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This app is not made, endorsed or supported by Athom B.V. Homey and the Homey logo are trademarks of Athom B.V."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette app n’est ni créée, ni approuvée, ni soutenue par Athom B.V. Homey et le logo Homey sont des marques d’Athom B.V."
+          }
+        }
+      }
+    },
     "Deze build is live in de Homey App Store.": {
       "localizations": {
         "de": {
@@ -2231,6 +2576,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ce build est en ligne dans le Homey App Store."
+          }
+        }
+      }
+    },
+    "Direct via push (OneSignal)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direkt per Push (OneSignal)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instant via push (OneSignal)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Directement par push (OneSignal)"
+          }
+        }
+      }
+    },
+    "Disclaimer": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haftungsausschluss"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disclaimer"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avertissement"
           }
         }
       }
@@ -2961,6 +3350,28 @@
         }
       }
     },
+    "Geen tracking": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kein Tracking"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No tracking"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun pistage"
+          }
+        }
+      }
+    },
     "Geen video's": {
       "localizations": {
         "de": {
@@ -3023,6 +3434,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucune valeur sur cette période."
+          }
+        }
+      }
+    },
+    "Gegevens": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Données"
           }
         }
       }
@@ -3467,6 +3900,9 @@
         }
       }
     },
+    "Homey Cloud": {
+      "shouldTranslate": false
+    },
     "Homey Developer Tools": {
       "localizations": {
         "de": {
@@ -3488,6 +3924,21 @@
           }
         }
       }
+    },
+    "Homey Pro": {
+      "shouldTranslate": false
+    },
+    "Homey Pro (Early 2019)": {
+      "shouldTranslate": false
+    },
+    "Homey Pro (Early 2023)": {
+      "shouldTranslate": false
+    },
+    "Homey Pro mini": {
+      "shouldTranslate": false
+    },
+    "Homey Self-Hosted Server": {
+      "shouldTranslate": false
     },
     "Homey herstarten": {
       "localizations": {
@@ -3617,6 +4068,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "Version Homey"
+          }
+        }
+      }
+    },
+    "HomeyDev is een onofficiële app, gemaakt door PixelForges voor Homey-ontwikkelaars.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HomeyDev ist eine inoffizielle App, entwickelt von PixelForges für Homey-Entwickler."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HomeyDev is an unofficial app, made by PixelForges for Homey developers."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HomeyDev est une app non officielle, créée par PixelForges pour les développeurs Homey."
+          }
+        }
+      }
+    },
+    "HomeyDev is gemaakt om je eigen ontwikkelaarsgegevens bij Homey te bekijken en te beheren. We verzamelen zo min mogelijk, en wat de app bewaart blijft op je eigen toestellen.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HomeyDev wurde entwickelt, um deine eigenen Entwicklerdaten bei Homey anzusehen und zu verwalten. Wir erfassen so wenig wie möglich, und was die App speichert, bleibt auf deinen eigenen Geräten."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HomeyDev is made to view and manage your own developer data at Homey. We collect as little as possible, and what the app stores stays on your own devices."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HomeyDev sert à consulter et gérer vos propres données de développeur chez Homey. Nous collectons le moins possible, et ce que l’app enregistre reste sur vos propres appareils."
           }
         }
       }
@@ -3775,6 +4270,28 @@
         }
       }
     },
+    "In Test gezet": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Test verschoben"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moved to Test"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passé en Test"
+          }
+        }
+      }
+    },
     "In review": {
       "localizations": {
         "de": {
@@ -3815,6 +4332,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Soumettre"
+          }
+        }
+      }
+    },
+    "Indienen voor certificering": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zur Zertifizierung einreichen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Submit for certification"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soumettre pour certification"
           }
         }
       }
@@ -4171,24 +4710,24 @@
         }
       }
     },
-    "Je accounts gaan via je iCloud-sleutelhanger naar de Apple TV-app. Daarvoor gebruikt de app per account je Personal Access Token (zoals ‘Reveal’ in Developer Tools → My Account). Zet uit om ze van je Apple TV te verwijderen.": {
+    "Je account": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Deine Konten gelangen über den iCloud-Schlüsselbund zur Apple-TV-App. Dafür wird pro Konto dein Personal Access Token verwendet (wie ‚Reveal‘ in Developer Tools → My Account). Ausschalten entfernt sie von deinem Apple TV."
+            "value": "Dein Konto"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your accounts go to the Apple TV app through iCloud Keychain, using each account's Personal Access Token (like ‘Reveal’ in Developer Tools → My Account). Turn off to remove them from your Apple TV."
+            "value": "Your account"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vos comptes sont transmis à l'app Apple TV via le trousseau iCloud, avec le Personal Access Token de chaque compte (comme « Reveal » dans Developer Tools → My Account). Désactivez pour les retirer de l'Apple TV."
+            "value": "Votre compte"
           }
         }
       }
@@ -4211,6 +4750,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vos apps, builds, plantages, organisations et Homeys – toujours à portée de main."
+          }
+        }
+      }
+    },
+    "Je gebruikt de app op eigen risico en volgens de voorwaarden van Athom voor Homey en Developer Tools. Gebruik de app niet om toegang te krijgen tot accounts of gegevens die niet van jou zijn.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du nutzt die App auf eigenes Risiko und gemäß den Bedingungen von Athom für Homey und Developer Tools. Nutze die App nicht, um auf Konten oder Daten zuzugreifen, die nicht dir gehören."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You use the app at your own risk and under Athom's terms for Homey and Developer Tools. Don't use the app to access accounts or data that aren't yours."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous utilisez l’app à vos propres risques et selon les conditions d’Athom pour Homey et Developer Tools. N’utilisez pas l’app pour accéder à des comptes ou données qui ne sont pas les vôtres."
+          }
+        }
+      }
+    },
+    "Je logt in bij Athom (Homey) via hun eigen inlogpagina. De app krijgt daarbij een sessie of een Personal Access Token. Die wordt alleen in de iOS-sleutelhanger op je toestel bewaard en nooit naar ons gestuurd.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du meldest dich bei Athom (Homey) über deren eigene Anmeldeseite an. Die App erhält dabei eine Sitzung oder ein Personal Access Token. Es wird nur im iOS-Schlüsselbund auf deinem Gerät gespeichert und nie an uns gesendet."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You sign in with Athom (Homey) on their own login page. The app receives a session or a Personal Access Token, which is stored only in the iOS Keychain on your device and never sent to us."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous vous connectez chez Athom (Homey) via leur propre page de connexion. L’app reçoit une session ou un Personal Access Token, conservé uniquement dans le trousseau iOS de votre appareil et jamais envoyé chez nous."
           }
         }
       }
@@ -4321,6 +4904,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Classe"
+          }
+        }
+      }
+    },
+    "Kon geen Personal Access Token ophalen (%@). Voeg het account toe met een token uit Developer Tools → My Account.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personal Access Token konnte nicht abgerufen werden (%@). Füge das Konto mit einem Token aus Developer Tools → My Account hinzu."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't get a Personal Access Token (%@). Add the account with a token from Developer Tools → My Account."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’obtenir un Personal Access Token (%@). Ajoutez le compte avec un jeton de Developer Tools → My Account."
           }
         }
       }
@@ -4765,6 +5370,28 @@
         }
       }
     },
+    "Live gezet": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Live geschaltet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Went live"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mis en ligne"
+          }
+        }
+      }
+    },
     "Local": {
       "localizations": {
         "de": {
@@ -4919,6 +5546,28 @@
         }
       }
     },
+    "Meld je af onder Account of verwijder de app, dan zijn alle opgeslagen sessies en tokens weg. Je Personal Access Tokens trek je in via Developer Tools → My Account.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Melde dich unter Konto ab oder lösche die App, dann sind alle gespeicherten Sitzungen und Tokens weg. Deine Personal Access Tokens widerrufst du in Developer Tools → My Account."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign out under Account or delete the app, and all saved sessions and tokens are gone. Revoke your Personal Access Tokens in Developer Tools → My Account."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déconnectez-vous dans Compte ou supprimez l’app : toutes les sessions et jetons enregistrés disparaissent. Révoquez vos Personal Access Tokens dans Developer Tools → My Account."
+          }
+        }
+      }
+    },
     "Meldingen": {
       "localizations": {
         "de": {
@@ -4937,6 +5586,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "Notifications"
+          }
+        }
+      }
+    },
+    "Meldingen staan uit voor deze app. Zet ze aan in Instellingen → Meldingen.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mitteilungen sind für diese App aus. Schalte sie unter Einstellungen → Mitteilungen ein."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications are off for this app. Turn them on in Settings → Notifications."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les notifications sont désactivées pour cette app. Activez-les dans Réglages → Notifications."
+          }
+        }
+      }
+    },
+    "Met wie de app praat": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mit wem die App spricht"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Who the app talks to"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avec qui l’app communique"
           }
         }
       }
@@ -5337,24 +6030,46 @@
         }
       }
     },
-    "Niet meer gedeeld met Apple TV": {
+    "Niet van Athom": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nicht mehr mit Apple TV geteilt"
+            "value": "Nicht von Athom"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No longer shared with Apple TV"
+            "value": "Not by Athom"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "N'est plus partagé avec l'Apple TV"
+            "value": "Pas d’Athom"
+          }
+        }
+      }
+    },
+    "Nieuwe build (draft)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neuer Build (Entwurf)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New build (draft)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nouveau build (brouillon)"
           }
         }
       }
@@ -5773,6 +6488,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ouvrir Developer Tools → My Account"
+          }
+        }
+      }
+    },
+    "Open Instellingen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einstellungen öffnen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Settings"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir les Réglages"
           }
         }
       }
@@ -6437,6 +7174,28 @@
         }
       }
     },
+    "Privacy & voorwaarden": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datenschutz & Bedingungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy & terms"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confidentialité et conditions"
+          }
+        }
+      }
+    },
     "Pronto-hex": {
       "localizations": {
         "de": {
@@ -7097,6 +7856,72 @@
         }
       }
     },
+    "Statusmeldingen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statusmitteilungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status notifications"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications de statut"
+          }
+        }
+      }
+    },
+    "Statusmeldingen op je toestel worden door de app zelf gemaakt. Zet je ‘Direct via push’ aan, dan registreert de app je toestel bij OneSignal, met je Athom-gebruikers-ID en je meldingsvoorkeuren als kenmerken. De statuscontrole voor push draait in de GitHub-omgeving van de ontwikkelaar. Zet push uit om je toestel af te melden.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statusmitteilungen auf deinem Gerät erstellt die App selbst. Schaltest du ‚Direkt per Push‘ ein, registriert die App dein Gerät bei OneSignal, mit deiner Athom-Benutzer-ID und deinen Mitteilungseinstellungen als Merkmale. Die Statusprüfung für Push läuft in der GitHub-Umgebung des Entwicklers. Schalte Push aus, um dein Gerät abzumelden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status notifications on your device are created by the app itself. If you turn on ‘Instant via push’, the app registers your device with OneSignal, with your Athom user ID and notification preferences as tags. The status check for push runs in the developer's GitHub environment. Turn push off to unregister your device."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les notifications de statut sur votre appareil sont créées par l’app elle-même. Si vous activez « Directement par push », l’app enregistre votre appareil auprès de OneSignal, avec votre ID utilisateur Athom et vos préférences comme attributs. La vérification pour le push s’exécute dans l’environnement GitHub du développeur. Désactivez le push pour désinscrire votre appareil."
+          }
+        }
+      }
+    },
+    "Statusmeldingen: de app controleert zelf bij elke verversing en op de achtergrond (iOS bepaalt hoe vaak). Direct via push: een GitHub Actions-taak controleert elk half uur en stuurt een pushmelding via OneSignal, ook als de app dicht is. Zet je beide aan, dan vangt de app het op als de push-server stilvalt; dezelfde wijziging verschijnt maar één keer.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statusmitteilungen: Die App prüft bei jeder Aktualisierung und im Hintergrund (iOS entscheidet, wie oft). Direkt per Push: Ein GitHub-Actions-Job prüft alle 30 Minuten und sendet einen Push über OneSignal, auch wenn die App geschlossen ist. Sind beide an, springt die App ein, wenn der Push-Server ausfällt; dieselbe Änderung erscheint nur einmal."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status notifications: the app checks on every refresh and in the background (iOS decides how often). Instant via push: a GitHub Actions job checks every 30 minutes and sends a push through OneSignal, even when the app is closed. With both on, the app covers for the push server if it stops; the same change only appears once."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications de statut : l’app vérifie à chaque actualisation et en arrière-plan (iOS décide de la fréquence). Directement par push : une tâche GitHub Actions vérifie toutes les 30 minutes et envoie un push via OneSignal, même app fermée. Avec les deux activés, l’app prend le relais si le serveur push s’arrête ; un même changement n’apparaît qu’une fois."
+          }
+        }
+      }
+    },
     "Stel een vraag of reageer…": {
       "localizations": {
         "de": {
@@ -7357,6 +8182,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Les testeurs pourront ensuite installer cette version via le lien de test."
+          }
+        }
+      }
+    },
+    "Testmelding sturen": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testmitteilung senden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send test notification"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer une notification de test"
           }
         }
       }
@@ -7823,6 +8670,28 @@
         }
       }
     },
+    "Versie: %@ (%@)": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version: %@ (%@)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version: %@ (%@)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version : %@ (%@)"
+          }
+        }
+      }
+    },
     "Versturen": {
       "localizations": {
         "de": {
@@ -8043,6 +8912,50 @@
         }
       }
     },
+    "Voorwaarden": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bedingungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terms"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conditions"
+          }
+        }
+      }
+    },
+    "Vragen of een fout gevonden? Open een issue op GitHub: github.com/LRvdLinden/Athom-Homey-dev-ios.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fragen oder einen Fehler gefunden? Öffne ein Issue auf GitHub: github.com/LRvdLinden/Athom-Homey-dev-ios."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questions or found a bug? Open an issue on GitHub: github.com/LRvdLinden/Athom-Homey-dev-ios."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Des questions ou un bug ? Ouvrez une issue sur GitHub : github.com/LRvdLinden/Athom-Homey-dev-ios."
+          }
+        }
+      }
+    },
     "Vul een Personal Access Token in.": {
       "localizations": {
         "de": {
@@ -8130,6 +9043,9 @@
           }
         }
       }
+    },
+    "Weather Alerts": {
+      "shouldTranslate": false
     },
     "Web API": {
       "localizations": {
@@ -8281,6 +9197,72 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ne fonctionne que pour les nœuds marqués défaillants par Homey."
+          }
+        }
+      }
+    },
+    "Widgets en Apple Watch": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widgets und Apple Watch"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widgets and Apple Watch"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widgets et Apple Watch"
+          }
+        }
+      }
+    },
+    "Widgets en de Apple Watch-app lezen een samenvatting die de app op je toestel opslaat en via je eigen iPhone naar je watch stuurt. Er gaat niets via iCloud of een server.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widgets und die Apple-Watch-App lesen eine Zusammenfassung, die die App auf deinem Gerät speichert und über dein eigenes iPhone an deine Watch sendet. Nichts läuft über iCloud oder einen Server."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widgets and the Apple Watch app read a summary that the app stores on your device and sends to your watch through your own iPhone. Nothing goes through iCloud or a server."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les widgets et l’app Apple Watch lisent un résumé que l’app enregistre sur votre appareil et envoie à votre montre via votre propre iPhone. Rien ne passe par iCloud ni par un serveur."
+          }
+        }
+      }
+    },
+    "Wissel van account": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konto wechseln"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Switch account"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changer de compte"
           }
         }
       }
@@ -8527,6 +9509,28 @@
         }
       }
     },
+    "Zonder garantie": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ohne Gewähr"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No warranty"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sans garantie"
+          }
+        }
+      }
+    },
     "Zonder map": {
       "localizations": {
         "de": {
@@ -8659,6 +9663,9 @@
         }
       }
     },
+    "v%@": {
+      "shouldTranslate": false
+    },
     "v%@ indienen voor certificering?": {
       "localizations": {
         "de": {
@@ -8747,6 +9754,9 @@
         }
       }
     },
+    "© HomeyDev - PixelForges": {
+      "shouldTranslate": false
+    },
     "· opnieuw inloggen": {
       "localizations": {
         "de": {
@@ -8768,6 +9778,9 @@
           }
         }
       }
+    },
+    "★ %@": {
+      "shouldTranslate": false
     }
   },
   "version": "1.0"

@@ -9,9 +9,9 @@ import OneSignalFramework
 /// and sends the push through OneSignal. The OneSignal REST API key lives only in
 /// that job's secrets, never in the app.
 ///
-/// Tags on this device:
+/// Tags on this device (kept few, OneSignal limits tags per device):
 /// - `u_<athomUserId>` = "1" for every saved account (the job targets these)
-/// - `k_<kind>` = "1" / "0" for each status kind you turned on or off
+/// - `x_<kind>` = "1" only for a status kind you turned off (the job skips those)
 @MainActor
 enum PushNotifications {
     /// Public OneSignal App ID (safe to ship in the app).
@@ -51,11 +51,14 @@ enum PushNotifications {
         let ids = Set(auth.accounts.map(\.id))
         let previous = Set(UserDefaults.standard.stringArray(forKey: taggedAccountsKey) ?? [])
         var tags: [String: String] = [:]
+        var removed = previous.subtracting(ids).map { "u_\(tagSafe($0))" }
         for id in ids { tags["u_\(tagSafe(id))"] = "1" }
-        for kind in StatusNotifier.Kind.allCases { tags["k_\(kind.rawValue)"] = kind.isOn ? "1" : "0" }
+        for kind in StatusNotifier.Kind.allCases {
+            if kind.isOn { removed.append("x_\(kind.rawValue)") } else { tags["x_\(kind.rawValue)"] = "1" }
+            removed.append("k_\(kind.rawValue)")   // tags of version 1.3.1–1.3.6
+        }
         OneSignal.User.addTags(tags)
-        let removed = previous.subtracting(ids).map { "u_\(tagSafe($0))" }
-        if !removed.isEmpty { OneSignal.User.removeTags(removed) }
+        OneSignal.User.removeTags(removed)
         UserDefaults.standard.set(Array(ids), forKey: taggedAccountsKey)
     }
 

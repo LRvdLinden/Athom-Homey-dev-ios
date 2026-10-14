@@ -9,10 +9,9 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/latest-1.3.6-0082FA?style=for-the-badge" alt="Latest version 1.3.6">
+  <img src="https://img.shields.io/badge/latest-1.3.7-0082FA?style=for-the-badge" alt="Latest version 1.3.7">
   <img src="https://img.shields.io/badge/iOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iOS 17+">
   <img src="https://img.shields.io/badge/iPadOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iPadOS 17+">
-  <img src="https://img.shields.io/badge/tvOS-17%2B-111111?style=for-the-badge&logo=appletv&logoColor=white" alt="tvOS 17+">
   <img src="https://img.shields.io/badge/watchOS-10%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="watchOS 10+">
 </p>
 
@@ -28,7 +27,8 @@
 
 | Version | Highlights | Platforms |
 |:--|:--|:--|
-| [**1.3.6**](#136) | Real Homey product images | 📱 iPhone · 📱 iPad |
+| [**1.3.7**](#137) | Apple TV removed, notification fixes, faster loading, full translations | 📱 iPhone · 📱 iPad · ⌚️ Apple Watch |
+| [1.3.6](#136) | Real Homey product images | 📱 iPhone · 📱 iPad |
 | [1.3.5](#135) | Apple Watch app with complications, test push | 📱 iPhone · 📱 iPad · 📺 Apple TV · ⌚️ Apple Watch |
 | [1.3.4](#134) | Push check every 30 minutes | 📱 iPhone · 📱 iPad · 📺 Apple TV |
 | [1.3.3](#133) | Privacy, disclaimer, version and copyright on the Account page | 📱 iPhone · 📱 iPad · 📺 Apple TV |
@@ -51,9 +51,26 @@
 
 ---
 
+## 1.3.7
+
+<img src="https://img.shields.io/badge/build-22-555?style=flat-square" alt="Build 22"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+
+- 🗑 **Apple TV support removed.** The tvOS app, Wi-Fi pairing and iCloud Keychain sharing are gone, along with the local-network permission. The iCloud Keychain item older versions shared is cleaned up once.
+- 🛠 **Notifications no longer go silent when the push server stops.** Status notifications and *Direct via push* now work side by side. They share one notification ID, so the same change never shows up twice. With push alone on, the app warns that nothing arrives if the GitHub job isn't running.
+- 🛠 A partly failed refresh (one organization not loading) no longer wipes the remembered status of those apps, so their next change is still noticed. The push job keeps that status too.
+- 🛠 The Personal Access Token for background checks is now verified before it's stored, retried once, and gives a clear message when it can't be fetched.
+- 🔄 **Fewer OneSignal tags:** one tag per account, plus a tag only for the status kinds you turned off. Old tags are removed automatically.
+- 🔄 The status-push workflow now keeps only the newest status cache instead of adding one every run.
+- ⚡️ **Faster loading:** own apps, organizations and organization apps load in parallel, in the app and in the background check.
+- ⚡️ Widget statistics (install history, suggestions, devices) are fetched at most once an hour; in between only install counts update. That's about 36 fewer requests per refresh.
+- ⚡️ One Homey session per Homey, shared by every screen, so screens open faster.
+- ⌚️ The Apple Watch gets a smaller summary (30 days, top apps), so it stays within the WatchConnectivity size limit.
+- 🌍 **Full translations:** every missing English, German and French string is added, including privacy, disclaimer and notifications. The Apple Watch app and its complications are now translated too.
+- 🧹 The native Homey tools are split into one file per tool. The Android skeleton is removed from the repository.
+
 ## 1.3.6
 
-<img src="https://img.shields.io/badge/build-21-555?style=flat-square" alt="Build 21"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+<img src="https://img.shields.io/badge/build-21-555?style=flat-square" alt="Build 21">
 
 - 🎨 **Homeys** now show the real product image of each Homey, the same ones my.homey.app uses: the black Homey Pro, the Homey Cloud house, the Self-Hosted Server box and so on, in light and dark mode (`modelImage` from the Athom API).
 - 🔄 Model names follow my.homey.app, e.g. *Homey Pro (Early 2023)*, *Homey Pro mini*, *Homey Self-Hosted Server*.

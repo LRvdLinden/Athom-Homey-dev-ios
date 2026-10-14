@@ -9,16 +9,10 @@ struct HomeyListView: View {
     @State private var loading = false
     @State private var error: String?
     @AppStorage("activeHomeyId") private var activeHomeyId = ""
-    @State private var clients: [String: HomeyClient] = [:]
 
     private var toolsHomey: HomeyRef? { homeys.first { $0.id == activeHomeyId } ?? homeys.first }
 
-    private func client(for h: HomeyRef) -> HomeyClient {
-        if let c = clients[h.id] { return c }
-        let c = HomeyClient(homey: h, auth: auth)
-        DispatchQueue.main.async { clients[h.id] = c }
-        return c
-    }
+    private func client(for h: HomeyRef) -> HomeyClient { HomeyClients.client(for: h, auth: auth) }
 
     var body: some View {
         List {
@@ -193,6 +187,6 @@ struct HomeyDetailView: View {
         }
         .navigationTitle(homey.name)
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear { if client == nil { client = HomeyClient(homey: homey, auth: auth) } }
+        .onAppear { if client == nil { client = HomeyClients.client(for: homey, auth: auth) } }
     }
 }

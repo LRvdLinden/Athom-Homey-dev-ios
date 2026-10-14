@@ -38,19 +38,54 @@ struct AppsAPI {
         DevApp(try await request("/app/\(enc(id))"))
     }
 
-    /// Organisation app refs are sometimes only ids; hydrate those (sequentially, like Developer Checker).
+    /// Organisation app refs are sometimes only ids; hydrate those, a few at a time.
     func apps(of org: DevOrganization) async throws -> [DevApp] {
         var out: [DevApp] = []
+        var ids: [String] = []
         for ref in org.appRefs {
             if case .object = ref, !ref["installs"].isNull || !ref["liveBuild"].isNull || !ref["testBuild"].isNull,
                let a = DevApp(ref) {
                 out.append(a); continue
             }
             let id = ref.string ?? ref["id"].string ?? ""
-            guard !id.isEmpty else { continue }
-            if let a = try? await app(id) { out.append(a) } else if let a = DevApp(.object(["id": .string(id)])) { out.append(a) }
+            if !id.isEmpty { ids.append(id) }
+        }
+        let api = self
+        for chunk in stride(from: 0, to: ids.count, by: 4).map({ Array(ids[$0..<min($0 + 4, ids.count)]) }) {
+            let loaded = await withTaskGroup(of: (String, DevApp?).self) { group in
+                for id in chunk { group.addTask { @MainActor in (id, try? await api.app(id)) } }
+                var r: [String: DevApp] = [:]
+                for await (id, app) in group { if let app { r[id] = app } }
+                return r
+            }
+            for id in chunk {
+                if let a = loaded[id] { out.append(a) } else if let a = DevApp(.object(["id": .string(id)])) { out.append(a) }
+            }
         }
         return out.sorted { $0.installs > $1.installs }
+    }
+
+    /// Every organization (with full details) and its apps, loaded in parallel.
+    /// `apps` is nil when that organization's apps couldn't be read.
+    struct OrgLoad: Sendable {
+        let org: DevOrganization
+        let apps: [DevApp]?
+    }
+
+    func organizationsWithApps(_ orgs: [DevOrganization]) async -> [OrgLoad] {
+        let api = self
+        let loaded = await withTaskGroup(of: OrgLoad.self) { group in
+            for org in orgs {
+                group.addTask { @MainActor in
+                    let full = (try? await api.organization(org.id)) ?? org
+                    return OrgLoad(org: full, apps: try? await api.apps(of: full))
+                }
+            }
+            var out: [String: OrgLoad] = [:]
+            for await r in group { out[r.org.id] = r }
+            return out
+        }
+        return orgs.map { loaded[$0.id] ?? OrgLoad(org: $0, apps: nil) }
     }
 
     func builds(_ appId: String) async throws -> [DevBuild] {

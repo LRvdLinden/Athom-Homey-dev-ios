@@ -6,6 +6,11 @@ import WidgetKit
 /// enriched with install history (Athom install stats), suggestions and paired devices.
 enum WidgetSync {
     private static let enrichedCount = 12
+    /// Install stats, suggestions and devices change slowly: fetch them at most once an hour
+    /// (3 requests per app × 12 apps); in between only the install counts are updated.
+    private static let enrichInterval: TimeInterval = 3600
+    private static let enrichedAtKey = "widget.enrichedAt"
+    private static let enrichedAccountKey = "widget.enrichedAccount"
 
     @MainActor
     static func update(apps: [DevApp], accountName: String, auth: AuthManager) async {
@@ -14,13 +19,23 @@ enum WidgetSync {
         let sameAccount = previous?.accountName == accountName
         let api = AppsAPI(auth: auth)
         let sorted = apps.sorted { $0.installs > $1.installs }
+        let defaults = UserDefaults.standard
+        let lastEnriched = defaults.object(forKey: enrichedAtKey) as? Date ?? .distantPast
+        let enrich = !sameAccount || defaults.string(forKey: enrichedAccountKey) != accountName
+            || Date().timeIntervalSince(lastEnriched) > enrichInterval
 
         var widgetApps: [WidgetApp] = []
         for (index, app) in sorted.enumerated() {
             var history: [HistoryPoint] = []
             var suggestions = 0
             var devices = 0
-            if index < enrichedCount {
+            let old = sameAccount ? previous?.apps.first(where: { $0.id == app.id }) : nil
+            if !enrich, index < enrichedCount, let old {
+                // Reuse the last enrichment; only today's install count is new.
+                history = HistoryMath.record(app.installs, into: old.history)
+                suggestions = old.suggestions
+                devices = old.devices
+            } else if index < enrichedCount {
                 async let stats = try? api.installStats(app.id)
                 async let sugg = try? api.suggestions(app.id)
                 async let drivers = try? api.driverStats(app.id)
@@ -31,8 +46,7 @@ enum WidgetSync {
             }
             if history.isEmpty {
                 // Fallback: build our own daily history from previous snapshots.
-                let old = sameAccount ? (previous?.apps.first { $0.id == app.id }?.history ?? []) : []
-                history = HistoryMath.record(app.installs, into: old)
+                history = HistoryMath.record(app.installs, into: old?.history ?? [])
             }
             widgetApps.append(WidgetApp(
                 id: app.id, name: app.name, installs: app.installs, cloud: app.installsCloud, local: app.installsLocal,
@@ -49,6 +63,10 @@ enum WidgetSync {
             totalHistory: HistoryMath.sum(widgetApps.map(\.history))
         )
         snapshot.save()
+        if enrich {
+            defaults.set(Date(), forKey: enrichedAtKey)
+            defaults.set(accountName, forKey: enrichedAccountKey)
+        }
         WatchSync.shared.send(snapshot)
         await saveIcons(for: Array(sorted.prefix(enrichedCount)))
         WidgetCenter.shared.reloadAllTimelines()

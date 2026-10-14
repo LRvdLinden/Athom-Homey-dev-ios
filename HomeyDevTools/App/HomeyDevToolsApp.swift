@@ -11,6 +11,7 @@ struct HomeyDevToolsApp: App {
 
     init() {
         UNUserNotificationCenter.current().delegate = NotificationPresenter.shared
+        MainActor.assumeIsolated { PersonalAccessTokens.removeLegacyAppleTVShare() }
     }
 
     var body: some Scene {
@@ -99,8 +100,6 @@ struct RootView: View {
         .onChange(of: auth.accounts.map(\.id)) { _, _ in
             if StatusNotifier.isEnabled { Task { try? await StatusNotifier.storeTokens(auth: auth) } }
             PushNotifications.sync(auth: auth)
-            guard AppleTVSharing.isEnabled else { return }
-            Task { _ = try? await AppleTVSharing.publish(auth: auth) }
         }
         .onAppear { shownID = auth.activeID }
         .onChange(of: auth.activeID) { _, newID in
@@ -264,35 +263,42 @@ final class PortfolioStore {
         isLoading = true
         defer { if gen == generation { isLoading = false } }
         let api = AppsAPI(auth: auth)
-        do {
-            let mine = try await api.myApps()
-            guard gen == generation else { return }
-            myApps = mine
-            error = nil
-        } catch {
-            guard gen == generation else { return }
-            self.error = error.localizedDescription
+        // Own apps and organizations load at the same time.
+        async let mineResult = catching { try await api.myApps() }
+        async let orgsResult = catching { try await api.organizations() }
+        let (mine, orgs) = await (mineResult, orgsResult)
+        guard gen == generation else { return }
+
+        var complete = true
+        switch mine {
+        case .success(let apps): myApps = apps; error = nil
+        case .failure(let e): self.error = e.localizedDescription; complete = false
         }
-        do {
-            let orgs = try await api.organizations()
-            guard gen == generation else { return }
-            organizations = orgs
+        switch orgs {
+        case .success(let list):
+            organizations = list
             orgError = nil
-            for org in orgs {
-                let full = (try? await api.organization(org.id)) ?? org
-                guard gen == generation else { return }
-                if let i = organizations.firstIndex(where: { $0.id == org.id }) { organizations[i] = full }
-                if let apps = try? await api.apps(of: full) { orgApps[org.id] = apps }
-            }
-        } catch {
+            let loads = await api.organizationsWithApps(list)
             guard gen == generation else { return }
-            orgError = error.localizedDescription
+            organizations = loads.map(\.org)
+            for load in loads {
+                if let apps = load.apps { orgApps[load.org.id] = apps } else { complete = false }
+            }
+        case .failure(let e):
+            orgError = e.localizedDescription
+            complete = false
         }
         lastLoaded = Date()
         if let accountID = auth.activeID {
             StatusNotifier.check(apps: allApps, accountID: accountID, accountName: auth.displayName,
-                                 multipleAccounts: auth.accounts.count > 1)
+                                 multipleAccounts: auth.accounts.count > 1, complete: complete)
         }
         await WidgetSync.update(apps: allApps, accountName: auth.displayName, auth: auth)
     }
+}
+
+/// Runs an async throwing call and returns its result instead of throwing.
+@MainActor
+func catching<T>(_ op: @MainActor () async throws -> T) async -> Result<T, Error> {
+    do { return .success(try await op()) } catch { return .failure(error) }
 }

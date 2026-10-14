@@ -158,6 +158,7 @@ final class AuthManager {
     /// Removes the account from this device ("Afmelden").
     func signOut(_ id: String) {
         accounts.removeAll { $0.id == id }
+        HomeyClients.reset(accountID: id)
         let storeID = WebDataStores.identifier(for: id)
         Task { try? await WKWebsiteDataStore.remove(forIdentifier: storeID) }
         if activeID == id {

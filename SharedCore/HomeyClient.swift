@@ -7,6 +7,7 @@ final class HomeyClient {
     let homey: HomeyRef
     private let auth: any TokenProvider
     private var session: String?
+    private var loginTask: Task<String, Error>?
 
     init(homey: HomeyRef, auth: any TokenProvider) {
         self.homey = homey
@@ -15,8 +16,19 @@ final class HomeyClient {
 
     var baseURL: URL { homey.remoteURL }
 
+    /// One login at a time: parallel requests share the same session.
     private func login() async throws -> String {
         if let session { return session }
+        if let loginTask { return try await loginTask.value }
+        let task = Task { try await self.performLogin() }
+        loginTask = task
+        defer { loginTask = nil }
+        let token = try await task.value
+        session = token
+        return token
+    }
+
+    private func performLogin() async throws -> String {
         let delegation = try await auth.delegationToken(audience: "homey")
         let resp = try await HTTP.send(
             baseURL.appendingPathComponent("api/manager/users/login"),
@@ -25,7 +37,6 @@ final class HomeyClient {
         ).json
         let token = resp.string ?? resp.firstString("token", "session")
         guard !token.isEmpty else { throw APIError(status: 0, message: L("Geen Homey-sessie ontvangen."), url: baseURL.absoluteString) }
-        session = token
         return token
     }
 

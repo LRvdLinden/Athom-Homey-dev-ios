@@ -132,14 +132,15 @@ async function push({ userId, accountName, multiple, app, kind, version }) {
     target_channel: 'push',
     filters: [
       { field: 'tag', key: `u_${tagSafe(userId)}`, relation: '=', value: '1' },
-      { field: 'tag', key: `k_${kind}`, relation: '=', value: '1' },
+      // Devices tag only the kinds that are turned off (x_<kind>).
+      { field: 'tag', key: `x_${kind}`, relation: 'not_exists' },
     ],
     headings: { en: name, nl: name },
     contents: { en: TEXT[kind].en(v), nl: TEXT[kind].nl(v) },
     ...(multiple && accountName ? { subtitle: { en: accountName, nl: accountName } } : {}),
     thread_id: app.id,
     collapse_id: `${app.id}.${kind}.${version}`.slice(0, 64),
-    data: { appId: app.id, kind },
+    data: { appId: app.id, kind, version },
   };
   await send(body, `push ${kind} ${app.id} ${version}`);
 }
@@ -180,7 +181,8 @@ for (const pat of pats) {
         changes++;
       }
     }
-    next[userId] = now;
+    // Apps we couldn't read this time (an organization call failed) keep their last status.
+    next[userId] = { ...(before || {}), ...now };
     const summary = apps.map((a) => `${a.id}=${a.testBuild?.state || '-'}/${a.liveBuild?.version || a.liveVersion || '-'}`).join(', ');
     console.log(`${accountName}: ${apps.length} apps checked, ${before ? `${changes} change(s)` : 'first run (status recorded)'}`);
     console.log(`  status: ${summary}`);
