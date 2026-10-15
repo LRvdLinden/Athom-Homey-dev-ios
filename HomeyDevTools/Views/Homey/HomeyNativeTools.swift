@@ -134,3 +134,13 @@ struct NativeToolHost: View {
         if client?.homey.id != h.id { client = HomeyClients.client(for: h, auth: auth) }
     }
 }
+
+// MARK: - Shared helpers for the tool views
+
+/// `0x`-prefixed, zero-padded hexadecimal, e.g. `hex(42, width: 8)` → `0x0000002A`.
+func hex(_ n: Int, width: Int = 4) -> String { "0x" + String(n, radix: 16, uppercase: true).leftPad(width) }
+
+extension String {
+    /// Pads with leading zeros up to `n` characters.
+    func leftPad(_ n: Int) -> String { count >= n ? self : String(repeating: "0", count: n - count) + self }
+}

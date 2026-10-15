@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/latest-1.3.7-0082FA?style=for-the-badge" alt="Latest version 1.3.7">
+  <img src="https://img.shields.io/badge/latest-1.3.8-0082FA?style=for-the-badge" alt="Latest version 1.3.8">
   <img src="https://img.shields.io/badge/iOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iOS 17+">
   <img src="https://img.shields.io/badge/iPadOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iPadOS 17+">
   <img src="https://img.shields.io/badge/watchOS-10%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="watchOS 10+">
@@ -27,7 +27,8 @@
 
 | Version | Highlights | Platforms |
 |:--|:--|:--|
-| [**1.3.7**](#137) | Apple TV removed, notification fixes, faster loading, full translations | 📱 iPhone · 📱 iPad · ⌚️ Apple Watch |
+| [**1.3.8**](#138) | Z-Wave tool build fix | 📱 iPhone · 📱 iPad · ⌚️ Apple Watch |
+| [1.3.7](#137) | Apple TV removed, notification fixes, faster loading, full translations | 📱 iPhone · 📱 iPad · ⌚️ Apple Watch |
 | [1.3.6](#136) | Real Homey product images | 📱 iPhone · 📱 iPad |
 | [1.3.5](#135) | Apple Watch app with complications, test push | 📱 iPhone · 📱 iPad · 📺 Apple TV · ⌚️ Apple Watch |
 | [1.3.4](#134) | Push check every 30 minutes | 📱 iPhone · 📱 iPad · 📺 Apple TV |
@@ -51,9 +52,15 @@
 
 ---
 
+## 1.3.8
+
+<img src="https://img.shields.io/badge/build-23-555?style=flat-square" alt="Build 23"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+
+- 🛠 Fixed the build error *Cannot find 'hex' in scope* in the Z-Wave tool. The hex helper was lost when the native tools were split into separate files in 1.3.7; it's now shared by all tools.
+
 ## 1.3.7
 
-<img src="https://img.shields.io/badge/build-22-555?style=flat-square" alt="Build 22"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+<img src="https://img.shields.io/badge/build-22-555?style=flat-square" alt="Build 22">
 
 - 🗑 **Apple TV support removed.** The tvOS app, Wi-Fi pairing and iCloud Keychain sharing are gone, along with the local-network permission. The iCloud Keychain item older versions shared is cleaned up once.
 - 🛠 **Notifications no longer go silent when the push server stops.** Status notifications and *Direct via push* now work side by side. They share one notification ID, so the same change never shows up twice. With push alone on, the app warns that nothing arrives if the GitHub job isn't running.
