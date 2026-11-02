@@ -140,7 +140,7 @@ Open `Localizable.xcstrings` in Xcode, click **+** to add a language and transla
 
 ## What's new
 
-**1.3.7** drops Apple TV support and fixes notifications: local and push now work side by side without doubles, so you still get notified when the push job stops. Loading is faster (parallel requests, hourly widget statistics, shared Homey sessions), and every screen, including the Apple Watch app, is now translated into English, German and French.
+**1.3.9** adds a *More apps from the developer* card at the bottom of the Account page that opens [lrvdlinden.app](https://lrvdlinden.app). **1.3.7** dropped Apple TV support and made notifications, loading and translations more reliable.
 
 📜 See the full history in **[CHANGELOG.md](CHANGELOG.md)**.
 

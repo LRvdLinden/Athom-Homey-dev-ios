@@ -117,6 +117,11 @@ struct AccountView: View {
             }
             .cardRows()
 
+            Section("Ontdekken") {
+                MoreAppsCard()
+            }
+            .cardRows()
+
             Section {
                 NavigationLink { LegalDocumentView(document: .privacy) } label: {
                     Label("Privacy & voorwaarden", systemImage: "lock.shield")
@@ -287,6 +292,56 @@ private struct KindToggle: View {
     }
 }
 
+
+/// "More apps from the developer": links to lrvdlinden.app, in the app's own colours.
+struct MoreAppsCard: View {
+    @Environment(\.openURL) private var openURL
+    static let url = URL(string: "https://lrvdlinden.app")!
+
+    var body: some View {
+        Button { openURL(Self.url) } label: {
+            HStack(spacing: 14) {
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .fill(Theme.buttonGradient)
+                    .frame(width: 58, height: 58)
+                    .overlay {
+                        Image(systemName: "square.grid.2x2.fill")
+                            .font(.system(size: 24, weight: .semibold))
+                            .foregroundStyle(.white)
+                    }
+                    .shadow(color: Theme.accent.opacity(0.3), radius: 6, y: 3)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Meer apps van de ontwikkelaar")
+                        .font(.headline)
+                        .foregroundStyle(Theme.accent)
+                    Text("Apps voor iPhone, iPad, Apple TV en Homey")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                .multilineTextAlignment(.leading)
+
+                Spacer(minLength: 8)
+
+                VStack(spacing: 2) {
+                    Text("Bekijk")
+                        .font(.headline)
+                        .foregroundStyle(Theme.accent)
+                    Text(verbatim: "lrvdlinden.app")
+                        .font(.caption)
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                .fixedSize()
+            }
+            .padding(.vertical, 6)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isLink)
+        .accessibilityHint(Text(verbatim: "lrvdlinden.app"))
+    }
+}
 
 /// Version, build and copyright at the bottom of the Account page.
 struct AppFooter: View {

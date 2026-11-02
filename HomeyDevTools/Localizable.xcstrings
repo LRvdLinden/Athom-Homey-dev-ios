@@ -1433,6 +1433,28 @@
         }
       }
     },
+    "Apps voor iPhone, iPad, Apple TV en Homey": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps für iPhone, iPad, Apple TV und Homey"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps for iPhone, iPad, Apple TV and Homey"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apps pour iPhone, iPad, Apple TV et Homey"
+          }
+        }
+      }
+    },
     "Athom API Playground": {
       "localizations": {
         "de": {
@@ -1583,6 +1605,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gérer / nouveau client"
+          }
+        }
+      }
+    },
+    "Bekijk": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ansehen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voir"
           }
         }
       }
@@ -5546,6 +5590,28 @@
         }
       }
     },
+    "Meer apps van de ontwikkelaar": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weitere Apps des Entwicklers"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More apps from the developer"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plus d’apps du développeur"
+          }
+        }
+      }
+    },
     "Meld je af onder Account of verwijder de app, dan zijn alle opgeslagen sessies en tokens weg. Je Personal Access Tokens trek je in via Developer Tools → My Account.": {
       "localizations": {
         "de": {
@@ -6466,6 +6532,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Chemin non valide"
+          }
+        }
+      }
+    },
+    "Ontdekken": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entdecken"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discover"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Découvrir"
           }
         }
       }
