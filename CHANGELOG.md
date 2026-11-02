@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/latest-1.3.9-0082FA?style=for-the-badge" alt="Latest version 1.3.9">
+  <img src="https://img.shields.io/badge/latest-1.4.0-0082FA?style=for-the-badge" alt="Latest version 1.4.0">
   <img src="https://img.shields.io/badge/iOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iOS 17+">
   <img src="https://img.shields.io/badge/iPadOS-17%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="iPadOS 17+">
   <img src="https://img.shields.io/badge/watchOS-10%2B-111111?style=for-the-badge&logo=apple&logoColor=white" alt="watchOS 10+">
@@ -27,7 +27,8 @@
 
 | Version | Highlights | Platforms |
 |:--|:--|:--|
-| [**1.3.9**](#139) | “More apps from the developer” card on the Account page | 📱 iPhone · 📱 iPad |
+| [**1.4.0**](#140) | “More apps” card in the LRvdLinden house style | 📱 iPhone · 📱 iPad |
+| [1.3.9](#139) | “More apps from the developer” card on the Account page | 📱 iPhone · 📱 iPad |
 | [1.3.8](#138) | Z-Wave tool build fix | 📱 iPhone · 📱 iPad · ⌚️ Apple Watch |
 | [1.3.7](#137) | Apple TV removed, notification fixes, faster loading, full translations | 📱 iPhone · 📱 iPad · ⌚️ Apple Watch |
 | [1.3.6](#136) | Real Homey product images | 📱 iPhone · 📱 iPad |
@@ -53,9 +54,15 @@
 
 ---
 
+## 1.4.0
+
+<img src="https://img.shields.io/badge/build-25-555?style=flat-square" alt="Build 25"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+
+- 🎨 The **More apps from the developer** card now uses the LRvdLinden house style from lrvdlinden.app, the same card as in the other apps: the LR logo, the brand blue, a **View** button and its own card with a thin border, in light and dark mode. It scales with the text size, reads as one link in VoiceOver and is available in Dutch, English, German and French.
+
 ## 1.3.9
 
-<img src="https://img.shields.io/badge/build-24-555?style=flat-square" alt="Build 24"> <img src="https://img.shields.io/badge/status-latest-2ea44f?style=flat-square" alt="Latest">
+<img src="https://img.shields.io/badge/build-24-555?style=flat-square" alt="Build 24">
 
 - ✨ **Discover:** a *More apps from the developer* card near the bottom of the Account page, in the app's own blue. It opens [lrvdlinden.app](https://lrvdlinden.app) with apps for iPhone, iPad, Apple TV and Homey. Available in Dutch, English, German and French.
 

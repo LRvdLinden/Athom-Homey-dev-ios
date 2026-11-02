@@ -140,7 +140,7 @@ Open `Localizable.xcstrings` in Xcode, click **+** to add a language and transla
 
 ## What's new
 
-**1.3.9** adds a *More apps from the developer* card at the bottom of the Account page that opens [lrvdlinden.app](https://lrvdlinden.app). **1.3.7** dropped Apple TV support and made notifications, loading and translations more reliable.
+**1.4.0** gives the *More apps from the developer* card at the bottom of the Account page the LRvdLinden house style; it opens [lrvdlinden.app](https://lrvdlinden.app). **1.3.7** dropped Apple TV support and made notifications, loading and translations more reliable.
 
 📜 See the full history in **[CHANGELOG.md](CHANGELOG.md)**.
 
